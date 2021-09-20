@@ -565,16 +565,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v5.2.4",
+            "version": "v5.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "b5ca4ee2fdeaf7480636386e8bfe6a8e6e8c6340"
+                "reference": "b2526e4c88fe7b14540bb4f0efd52c1e86be82a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/b5ca4ee2fdeaf7480636386e8bfe6a8e6e8c6340",
-                "reference": "b5ca4ee2fdeaf7480636386e8bfe6a8e6e8c6340",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/b2526e4c88fe7b14540bb4f0efd52c1e86be82a4",
+                "reference": "b2526e4c88fe7b14540bb4f0efd52c1e86be82a4",
                 "shasum": ""
             },
             "type": "library",
@@ -616,7 +616,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kartik-v/bootstrap-fileinput/issues",
-                "source": "https://github.com/kartik-v/bootstrap-fileinput/tree/v5.2.4"
+                "source": "https://github.com/kartik-v/bootstrap-fileinput/tree/v5.2.5"
             },
             "funding": [
                 {
@@ -624,26 +624,26 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-18T17:16:54+00:00"
+            "time": "2021-09-19T12:57:33+00:00"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
-            "version": "v1.4.9",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-popover-x.git",
-                "reference": "3a6403b2e0d2a4e67ef6e1ff884fdcde0aaa7358"
+                "reference": "7328d69d66cd816cb9861a7a6ef29cbebb56f793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/3a6403b2e0d2a4e67ef6e1ff884fdcde0aaa7358",
-                "reference": "3a6403b2e0d2a4e67ef6e1ff884fdcde0aaa7358",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/7328d69d66cd816cb9861a7a6ef29cbebb56f793",
+                "reference": "7328d69d66cd816cb9861a7a6ef29cbebb56f793",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -675,7 +675,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kartik-v/bootstrap-popover-x/issues",
-                "source": "https://github.com/kartik-v/bootstrap-popover-x/tree/v1.4.9"
+                "source": "https://github.com/kartik-v/bootstrap-popover-x/tree/v1.5.0"
             },
             "funding": [
                 {
@@ -683,7 +683,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-11T09:51:13+00:00"
+            "time": "2021-09-19T14:25:49+00:00"
         },
         {
             "name": "kartik-v/yii2-bootstrap4-dropdown",
@@ -7058,5 +7058,5 @@
         "php": ">=5.6.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
