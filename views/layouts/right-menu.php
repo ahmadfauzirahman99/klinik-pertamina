@@ -1,3 +1,7 @@
+<?php
+
+use yii\helpers\Url;
+?>
 <a href="javascript:void(0);" class="right-bar-toggle">
                 <i class="mdi mdi-close-circle-outline"></i>
             </a>
@@ -7,7 +11,7 @@
                     <li class="list-group-item">
                         <a href="#" class="user-list-item">
                             <div class="avatar">
-                                <img src="assets/images/users/avatar-2.jpg" alt="">
+                                <img src="<?= Url::to("@web/theme/") ?>assets/images/users/avatar-2.jpg" alt="">
                             </div>
                             <div class="user-desc">
                                 <span class="name">Michael Zenaty</span>
@@ -43,7 +47,7 @@
                     <li class="list-group-item active">
                         <a href="#" class="user-list-item">
                             <div class="avatar">
-                                <img src="assets/images/users/avatar-3.jpg" alt="">
+                                <img src="<?= Url::to("@web/theme/") ?>assets/images/users/avatar-3.jpg" alt="">
                             </div>
                             <div class="user-desc">
                                 <span class="name">James Anderson</span>

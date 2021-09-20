@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Kategori */
 
-$this->title = 'Form Kategori';
-$this->params['breadcrumbs'][] = ['label' => 'Kategori', 'url' => ['index']];
+$this->title = 'Create Kategori';
+$this->params['breadcrumbs'][] = ['label' => 'Kategoris', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

@@ -86,7 +86,7 @@ use yii\widgets\Pjax;
                     'options' => ['placeholder' => 'Pilih...'],
                     'pluginOptions' => [
                         'allowClear' => true,
-                        'dropdownAutoWidth' => true
+                        // 'dropdownAutoWifvdth' => true
                     ],
                 ]),
             ],

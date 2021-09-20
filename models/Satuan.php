@@ -1,4 +1,14 @@
 <?php
+/*
+ * @Author: Dicky Ermawan S., S.T., MTA 
+ * @Email: wanasaja@gmail.com 
+ * @Web: dickyermawan.github.io 
+ * @Linkedin: linkedin.com/in/dickyermawan 
+ * @Date: 2021-09-15 00:26:18 
+ * @Last Modified by:   Dicky Ermawan S., S.T., MTA 
+ * @Last Modified time: 2021-09-15 00:26:18 
+ */
+
 
 namespace app\models;
 
@@ -20,14 +30,14 @@ use Yii;
  * @property string $nama_satuan
  * @property string|null $keterangan
  */
-class Satuan extends \yii\db\ActiveRecord
+class Satuan extends \app\models\BaseModel
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'satuan';
+        return 'master_satuan';
     }
 
     /**

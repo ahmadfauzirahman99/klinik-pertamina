@@ -29,3 +29,7 @@ $(function () {
 $("#pj-site-index").on("pjax:end", function () {
     $('[data-rel="tooltip"]').tooltip()
 })
+
+// $(document).on('select2:open', () => {
+//     document.querySelector('.select2-search__field').focus();
+// });

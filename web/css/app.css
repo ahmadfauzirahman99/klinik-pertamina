@@ -1,0 +1,13 @@
+/*
+ * @Author: Dicky Ermawan S., S.T., MTA 
+ * @Email: wanasaja@gmail.com 
+ * @Web: dickyermawan.github.io 
+ * @Linkedin: linkedin.com/in/dickyermawan 
+ * @Date: 2021-09-18 19:03:30 
+ * @Last Modified by: Dicky Ermawan S., S.T., MTA
+ * @Last Modified time: 2021-09-18 19:03:53
+ */
+
+input[readonly] {
+    cursor: no-drop;
+}

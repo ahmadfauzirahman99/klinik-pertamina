@@ -7,11 +7,18 @@ use Yii;
 /**
  * This is the model class for table "master_kategori".
  *
- * @property int $id
- * @property string $nama
- * @property string $waktu_update
+ * @property int $id_kategori
+ * @property int|null $created_by
+ * @property string|null $created_at
+ * @property int|null $updated_by
+ * @property string|null $updated_at
+ * @property int|null $is_deleted
+ * @property int|null $deleted_by
+ * @property string|null $deleted_at
+ * @property string|null $riwayat
+ * @property string $nama_kategori
  */
-class Kategori extends \yii\db\ActiveRecord
+class Kategori extends \app\models\BaseModel
 {
     /**
      * {@inheritdoc}
@@ -27,9 +34,11 @@ class Kategori extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nama'], 'required'],
-            [['waktu_update'], 'safe'],
-            [['nama'], 'string', 'max' => 100],
+            [['created_by', 'updated_by', 'is_deleted', 'deleted_by'], 'integer'],
+            [['created_at', 'updated_at', 'deleted_at'], 'safe'],
+            [['riwayat'], 'string'],
+            [['nama_kategori'], 'required'],
+            [['nama_kategori'], 'string', 'max' => 100],
         ];
     }
 
@@ -39,9 +48,25 @@ class Kategori extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'nama' => 'Nama',
-            'waktu_update' => 'Waktu Update',
+            'id_kategori' => 'Id Kategori',
+            'created_by' => 'Created By',
+            'created_at' => 'Created At',
+            'updated_by' => 'Updated By',
+            'updated_at' => 'Updated At',
+            'is_deleted' => 'Is Deleted',
+            'deleted_by' => 'Deleted By',
+            'deleted_at' => 'Deleted At',
+            'riwayat' => 'Riwayat',
+            'nama_kategori' => 'Nama Kategori',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return KategoriQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new KategoriQuery(get_called_class());
     }
 }

@@ -52,6 +52,11 @@ AppAsset::register($this);
             text-decoration: none;
         }
     </style>
+    <script>
+        const baseUrl = '<?= Yii::$app->request->baseUrl ?>';
+        let controller = '<?= Yii::$app->controller->id ?>';
+        const moduleName = '<?= Yii::$app->controller->module->id ?>';
+    </script>
     <?php $this->head() ?>
 </head>
 
