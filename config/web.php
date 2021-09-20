@@ -60,6 +60,7 @@ $config = [
                 ],
             ],
         ],
+        
         'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -73,6 +74,18 @@ $config = [
                 '<controller:\w+>s' => '<controller>/index',
             ],
         ],
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'sourcePath' => null,
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web',
+                    'js' => [
+                        'theme/assets/js/jquery.min.js',
+                    ]
+                ],
+            ]
+        ]
     ],
     'params' => $params,
     'modules' => [
