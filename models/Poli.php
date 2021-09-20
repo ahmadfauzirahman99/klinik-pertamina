@@ -44,4 +44,13 @@ class Poli extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     * @return PoliQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new PoliQuery(get_called_class());
+    }
 }

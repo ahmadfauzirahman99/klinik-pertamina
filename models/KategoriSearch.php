@@ -17,8 +17,8 @@ class KategoriSearch extends Kategori
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['nama', 'waktu_update'], 'safe'],
+            [['id_kategori', 'created_by', 'updated_by', 'is_deleted', 'deleted_by'], 'integer'],
+            [['created_at', 'updated_at', 'deleted_at', 'riwayat', 'nama_kategori'], 'safe'],
         ];
     }
 
@@ -58,11 +58,18 @@ class KategoriSearch extends Kategori
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'waktu_update' => $this->waktu_update,
+            'id_kategori' => $this->id_kategori,
+            'created_by' => $this->created_by,
+            'created_at' => $this->created_at,
+            'updated_by' => $this->updated_by,
+            'updated_at' => $this->updated_at,
+            'is_deleted' => $this->is_deleted,
+            'deleted_by' => $this->deleted_by,
+            'deleted_at' => $this->deleted_at,
         ]);
 
-        $query->andFilterWhere(['like', 'nama', $this->nama]);
+        $query->andFilterWhere(['like', 'riwayat', $this->riwayat])
+            ->andFilterWhere(['like', 'nama_kategori', $this->nama_kategori]);
 
         return $dataProvider;
     }

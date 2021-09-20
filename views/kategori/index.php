@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\KategoriSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Kategori Item';
+$this->title = 'Kategoris';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container-fluid">
@@ -17,35 +17,32 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-12">
-                            <?= Html::a('Tambah Kategori', ['create'], ['class' => 'btn btn-success']) ?>
+                            <?= Html::a('Create Kategori', ['create'], ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
 
 
                     <?php Pjax::begin(); ?>
-                    <?php // echo $this->render('_search', ['model' => $searchModel]); 
-                    ?>
+                    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
-                        'tableOptions' => [
-                            'class' => 'table table-sm table-bordered table-hover table-list-item'
-                        ],
                         'columns' => [
-                            [
-                                'contentOptions' => ['style' => 'text-align:center'],
-                                'class' => 'yii\grid\SerialColumn'
-                            ],
+                            ['class' => 'yii\grid\SerialColumn'],
 
-                            // 'id',
-                            'nama',
-                            // 'waktu_update',
+                            // 'id_kategori',
+                            // 'created_by',
+                            // 'created_at',
+                            // 'updated_by',
+                            // 'updated_at',
+                            //'is_deleted',
+                            //'deleted_by',
+                            //'deleted_at',
+                            //'riwayat:ntext',
+                            'nama_kategori',
 
-                            [
-                                'contentOptions' => ['style' => 'text-align:center'],
-                                'class' => 'hail812\adminlte3\yii\grid\ActionColumn'
-                            ],
+                            ['class' => 'hail812\adminlte3\yii\grid\ActionColumn'],
                         ],
                         'summaryOptions' => ['class' => 'summary mb-2'],
                         'pager' => [

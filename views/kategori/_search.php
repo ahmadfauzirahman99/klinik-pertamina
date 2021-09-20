@@ -19,11 +19,25 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'id_kategori') ?>
 
-    <?= $form->field($model, 'nama') ?>
+    <?= $form->field($model, 'created_by') ?>
 
-    <?= $form->field($model, 'waktu_update') ?>
+    <?= $form->field($model, 'created_at') ?>
+
+    <?= $form->field($model, 'updated_by') ?>
+
+    <?= $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'is_deleted') ?>
+
+    <?php // echo $form->field($model, 'deleted_by') ?>
+
+    <?php // echo $form->field($model, 'deleted_at') ?>
+
+    <?php // echo $form->field($model, 'riwayat') ?>
+
+    <?php // echo $form->field($model, 'nama_kategori') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

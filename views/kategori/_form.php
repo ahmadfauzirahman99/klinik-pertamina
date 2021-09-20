@@ -10,11 +10,25 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="kategori-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'form', 'layout' => 'horizontal']); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'nama')->textInput(['maxlength' => true,'placeholder'=>'Nama Kategori Item']) ?>
+    <?= $form->field($model, 'created_by')->textInput() ?>
 
-    <?php $form->field($model, 'waktu_update')->textInput() ?>
+    <?= $form->field($model, 'created_at')->textInput() ?>
+
+    <?= $form->field($model, 'updated_by')->textInput() ?>
+
+    <?= $form->field($model, 'updated_at')->textInput() ?>
+
+    <?= $form->field($model, 'is_deleted')->textInput() ?>
+
+    <?= $form->field($model, 'deleted_by')->textInput() ?>
+
+    <?= $form->field($model, 'deleted_at')->textInput() ?>
+
+    <?= $form->field($model, 'riwayat')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'nama_kategori')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
