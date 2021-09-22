@@ -3,12 +3,12 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\widgets\Alert;
 use yii\helpers\Url;
 
 AppAsset::register($this);
@@ -33,7 +33,7 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <style>
-         .select2-container .select2-selection--single .select2-selection__rendered {
+        .select2-container .select2-selection--single .select2-selection__rendered {
             line-height: 18.5px !important;
             padding-left: 5px !important;
         }
@@ -160,6 +160,9 @@ AppAsset::register($this);
             <!-- Start content -->
             <div class="content">
                 <div class="container-fluid">
+                    <div class="container-fluid">
+                        <?= Alert::widget() ?>
+                    </div>
                     <?= $content ?>
                 </div> <!-- container -->
 

@@ -22,7 +22,6 @@ class ApiInternalController extends \yii\web\Controller
             return [
                 'id' => $data->id_barang,
                 'text' => $data->nama_barang,
-                'id_kemasan' => $data->id_kemasan,
                 'harga_jual' => $data->harga_jual,
                 'stok' => $data->stok,
             ];

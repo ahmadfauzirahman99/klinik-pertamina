@@ -5,21 +5,21 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2020-11-24 14:48:27 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-19 10:54:02
+ * @Last Modified time: 2021-09-22 11:46:31
  */
 
 // fungsi tombol tambah paket
 const tambahPaketPenjualan = _ => {
-    let id_paket = $('#penjualan-paket_penjualan').val()
+    let id_paket = $('#resep-paket_penjualan').val()
 
     // tarik paket dari server
     $.ajax({
         method: 'GET',
-        url: '/api-internal/penjualan-ambil-paket',
+        url: '/api-internal/resep-ambil-paket',
         dataType: 'json',
         data: {
             id_paket: id_paket,
-            id_depo: $('#penjualan-id_depo').val()
+            id_depo: $('#resep-id_depo').val()
         },
         beforeSend: function () {
             $('#btn-tambah-paket').prop('disabled', true)
@@ -41,7 +41,7 @@ const tambahPaketPenjualan = _ => {
                         console.log(id_barang_sudah_dipilih);
                     })
 
-                    if (uda_dipilih) // klu sudah dipilih, lewatkan (tidak masuk ke list penjualan)
+                    if (uda_dipilih) // klu sudah dipilih, lewatkan (tidak masuk ke list resep)
                         return;
 
                     // console.log(element);
@@ -49,16 +49,16 @@ const tambahPaketPenjualan = _ => {
                     let index_last_tr = $('.form-options-body tr:last').index()
 
                     // create the option and append to Select2
-                    let select2Copied = $(`#penjualandetail-${index_last_tr}-id_barang`)
+                    let select2Copied = $(`#resepdetail-${index_last_tr}-id_barang`)
                     var option = new Option(element.nama_barang, element.id_barang, true, true)
                     select2Copied.append(option).trigger('change')
-                    $(`#penjualandetail-${index_last_tr}-is_fornas`).prop(`checked`, element.is_fornas)
-                    $(`#penjualandetail-${index_last_tr}-stok_saat_jual-disp`).val(element.stok_saat_jual).trigger('change')
-                    $(`#penjualandetail-${index_last_tr}-jumlah-disp`).val(element.jumlah).trigger('change')
-                    $(`#penjualandetail-${index_last_tr}-signa`).val(element.signa).trigger('change')
-                    $(`#penjualandetail-${index_last_tr}-catatan`).val(element.catatan).trigger('change')
-                    $(`#penjualandetail-${index_last_tr}-harga_satuan-disp`).val(element.harga_satuan).trigger('change')
-                    $(`#penjualandetail-${index_last_tr}-subtotal-disp`).val(element.subtotal).trigger('change')
+                    $(`#resepdetail-${index_last_tr}-is_fornas`).prop(`checked`, element.is_fornas)
+                    $(`#resepdetail-${index_last_tr}-stok_saat_jual-disp`).val(element.stok_saat_jual).trigger('change')
+                    $(`#resepdetail-${index_last_tr}-jumlah-disp`).val(element.jumlah).trigger('change')
+                    $(`#resepdetail-${index_last_tr}-signa`).val(element.signa).trigger('change')
+                    $(`#resepdetail-${index_last_tr}-catatan`).val(element.catatan).trigger('change')
+                    $(`#resepdetail-${index_last_tr}-harga_satuan-disp`).val(element.harga_satuan).trigger('change')
+                    $(`#resepdetail-${index_last_tr}-subtotal-disp`).val(element.subtotal).trigger('change')
                 });
                 if (jumlahItem == 1) {
                     $('.form-options-body tr').eq(0).find('.delete-item').click()
@@ -92,10 +92,10 @@ const fungsi = _ => {
     //             break;
     //         case 'o':
     //             if (jumlahItem == 1) {
-    //                 $(`#penjualandetail-${lastIndex}-id_barang`).select2('open')
+    //                 $(`#resepdetail-${lastIndex}-id_barang`).select2('open')
     //             } else {
-    //                 if ($(`#penjualandetail-${lastIndex}-id_barang`).val() == null || $(`#penjualandetail-${lastIndex}-id_barang`).val() == '')
-    //                     $(`#penjualandetail-${lastIndex}-id_barang`).select2('open')
+    //                 if ($(`#resepdetail-${lastIndex}-id_barang`).val() == null || $(`#resepdetail-${lastIndex}-id_barang`).val() == '')
+    //                     $(`#resepdetail-${lastIndex}-id_barang`).select2('open')
     //                 else
     //                     $('.add-item').click()
     //             }
@@ -104,16 +104,16 @@ const fungsi = _ => {
     //             $('#btn-print-berkas').click();
     //             break;
     //         case 'r':
-    //             $(`#penjualan-no_rm`).select2('open')
+    //             $(`#resep-no_rm`).select2('open')
     //             break;
     //         case 'shift+s':
-    //             $('#btn-simpan-penjualan').click();
+    //             $('#btn-simpan-resep').click();
     //             break;
     //         case 's':
-    //             $('#btn-simpan-penjualan').click();
+    //             $('#btn-simpan-resep').click();
     //             break;
     //         case 'u':
-    //             $('#btn-update-penjualan')[0].click();
+    //             $('#btn-update-resep')[0].click();
     //             break;
     //         default:
     //             alert(event);
@@ -121,7 +121,7 @@ const fungsi = _ => {
     // })
 
     // disable submit form lewat enter
-    $('#form-penjualan').on('keyup keypress', function (e) {
+    $('#form-obat').on('keyup keypress', function (e) {
         let keyCode = e.keyCode || e.which
         if (keyCode === 13) {
             e.preventDefault()
@@ -139,27 +139,11 @@ const fungsi = _ => {
             datumTokenizer: Bloodhound.tokenizers.whitespace,
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
-                url: `${baseUrl}/api-internal/penjualan-signa-typea-head?q=%QUERY`,
+                url: `${baseUrl}/api-internal/get-dosis?q=%QUERY`,
                 wildcard: '%QUERY'
             }
         })
     })
-    $('.catatan-typeahead').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 0
-    }, {
-        name: 'signa-typeahead',
-        source: new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: {
-                url: `${baseUrl}/api-internal/penjualan-catatan-typea-head?q=%QUERY`,
-                wildcard: '%QUERY'
-            }
-        })
-    })
-
 }
 
 let onFocusSelect = data => {
@@ -169,10 +153,10 @@ let onFocusSelect = data => {
 let inputJumlahHargaJual = data => {
     $(data).trigger('change')
     let index = $(data).closest("tr").index()
-    let jumlah = parseFloat($(`#penjualandetail-${index}-jumlah`).val())
-    let harga_jual = parseFloat($(`#penjualandetail-${index}-harga_satuan`).val())
+    let jumlah = parseFloat($(`#resepdetail-${index}-jumlah`).val())
+    let harga_jual = parseFloat($(`#resepdetail-${index}-harga_jual`).val())
     let subtotal = jumlah * harga_jual
-    $(`#penjualandetail-${index}-subtotal-disp`).val(subtotal).trigger('change')
+    $(`#resepdetail-${index}-subtotal-disp`).val(subtotal).trigger('change')
 }
 
 let onChangeSubtotal = _ => {
@@ -180,15 +164,15 @@ let onChangeSubtotal = _ => {
     $(".dynamicform_wrapper .form-options-item").each(function (index) {
         totalSubtotal = parseFloat($(this).find("input[name*='[subtotal]']").val()) + totalSubtotal
     })
-    $(`#penjualan-total_penjualan-disp`).val(totalSubtotal).trigger('change')
+    $(`#resep-total_harga-disp`).val(totalSubtotal).trigger('change')
 }
 
-let onClickSubtotal = (data) => {
-    let subtotalDiKlik = $(data).inputmask('unmaskedvalue')
-    let total_subsidi = $('#penjualan-total_dijamin-disp').inputmask('unmaskedvalue')
-    total_subsidi += subtotalDiKlik
-    $('#penjualan-total_dijamin-disp').val(total_subsidi).trigger('change')
-}
+// let onClickSubtotal = (data) => {
+//     let subtotalDiKlik = $(data).inputmask('unmaskedvalue')
+//     let total_subsidi = $('#resep-total_dijamin-disp').inputmask('unmaskedvalue')
+//     total_subsidi += subtotalDiKlik
+//     $('#resep-total_dijamin-disp').val(total_subsidi).trigger('change')
+// }
 
 let enterNewRow = (data, key) => {
     let index = $(data).closest("tr").index()
@@ -198,16 +182,59 @@ let enterNewRow = (data, key) => {
             $('.add-item').click()
             $(data).trigger('change')
         } else {
-            $(`#penjualandetail-${index+1}-id_barang`).select2('open')
+            $(`#resepdetail-${index+1}-id_barang`).select2('open')
             $(data).trigger('change')
         }
     }
 }
 
-let onChangeTotalBiayaSubsidi = _ => {
-    let total_biaya = parseFloat($('#penjualan-total_penjualan-disp').inputmask('unmaskedvalue'))
-    let total_subsidi = parseFloat($('#penjualan-total_dijamin-disp').inputmask('unmaskedvalue'))
-
-    let total_pembayan = total_biaya - total_subsidi
-    $('#penjualan-total_dibayar-disp').val(total_pembayan < 0 ? 0 : total_pembayan).trigger('change')
+let onChangeTotalHarga = _ => {
+    onChangeDiskonPersen()
 }
+
+let onChangeDiskonPersen = _ => {
+    let total_harga = parseFloat($('#resep-total_harga-disp').inputmask('unmaskedvalue'))
+    let diskon_persen = parseFloat($('#resep-diskon_persen-disp').inputmask('unmaskedvalue'))
+    let diskon_total = 0
+
+    diskon_total = diskon_persen * total_harga / 100
+    $('#resep-diskon_total-disp').val(diskon_total < 0 ? 0 : diskon_total).trigger('change')
+
+    let total_bayar = total_harga - diskon_total
+    $('#resep-total_bayar-disp').val(total_bayar < 0 ? 0 : total_bayar).trigger('change')
+
+}
+
+hotkeys.filter = ({
+    target
+}) => {
+    return true
+    // console.log(target.tagName);
+    // return target.tagName === 'INPUT' || target.tagName === 'DIV' || target.tagName === 'BODY';
+    // return !(target.tagName === 'INPUT' && target.type !== 'radio') ;
+}
+
+hotkeys('ctrl+o,ctrl+i,ctrl+d,ctrl+s', function (event, handler) {
+    event.preventDefault();
+    switch (handler.key) {
+        case 'ctrl+o':
+            let index = $(".dynamicform_wrapper .form-options-item").length - 1
+            $(`#resepdetail-${index}-id_barang`).select2('open')
+            return false;
+            break;
+        case 'ctrl+i':
+            $('.add-item').click()
+            return false;
+            break;
+        case 'ctrl+d':
+            $('#resep-diskon_persen-disp').focus()
+            return false;
+            break;
+        case 'ctrl+s':
+            $('.btn-simpan-form-obat').click()
+            return false;
+            break;
+        default:
+            alert(event);
+    }
+});

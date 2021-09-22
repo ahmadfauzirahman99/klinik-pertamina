@@ -95,4 +95,10 @@ class Barang extends \app\models\BaseModel
     {
         return new BarangQuery(get_called_class());
     }
+
+    
+    public function getSatuan()
+    {
+        return $this->hasOne(Satuan::className(), ['id_satuan' => 'id_satuan']);
+    }
 }

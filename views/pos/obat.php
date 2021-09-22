@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-15 16:21:01 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-19 12:32:37
+ * @Last Modified time: 2021-09-22 10:12:21
  */
 
 use app\components\DynamicFormWidget;
@@ -22,7 +22,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
 
-$this->title = 'Point Of Sales (POS)';
+$this->title = 'Point Of Service (POS)';
 
 
 ?>
@@ -38,7 +38,7 @@ $this->title = 'Point Of Sales (POS)';
     }
 
     .form-options-item td {
-        padding: 1px 2px 0px 2px;
+        padding: 2px 2px 0px 2px;
     }
 
     .tabel-total table td {
@@ -74,6 +74,7 @@ $this->title = 'Point Of Sales (POS)';
                     <?php $form = ActiveForm::begin([
                         'id' => 'form-obat',
                         'layout' => 'horizontal',
+                        // 'action' => ['/pos/obat'],
                         'fieldConfig' => [
                             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
                             'horizontalCssClasses' => [
@@ -212,6 +213,7 @@ $this->title = 'Point Of Sales (POS)';
                                                 </div>
                                             ',
                                                 ])->widget(Select2::classname(), [
+                                                    'size' => 'md',
                                                     'options' => [
                                                         // 'id' => '',
                                                         'class' => 'dynamic-select2',
@@ -248,10 +250,10 @@ $this->title = 'Point Of Sales (POS)';
                                                     let warnaInfoStok = null
                                                     let teksStok = null
                                                     if(data.stok_depo == 0){
-                                                        warnaInfoStok = "maroon"
+                                                        warnaInfoStok = "warning"
                                                         teksStok = "Kosong"
                                                     }else {
-                                                        warnaInfoStok = "teal"
+                                                        warnaInfoStok = "success"
                                                         teksStok = "Ada"
                                                     }
                                                     return (data.loading) ?
@@ -278,19 +280,14 @@ $this->title = 'Point Of Sales (POS)';
                                                             })
 
                                                             if (uda_dipilih == 2) {
-                                                                $(`#penjualandetail-${index}-id_barang`).val(null).trigger("change")
-                                                                $(`#penjualandetail-${index}-id_barang`).select2("open")
+                                                                $(`#resepdetail-${index}-id_barang`).val(null).trigger("change")
+                                                                $(`#resepdetail-${index}-id_barang`).select2("open")
                                                                 toastr.error(\'Upps,, Item sudah dipilih ya Bund. Coba yang lain ya\')
                                                             } else {
-                                                                $($(this).closest("tr")).find(".div-fornas").html(barangDipilih.fornas)
-
-                                                                $(`#penjualandetail-${index}-is_fornas`).prop(`checked`, barangDipilih.is_fornas)
-
-                                                                $(`#penjualandetail-${index}-stok_saat_jual-disp`).val(barangDipilih.stok_depo).trigger("change")
-                                                                $(`#penjualandetail-${index}-harga_satuan-disp`).val(barangDipilih.harga_jual).trigger("change")
-                                                                let subtotal = $(`#penjualandetail-${index}-jumlah`).val() * barangDipilih.harga_jual
-                                                                $(`#penjualandetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
-                                                                $(`#penjualandetail-${index}-jumlah-disp`).focus()
+                                                                $(`#resepdetail-${index}-harga_jual-disp`).val(barangDipilih.harga_jual).trigger("change")
+                                                                let subtotal = $(`#resepdetail-${index}-jumlah`).val() * barangDipilih.harga_jual
+                                                                $(`#resepdetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
+                                                                $(`#resepdetail-${index}-jumlah-disp`).focus()
                                                             }
                                                         
                                                         }'),
@@ -308,7 +305,7 @@ $this->title = 'Point Of Sales (POS)';
                                                 ])->label(false);
                                                 ?>
                                             </td>
-                                            <td>
+                                            <td style="padding-top: 3.5px;">
                                                 <?php
                                                 echo $form->field($modelDetail, "[{$i}]keterangan", [
                                                     // <span class="label-detail">Jlh. Diterima</span>
@@ -319,13 +316,13 @@ $this->title = 'Point Of Sales (POS)';
                                                 </div>
                                             ',
                                                 ])->textInput([
-                                                    'class' => 'form-control form-control-sm signa-typeahead det_signa',
+                                                    'class' => 'form-control form-control-md signa-typeahead det_signa',
                                                     'onkeypress' => 'enterNewRow(this, event.keyCode)',
                                                     'onfocus' => 'onFocusSelect(this)',
                                                 ])->label(false);
                                                 ?>
                                             </td>
-                                            <td>
+                                            <td style="padding-top: 3.5px;">
                                                 <?php
                                                 echo $form->field($modelDetail, "[{$i}]dosis", [
                                                     // <span class="label-detail">Jlh. Diterima</span>
@@ -336,13 +333,13 @@ $this->title = 'Point Of Sales (POS)';
                                                 </div>
                                             ',
                                                 ])->textInput([
-                                                    'class' => 'form-control form-control-sm signa-typeahead det_signa',
+                                                    'class' => 'form-control form-control-md signa-typeahead det_signa',
                                                     'onkeypress' => 'enterNewRow(this, event.keyCode)',
                                                     'onfocus' => 'onFocusSelect(this)',
                                                 ])->label(false);
                                                 ?>
                                             </td>
-                                            <td>
+                                            <td style="padding-top: 3.5px;">
                                                 <?php
                                                 echo $form->field($modelDetail, "[{$i}]jumlah", [
                                                     // <span class="label-detail">Jlh. Diterima</span>
@@ -353,11 +350,13 @@ $this->title = 'Point Of Sales (POS)';
                                                 </div>
                                             ',
                                                 ])->widget(KyNumber::className(), ['displayOptions' => [
-                                                    'class' => 'form-control form-control-sm det_jumlah',
+                                                    'class' => 'form-control form-control-md det_jumlah',
+                                                    'onkeypress' => 'enterNewRow(this, event.keyCode)',
+                                                    'oninput' => 'inputJumlahHargaJual(this)',
                                                 ]])->label(false);
                                                 ?>
                                             </td>
-                                            <td>
+                                            <td style="padding-top: 3.5px;">
                                                 <?php
                                                 echo $form->field($modelDetail, "[{$i}]harga_jual", [
                                                     // <span class="label-detail">Jlh. Diterima</span>
@@ -368,12 +367,12 @@ $this->title = 'Point Of Sales (POS)';
                                                 </div>
                                             ',
                                                 ])->widget(KyNumber::className(), ['displayOptions' => [
-                                                    'class' => 'form-control form-control-sm det_harga_jual',
+                                                    'class' => 'form-control form-control-md det_harga_jual',
                                                     'readonly' => true,
                                                 ]])->label(false);
                                                 ?>
                                             </td>
-                                            <td>
+                                            <td style="padding-top: 3.5px;">
                                                 <?php
                                                 echo $form->field($modelDetail, "[{$i}]subtotal", [
                                                     // <span class="label-detail">Jlh. Diterima</span>
@@ -384,8 +383,9 @@ $this->title = 'Point Of Sales (POS)';
                                                 </div>
                                             ',
                                                 ])->widget(KyNumber::className(), ['displayOptions' => [
-                                                    'class' => 'form-control form-control-sm det_subtotal',
+                                                    'class' => 'form-control form-control-md det_subtotal',
                                                     'readonly' => true,
+                                                    'onchange' => 'onChangeSubtotal()',
                                                 ]])->label(false);
                                                 ?>
                                             </td>
@@ -429,7 +429,7 @@ $this->title = 'Point Of Sales (POS)';
                                         echo $form->field($model, 'total_harga', [])->widget(KyNumber::className(), ['displayOptions' => [
                                             'style' => 'font-weight: bold;',
                                             'readonly' => true,
-                                            // 'onchange' => 'onChangeTotalBiayaSubsidi()',
+                                            'onchange' => 'onChangeTotalHarga()',
                                         ]])->label(false);
                                         ?>
                                     </td>
@@ -441,7 +441,8 @@ $this->title = 'Point Of Sales (POS)';
                                         echo $form->field($model, 'diskon_persen', [])->widget(KyNumber::className(), ['displayOptions' => [
                                             'style' => 'font-weight: bold;',
                                             'readonly' => false,
-                                            // 'onchange' => 'onChangeTotalBiayaSubsidi()',
+                                            'onfocus' => '$(this).select()',
+                                            'oninput' => 'onChangeDiskonPersen()',
                                         ]])->label(false);
                                         ?>
                                     </td>
@@ -453,7 +454,6 @@ $this->title = 'Point Of Sales (POS)';
                                         echo $form->field($model, 'diskon_total', [])->widget(KyNumber::className(), ['displayOptions' => [
                                             'style' => 'font-weight: bold;',
                                             'readonly' => true,
-                                            // 'onchange' => 'onChangeTotalBiayaSubsidi()',
                                         ]])->label(false);
                                         ?>
                                     </td>
@@ -465,7 +465,6 @@ $this->title = 'Point Of Sales (POS)';
                                         echo $form->field($model, 'total_bayar', [])->widget(KyNumber::className(), ['displayOptions' => [
                                             'style' => 'font-weight: bold;',
                                             'readonly' => true,
-                                            // 'onchange' => 'onChangeTotalBiayaSubsidi()',
                                         ]])->label(false);
                                         ?>
                                     </td>
@@ -475,7 +474,7 @@ $this->title = 'Point Of Sales (POS)';
                     </div>
 
                     <div class="form-group float-right">
-                        <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>

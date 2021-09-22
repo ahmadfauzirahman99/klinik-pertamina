@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-05-30 21:47:13 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-05-31 00:47:01
+ * @Last Modified time: 2021-09-22 09:10:48
  */
 
 use app\models\layanan\Layanan;
@@ -60,7 +60,7 @@ use yii\widgets\Pjax;
                 'headerOptions' => ['style' => 'width:130px'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return '<a data-pjax="0"  href="' . Url::to(['/pemeriksaan-pasien/periksa', 'reg' => $model->registrasi_kode,'rm'=>$model->pendaftaran->kode_pasien]) . '" target="_blank">' . $model->registrasi_kode . '</a>';
+                    return '<a data-pjax="0"  href="' . Url::to(['/pos/obat', 'reg' => $model->registrasi_kode, 'rm' => $model->pendaftaran->kode_pasien]) . '" target="_blank">' . $model->registrasi_kode . '</a>';
                 }
             ],
             [

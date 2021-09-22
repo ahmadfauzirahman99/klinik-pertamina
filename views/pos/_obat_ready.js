@@ -5,22 +5,22 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2020-11-24 14:48:27 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-19 10:52:58
+ * @Last Modified time: 2021-09-21 14:19:08
  */
 
 $(document).ready(function () {
 
     fungsi()
 
-    // $(document).on('submit','#form-penjualan',function(){
+    // $(document).on('submit','#form-obat',function(){
     //     $('#btn-simpan-penjualan').prop('disabled', true)
     //  });
-    jQuery('#form-penjualan').on('beforeSubmit', function (event) {
+    jQuery('#form-obat').on('beforeSubmit', function (event) {
         if (jQuery(this).data('submitting')) {
             event.preventDefault();
             return false;
         }
-        $('#btn-simpan-penjualan').prop('disabled', true)
+        $('#btn-simpan-form-obat').prop('disabled', true)
         jQuery(this).data('submitting', true);
         return true;
     });
@@ -55,16 +55,13 @@ $(document).ready(function () {
                 $(`#resepdetail-${index}-id_barang`).select2("open")
                 toastr.error('Upps,, Item sudah dipilih ya Bund. Coba yang lain ya')
             } else {
-                $($(this).closest("tr")).find(".div-fornas").html(barangDipilih.fornas)
-
-                $(`#resepdetail-${index}-is_fornas`).prop(`checked`, barangDipilih.is_fornas)
-
-                $(`#resepdetail-${index}-stok_saat_jual-disp`).val(barangDipilih.stok_depo).trigger("change")
-                $(`#resepdetail-${index}-harga_satuan-disp`).val(barangDipilih.harga_jual).trigger("change")
+                $(`#resepdetail-${index}-harga_jual-disp`).val(barangDipilih.harga_jual).trigger("change")
                 let subtotal = $(`#resepdetail-${index}-jumlah`).val() * barangDipilih.harga_jual
                 $(`#resepdetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
                 $(`#resepdetail-${index}-jumlah-disp`).focus()
             }
+
+
         })
 
         $(".dynamicform_wrapper .form-options-item").each(function (index) {
