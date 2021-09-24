@@ -70,4 +70,14 @@ class Pendaftaran extends \yii\db\ActiveRecord
             'type' => 'Type',
         ];
     }
+
+    public function getPasien()
+    {
+        return $this->hasOne(Pasien::className(), ['no_rekam_medik' => 'kode_pasien']);
+    }
+
+    public function getLayanan()
+    {
+        return $this->hasMany(Layanan::className(), ['registrasi_kode' => 'id_pendaftaran']);
+    }
 }

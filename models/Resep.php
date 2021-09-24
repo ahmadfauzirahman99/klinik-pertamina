@@ -53,6 +53,8 @@ class Resep extends \app\models\BaseModel
             [['total_harga', 'diskon_persen', 'diskon_total', 'total_bayar'], 'number'],
             [['no_daftar', 'no_rm'], 'string', 'max' => 20],
             [['id_dokter'], 'string', 'max' => 100],
+
+            ['nama_pasien', 'default', 'value' => '-'],
         ];
     }
 
@@ -94,5 +96,10 @@ class Resep extends \app\models\BaseModel
     public static function find()
     {
         return new ResepQuery(get_called_class());
+    }
+
+    public function getResepDetail()
+    {
+        return $this->hasMany(ResepDetail::className(), ['id_resep' => 'id_resep']);
     }
 }

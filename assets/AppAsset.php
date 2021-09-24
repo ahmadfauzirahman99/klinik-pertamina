@@ -51,6 +51,8 @@ class AppAsset extends AssetBundle
         "theme/assets/js/jquery.core.js",
         "theme/assets/js/jquery.app.js",
         'plugins/typeahead.js/typeahead.bundle.min.js',
+        'plugins/hotkeys.js/hotkeys.min.js',
+        // 'https://unpkg.com/hotkeys-js/dist/hotkeys.min.js',
         'js/site.js'
     ];
     public $depends = [

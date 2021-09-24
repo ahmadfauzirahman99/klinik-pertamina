@@ -27,13 +27,13 @@ $config = [
             'decimalSeparator' => ',',
             'thousandSeparator' => '.',
             'currencyCode' => 'IDR',
-            // 'numberFormatterSymbols' => [
-            //     NumberFormatter::CURRENCY_SYMBOL => ''
-            // ],
-            // 'numberFormatterOptions' => [
-            //     // NumberFormatter::MIN_FRACTION_DIGITS => 0,
-            //     // NumberFormatter::MAX_FRACTION_DIGITS => 2,
-            // ],
+            'numberFormatterSymbols' => [
+                \NumberFormatter::CURRENCY_SYMBOL => ''
+            ],
+            'numberFormatterOptions' => [
+                // NumberFormatter::MIN_FRACTION_DIGITS => 0,
+                // NumberFormatter::MAX_FRACTION_DIGITS => 2,
+            ],
             'defaultTimeZone' => 'Asia/Jakarta',
             'nullDisplay' => '',
         ],
@@ -63,7 +63,7 @@ $config = [
                 ],
             ],
         ],
-        
+
         'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,

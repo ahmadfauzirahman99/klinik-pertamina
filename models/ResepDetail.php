@@ -42,9 +42,11 @@ class ResepDetail extends \app\models\BaseModel
             [['created_by', 'updated_by', 'is_deleted', 'deleted_by'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['riwayat'], 'string'],
+            [['id_resep'], 'integer'],
             [['id_barang'], 'required'],
             [['harga_jual', 'jumlah', 'subtotal'], 'number'],
             [['id_barang', 'dosis', 'keterangan'], 'string', 'max' => 100],
+            [['harga_jual', 'jumlah', 'subtotal'], 'required'],
         ];
     }
 
@@ -55,6 +57,7 @@ class ResepDetail extends \app\models\BaseModel
     {
         return [
             'id_resep_detail' => 'Id Resep Detail',
+            'id_resep' => 'Id Resep',
             'created_by' => 'Created By',
             'created_at' => 'Created At',
             'updated_by' => 'Updated By',
@@ -67,7 +70,7 @@ class ResepDetail extends \app\models\BaseModel
             'dosis' => 'Dosis',
             'keterangan' => 'Keterangan',
             'harga_jual' => 'Harga Jual',
-            'jumlah' => 'Jumlah',
+            // 'jumlah' => 'Jumlah',
             'subtotal' => 'Subtotal',
         ];
     }
@@ -79,5 +82,10 @@ class ResepDetail extends \app\models\BaseModel
     public static function find()
     {
         return new ResepDetailQuery(get_called_class());
+    }
+
+    public function getBarang()
+    {
+        return $this->hasOne(Barang::className(), ['id_barang' => 'id_barang']);
     }
 }
