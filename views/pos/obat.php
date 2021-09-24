@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-15 16:21:01 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-22 12:10:16
+ * @Last Modified time: 2021-09-24 16:19:06
  */
 
 use app\components\DynamicFormWidget;
@@ -98,92 +98,87 @@ $this->title = 'Point Of Service (POS)';
 
                             echo $form->field($model, "no_rm")->widget(Select2::classname(), [
                                 'options' => [
-                                    'placeholder' => 'Ketik No. RM...',
+                                    'placeholder' => 'Ketik No. RM / Nama Pasien...',
                                 ],
                                 'initValueText' => !$model->isNewRecord ? $model->no_rm : null,
                                 'pluginOptions' => [
                                     'allowClear' => true,
-                                    'minimumInputLength' => 7,
+                                    'minimumInputLength' => 3,
                                     // 'dropdownAutoWidth' => true,
                                     'language' => [
                                         'errorLoading' => new JsExpression('function () { 
-                                return "Menunggu hasil..."; 
-                            }'),
+                                            return "Menunggu hasil..."; 
+                                        }'),
                                         'inputTooShort' => new JsExpression('function () {
-                                return "Minimal 7 karakter...";
-                            }'),
+                                            return "Minimal 3 karakter...";
+                                        }'),
                                         'searching' => new JsExpression('function() {
-                                return "Mencari...";
-                            }'),
+                                            return "Mencari...";
+                                        }'),
                                     ],
                                     'ajax' => [
                                         'url' => $url,
                                         'dataType' => 'json',
                                         'data' => new JsExpression('function(params) { 
-                                return {
-                                    rm:params.term, 
-                                    id_depo:$("#penjualan-id_depo").val(),
-                                    status_pasien:$("#penjualan-status_pasien").val(),
-                                    tanggal:$("#penjualan-tgl_resep").val()
-                                }; 
-                            }'),
+                                            return {
+                                                q:params.term, 
+                                                tanggal:$("#resep-tanggal").val()
+                                            }; 
+                                        }'),
                                         'delay' => 250,
                                         'cache' => true,
                                     ],
                                     'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                                     'templateResult' => new JsExpression('function(data) { 
-                            let warnaInfoStok = data.stok == 0 ? "danger" : "success"
-                            return (data.loading) ?
-                            data.text :
-                            `<div class="row"> 
-                                <div class="col-sm-5">
-                                    <strong>${data.px_name}</strong> <br>
-                                    ${data.px_norm}
-                                </div>
-                                <div class="col-sm-2">
-                                    ${data.unit_name}
-                                </div>
-                                <div class="col-sm-2">
-                                    ${data.srv_date}
-                                </div>
-                                <div class="col-sm-3">
-                                    ${data.par_name}
-                                </div>
-                            </div>`
-                        }'),
-                                    'templateSelection' => new JsExpression('function (data) { return data.px_norm ? data.px_norm : data.text; }'),
+                                        let warnaInfoStok = data.stok == 0 ? "danger" : "success"
+                                        return (data.loading) ?
+                                        data.text :
+                                        `<div class="row"> 
+                                            <div class="col-sm-6">
+                                                <strong>${data.nama}</strong> <br>
+                                                ${data.no_rm}
+                                            </div>
+                                            <div class="col-sm-2">
+                                                ${data.nama_poli}
+                                            </div>
+                                            <div class="col-sm-4">
+                                                ${data.tgl_masuk}
+                                            </div>
+                                        </div>`
+                                    }'),
+                                    'templateSelection' => new JsExpression('function (data) { return data.no_rm ? data.no_rm : data.text; }'),
                                 ],
                                 'pluginEvents' => [
                                     "select2:select" => new JsExpression('function(e) { 
-                            let pasien = e.params.data
-                            //let tglLahir = new Date(pasien.TGL_LAHIR)
+                                        let pasien = e.params.data
+                                        //let tglLahir = new Date(pasien.TGL_LAHIR)
 
-                            $(`#penjualan-no_daftar`).val(pasien.no_daftar).trigger("change")
-                            $(`#penjualan-nama_pasien`).val(pasien.px_name).trigger("change")
-                            $(`#penjualan-alamat_pasien`).val(pasien.px_address).trigger("change")
-                            $(`#penjualan-jenis_kelamin`).val(pasien.px_sex).trigger("change")
-                            
-                            $(`#penjualan-no_sep`).val(pasien.pxsurety_no).trigger("change")
+                                        $(`#penjualan-no_daftar`).val(pasien.no_daftar).trigger("change")
+                                        $(`#penjualan-nama_pasien`).val(pasien.px_name).trigger("change")
+                                        $(`#penjualan-alamat_pasien`).val(pasien.px_address).trigger("change")
+                                        $(`#penjualan-jenis_kelamin`).val(pasien.px_sex).trigger("change")
+                                        
+                                        $(`#penjualan-no_sep`).val(pasien.pxsurety_no).trigger("change")
 
-                            if(pasien.id != "00000000") {
-                                $(`#penjualan-tgl_lahir`).val(formatDateIndo(pasien.TGL_LAHIR)).trigger("change")
-                                $("#penjualan-umur").val(pasien.umur).trigger("change")
-                                $(`#penjualan-id_unit`).html(new Option(pasien.unit_name, pasien.unit_id_pelayanan, true, true)).trigger("change")
-                                $(`#penjualan-id_dokter`).html(new Option(pasien.par_name, pasien.par_id, true, true)).trigger("change")
-                                $("#penjualan-nama_dokter").val(pasien.par_name)
-                                $(`#penjualan-id_penjamin`).html(new Option(pasien.surety_name, pasien.surety_id, true, true)).trigger("change")
-                            }
-                            
-                            if(pasien.surety_id != 9999 || pasien.surety_id != 0037)
-                                $(`#penjualan-tipe_pembayaran`).val(0).trigger("change")
+                                        if(pasien.id != "00000000") {
+                                            $(`#penjualan-tgl_lahir`).val(formatDateIndo(pasien.TGL_LAHIR)).trigger("change")
+                                            $("#penjualan-umur").val(pasien.umur).trigger("change")
+                                            $(`#penjualan-id_unit`).html(new Option(pasien.unit_name, pasien.unit_id_pelayanan, true, true)).trigger("change")
+                                            $(`#penjualan-id_dokter`).html(new Option(pasien.par_name, pasien.par_id, true, true)).trigger("change")
+                                            $("#penjualan-nama_dokter").val(pasien.par_name)
+                                            $(`#penjualan-id_penjamin`).html(new Option(pasien.surety_name, pasien.surety_id, true, true)).trigger("change")
+                                        }
+                                        
+                                        if(pasien.surety_id != 9999 || pasien.surety_id != 0037)
+                                            $(`#penjualan-tipe_pembayaran`).val(0).trigger("change")
 
-                            if(pasien.id == "00000000") {
-                                $(`#penjualan-id_penjamin_lama`).html(new Option("Umum", 9999, true, true)).trigger("change")
-                                $(`#penjualan-nama_pasien`).focus()
-                                $(`#penjualan-tipe_pembayaran`).val(1).trigger("change")
-                            }
+                                        if(pasien.id == "00000000") {
+                                            $(`#penjualan-id_penjamin_lama`).html(new Option("Umum", 9999, true, true)).trigger("change")
+                                            $(`#penjualan-nama_pasien`).focus()
+                                            $(`#penjualan-tipe_pembayaran`).val(1).trigger("change")
+                                        }
 
-                        }'),
+                                    }'),
                                 ]
                             ]);
                             ?>

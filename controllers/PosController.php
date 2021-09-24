@@ -54,6 +54,8 @@ class PosController extends \yii\web\Controller
                 $model->diskon_persen = 0;
                 $model->diskon_total = 0;
                 $model->total_bayar = 0;
+            }else{
+                $model->tanggal = Yii::$app->formatter->asDate($model->tanggal);
             }
             $model->no_daftar = $reg;
             $modelDetail = $model->resepDetail ?? [new ResepDetail()];

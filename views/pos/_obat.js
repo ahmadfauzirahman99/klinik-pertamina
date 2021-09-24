@@ -5,7 +5,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2020-11-24 14:48:27 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-22 11:46:31
+ * @Last Modified time: 2021-09-24 16:13:29
  */
 
 // fungsi tombol tambah paket
@@ -214,9 +214,12 @@ hotkeys.filter = ({
     // return !(target.tagName === 'INPUT' && target.type !== 'radio') ;
 }
 
-hotkeys('ctrl+o,ctrl+i,ctrl+d,ctrl+s', function (event, handler) {
+hotkeys('r,ctrl+o,ctrl+i,ctrl+d,ctrl+s', function (event, handler) {
     event.preventDefault();
     switch (handler.key) {
+        case 'r':
+            $(`#resep-no_rm`).select2('open')
+            break;
         case 'ctrl+o':
             let index = $(".dynamicform_wrapper .form-options-item").length - 1
             $(`#resepdetail-${index}-id_barang`).select2('open')
