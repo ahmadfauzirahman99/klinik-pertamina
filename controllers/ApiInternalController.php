@@ -16,7 +16,8 @@ class ApiInternalController extends \yii\web\Controller
         $pasien_di_pendaftaran = Layanan::find()
             ->alias('l')
             ->select([
-                'pdf.id_pendaftaran id',
+                'pdf.kode_pasien id',
+                'l.registrasi_kode no_daftar',
                 'p.no_rekam_medik no_rm',
                 'p.nama_lengkap nama',
                 'l.unit_tujuan_kode id_poli',
