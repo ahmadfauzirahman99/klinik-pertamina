@@ -27,7 +27,7 @@ $this->title = 'Dashboard';
                     </div>
                 </div>
 
-                <h4 class="header-title m-t-0 m-b-30">Pendapatan</h4>
+                <h4 class="header-title m-t-0 m-b-30">Pendapatana</h4>
 
                 <div class="text-center">
                     <ul class="list-inline chart-detail-list">
