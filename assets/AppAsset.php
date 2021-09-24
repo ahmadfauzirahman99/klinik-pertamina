@@ -26,6 +26,7 @@ class AppAsset extends AssetBundle
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css',
         "theme/assets/css/icons.css",
         "theme/assets/css/style.css",
+        "theme/assets/plugins/select2/css/select2.min.css",
         // 'theme/assets/plugins/select2/css/select2.min.css',
         "css/app.css",
 
@@ -44,11 +45,11 @@ class AppAsset extends AssetBundle
         "theme/assets/js/jquery.slimscroll.js",
         "theme/assets/js/jquery.scrollTo.min.js",
         "theme/assets/plugins/raphael/raphael-min.js",
-        // "theme/assets/plugins/select2/js/select2.min.js",
-
+        
         // // "theme/assets/plugins/morris/morris.min.js",
         // "theme/assets/pages/jquery.morris.init.js",
         "theme/assets/js/jquery.core.js",
+        "theme/assets/plugins/select2/js/select2.min.js",
         "theme/assets/js/jquery.app.js",
         'plugins/typeahead.js/typeahead.bundle.min.js',
         'plugins/hotkeys.js/hotkeys.min.js',

@@ -58,6 +58,15 @@ $this->title = 'Point Of Service (POS)';
         font-weight: bold;
         font-size: 0.8em;
     }
+
+    .select2-container--open .select2-dropdown--below {
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        width: 700px !important;
+        min-width: 376.4px;
+        position: relative;
+    }
 </style>
 
 <div class="container-fluid">
@@ -104,7 +113,7 @@ $this->title = 'Point Of Service (POS)';
                                 'pluginOptions' => [
                                     'allowClear' => true,
                                     'minimumInputLength' => 3,
-                                    // 'dropdownAutoWidth' => true,
+                                    'dropdownAutoWidth' => true,
                                     'language' => [
                                         'errorLoading' => new JsExpression('function () { 
                                             return "Menunggu hasil..."; 
@@ -313,7 +322,7 @@ $this->title = 'Point Of Service (POS)';
                                                     ],
                                                     'initValueText' => $modelDetail->barang->nama_barang ?? null,
                                                     'pluginOptions' => [
-                                                        // 'dropdownAutoWidth' => true,
+                                                        'dropdownAutoWidth' => true,
                                                         'allowClear' => false,
                                                         'minimumInputLength' => 3,
                                                         'language' => [
