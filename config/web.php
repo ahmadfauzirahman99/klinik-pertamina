@@ -28,7 +28,7 @@ $config = [
             'thousandSeparator' => '.',
             'currencyCode' => 'IDR',
             'numberFormatterSymbols' => [
-                \NumberFormatter::CURRENCY_SYMBOL => ''
+                // \NumberFormatter::CURRENCY_SYMBOL => ''
             ],
             'numberFormatterOptions' => [
                 // NumberFormatter::MIN_FRACTION_DIGITS => 0,

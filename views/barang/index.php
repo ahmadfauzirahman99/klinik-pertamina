@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Satuan;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -44,7 +46,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             //'id_kategori',
                             //'merk',
                             'nama_barang',
-                            'id_satuan',
+                            [
+                                'label' => 'Satuan',
+                                // 'headerOptions' => ['style' => 'width: 5%;'],
+                                'attribute' => 'id_satuan',
+                                'value' => 'satuan.nama_satuan',
+                                'filter' => Select2::widget([
+                                    'model' => $searchModel,
+                                    'attribute' => 'id_satuan',
+                                    'data' => Satuan::find()->select2(),
+                                    'options' => ['placeholder' => 'Pilih...',],
+                                    'pluginOptions' => [
+                                        'allowClear' => true,
+                                        'dropdownAutoWidth' => true,
+                                    ],
+                                ]),
+                            ],
                             //'keterangan',
                             'lokasi',
                             //'gambar',

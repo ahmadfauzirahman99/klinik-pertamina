@@ -5,11 +5,11 @@ namespace app\models;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the ActiveQuery class for [[Kategori]].
+ * This is the ActiveQuery class for [[Satuan]].
  *
- * @see Kategori
+ * @see Satuan
  */
-class KategoriQuery extends \yii\db\ActiveQuery
+class SatuanQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -18,7 +18,7 @@ class KategoriQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Kategori[]|array
+     * @return Satuan[]|array
      */
     public function all($db = null)
     {
@@ -27,7 +27,7 @@ class KategoriQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Kategori|array|null
+     * @return Satuan|array|null
      */
     public function one($db = null)
     {
@@ -37,6 +37,6 @@ class KategoriQuery extends \yii\db\ActiveQuery
     public function select2()
     {
         $result = $this->all();
-        return ArrayHelper::map($result, 'id_kategori', 'nama_kategori');
+        return ArrayHelper::map($result, 'id_satuan', 'nama_satuan');
     }
 }

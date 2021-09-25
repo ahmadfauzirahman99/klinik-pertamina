@@ -8,6 +8,7 @@ use app\models\ItemLabSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * ItemLabController implements the CRUD actions for ItemLab model.
@@ -66,10 +67,19 @@ class ItemLabController extends Controller
     {
         $model = new ItemLab();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_item_lab]);
-        }
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_item_lab]);
+        // }
 
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil menyimpan data Tindakan Penunjang. <b>' . $model->id_item_lab . ' : '. $model->nama_item . '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/item-lab/update', 'id' => $model->id_item_lab]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal menyimpan data Tindakan Penunjang. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
+        }
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -86,8 +96,18 @@ class ItemLabController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_item_lab]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_item_lab]);
+        // }
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil mengubah data Tindakan Penunjang. <b>' . $model->id_item_lab . ' : '. $model->nama_item . '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/item-lab/update', 'id' => $model->id_item_lab]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal mengubah data Tindakan Penunjang. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
 
         return $this->render('update', [

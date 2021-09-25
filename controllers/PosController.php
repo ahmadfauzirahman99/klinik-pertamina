@@ -13,9 +13,8 @@
 namespace app\controllers;
 
 use app\components\Model;
-use app\models\CheckOut;
-use app\models\Layanan;
-use app\models\LayananDetail;
+use app\models\OrderLab;
+use app\models\OrderLabDetail;
 use app\models\Pasien;
 use app\models\Pendaftaran;
 use Yii;
@@ -23,6 +22,7 @@ use app\models\Resep;
 use app\models\ResepDetail;
 use Exception;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 class PosController extends \yii\web\Controller
 {

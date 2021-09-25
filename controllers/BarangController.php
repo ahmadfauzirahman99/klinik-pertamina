@@ -8,6 +8,7 @@ use app\models\BarangSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * BarangController implements the CRUD actions for Barang model.
@@ -66,9 +67,18 @@ class BarangController extends Controller
     {
         $model = new Barang();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_barang]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->setKodeBarang();
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Berhasil menyimpan Barang. <b>' . $model->id_barang . ' : ' . $model->nama_barang . '</b> &nbsp; <a class="btn bg-gradient-secondary" href="' . Url::to(['/barang/update', 'id' => $model->id_barang]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal menyimpan Barang. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
+        $model->stok = 1;
 
         return $this->render('create', [
             'model' => $model,
@@ -86,8 +96,14 @@ class BarangController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_barang]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Berhasil mengubah & menyimpan Barang. <b>' . $model->id_barang . ' : ' . $model->nama_barang . '</b> &nbsp; <a class="btn bg-gradient-secondary" href="' . Url::to(['/barang/update', 'id' => $model->id_barang]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal menyimpan Barang. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
 
         return $this->render('update', [

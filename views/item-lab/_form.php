@@ -1,5 +1,6 @@
 <?php
 
+use app\components\number\KyNumber;
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
@@ -10,22 +11,44 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="item-lab-form">
 
-    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'nama_item')->textInput(['maxlength' => true]) ?>
+    <div class="card">
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+        <?php $form = ActiveForm::begin([
+            'layout' => 'horizontal',
+            'fieldConfig' => [
+                'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+                'horizontalCssClasses' => [
+                    'label' => 'col-sm-3 col-form-label-sm',
+                    'wrapper' => 'col-sm-9',
+                    'error' => '',
+                    'hint' => '',
+                ],
+            ],
+        ]); ?>
 
-    <?= $form->field($model, 'created_by')->textInput(['maxlength' => true]) ?>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'id_item_lab')->hiddenInput()->label(false) ?>
+                        <?= $form->field($model, 'nama_item')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'harga_item', [
+                            'template' => '{label}<div class="col-sm-9">{input}{hint}{error}</div>',
+                            ])->widget(KyNumber::className(), []) ?>
+                        <?= $form->field($model, 'nama_jenis')->dropDownList([ 'Lab PK' => 'Lab PK', 'Radiologi' => 'Radiologi' ], ['prompt' => '']) ?>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <?= Html::a('Kembali', Yii::$app->request->referrer, ['class' => 'btn btn-outline-info']) ?>
+                <?= Html::submitButton('Simpan', ['class' => 'btn btn-primary float-right']) ?>
+            </div>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+        <?php ActiveForm::end(); ?>
 
-    <?= $form->field($model, 'updated_by')->textInput(['maxlength' => true]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+
 
 </div>
