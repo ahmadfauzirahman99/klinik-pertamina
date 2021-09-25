@@ -265,7 +265,10 @@ $this->title = 'Point Of Service (POS)';
                                     </tr>
                                 </thead>
                                 <tbody class="form-options-body">
-                                    <?php foreach ($modelDetail as $i => $modelDetail) : ?>
+                                    <?php 
+                                        // var_dump($modelDetail);
+                                        // die();
+                                    foreach ($modelDetail as $i => $modelDetail) : ?>
                                         <tr class="form-options-item">
 
                                             <?php

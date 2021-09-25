@@ -111,11 +111,11 @@ let onChangeTotalHarga = _ => {
 
 let onChangeDiskonPersen = _ => {
     let total_harga = parseFloat($('item_pemeriksaan-total_harga-disp').inputmask('unmaskedvalue'))
-    let diskon_persen = parseFloat($('item_pemeriksaan-diskon_persen-disp').inputmask('unmaskedvalue'))
-    let diskon_total = 0
+    // let diskon_persen = parseFloat($('item_pemeriksaan-diskon_persen-disp').inputmask('unmaskedvalue'))
+    // let diskon_total = 0
 
-    diskon_total = diskon_persen * total_harga / 100
-    $('item_pemeriksaan-diskon_total-disp').val(diskon_total < 0 ? 0 : diskon_total).trigger('change')
+    // diskon_total = diskon_persen * total_harga / 100
+    // $('item_pemeriksaan-diskon_total-disp').val(diskon_total < 0 ? 0 : diskon_total).trigger('change')
 
     let total_bayar = total_harga
     $('item_pemeriksaan-total_bayar-disp').val(total_bayar < 0 ? 0 : total_bayar).trigger('change')

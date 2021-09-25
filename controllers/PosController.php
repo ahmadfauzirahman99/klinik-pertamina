@@ -194,10 +194,6 @@ class PosController extends \yii\web\Controller
                     ['no_rekam_medik' => $rm,],
                 ])
                 ->one();
-            // echo "<pre>";
-            // print_r($model);
-            // echo "</pre>";
-            // die;
             if (!$model) { // kalau OrderLabnya belum nemu
                 $model = new OrderLab();
                 $pasien = Pasien::find()->where(['no_rekam_medik' => $rm])->one();
@@ -205,91 +201,66 @@ class PosController extends \yii\web\Controller
                 $model->no_rekam_medik = $pasien->no_rekam_medik;
                 $model->tanggal = date('d-m-Y');
                 $model->total_harga = 0;
-                // $model->diskon_persen = 0;
-                // $model->diskon_total = 0;
-                // $model->total_bayar = 0;
             }else{
                 $model->tanggal = Yii::$app->formatter->asDate($model->tanggal);
             }
             $model->no_daftar = $reg;
-            $modelDetail = $model->OrderLabDetail ?? [new OrderLabDetail()];
+            $model->no_transaksi = 'T';
+            $modelDetail = $model->labDetail ?? [new OrderLabDetail()];
+
         }
         if ($model->load(Yii::$app->request->post())) {
-            // $modelDetail = Model::createMultiple(OrderLabDetail::classname());
-            // Model::loadMultiple($modelDetail, Yii::$app->request->post());
-            echo "<pre>";
-            print_r($_POST);
-            echo "</pre>";
-            die;
+
+            // echo '<pre>';
+            // var_dump($_POST);
+            // die();
+            // echo '</pre>';
             $oldIDs = ArrayHelper::map($modelDetail, 'id_order_lab_detail', 'id_order_lab_detail');
             $modelDetail = Model::createMultiple(OrderLabDetail::classname(), $modelDetail, 'id_order_lab_detail');
             Model::loadMultiple($modelDetail, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_order_lab_detail', 'id_order_lab_detail')));
-
-
+            
+            
             $model->tanggal = Yii::$app->formatter->asDate($model->tanggal, 'php:Y-m-d');
-
+            
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelDetail) && $valid;
-
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
 
                 try {
 
 
-                    // $model->setNoResepNoPenjualan();
-
                     if ($flag = $model->save(false)) {
-                        // echo "<pre>";
-                        // print_r($model);
-                        // echo "</pre>";
-                        // die;
 
                         if (!empty($deletedIDs)) {
-                            OrderLabDetail::deleteAll(['id_order_lab_detail' => $deletedIDs]);
+                            ResepDetail::deleteAll(['id_order_lab_detail' => $deletedIDs]);
                         }
 
                         // untuk save detail ke tabel pengadaan_detail
                         foreach ($modelDetail as $modelDetail) {
-
-
+                            // var_dump($modelDetail);
+                            // exit;
+                            // $modelDetail->harga_tindakan = $_POST['OrderLabDetail']['harga_tindakan'];
                             $modelDetail->id_order_lab = $model->id_lab;
-                            // $modelDetail->stok_saat_minta = 0;
-                            // $modelDetail->pemakaian_sepekan = 0;
-                            // $modelDetail->stok_saat_minta = $modelDetail->barang->getBarangApotek($model->unit_peminta)->sum('jumlah_stok') ?? 0;
-                            // $modelDetail->pemakaian_sepekan = $modelDetail->barang->jumlahPakaiPekanIni($model->unit_peminta) ?? 0;
-
                             if (!($flag = $modelDetail->save(false))) {
                                 $transaction->rollBack();
                                 Yii::error($modelDetail->errors);
-                                echo "<pre>";
-                                print_r($modelDetail->errors);
-                                echo "</pre>";
-                                die;
+                                // echo "<pre>";
+                                // print_r($modelDetail->errors);
+                                // echo "</pre>";
+                                // die;
                                 break;
                             } else {
 
-                                // HelperStok::keluar([
-                                //     'nama_parent' => Penjualan::tableName(),
-                                //     'id_parent' => $model->id_penjualan,
-                                //     'nama_child' => PenjualanDetail::tableName(),
-                                //     'id_child' => $modelDetail->id_penjualan_detail,
-                                //     'id_barang' => $modelDetail->id_barang,
-                                //     'id_asal' => $modelDetail->penjualan->id_depo,
-                                //     'nama_asal' => $modelDetail->penjualan->depo->nama,
-                                //     'id_tujuan' => $modelDetail->penjualan->no_rm,
-                                //     'nama_tujuan' => $modelDetail->penjualan->nama_pasien,
-                                //     'jumlah_kirim' => $modelDetail->jumlah,
-                                // ]);
                             }
                         }
                     } else {
                         $transaction->rollBack();
                         Yii::error($model->errors);
-                        echo "<pre>";
-                        print_r($model->errors);
-                        echo "</pre>";
+                        // echo "<pre>";
+                        // print_r($model->errors);
+                        // echo "</pre>";
                         die;
                     }
 
