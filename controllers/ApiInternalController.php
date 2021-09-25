@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Barang;
 use app\models\ItemLab;
+use app\models\ItemTindakan;
 use app\models\Layanan;
 use app\models\Pasien;
 use app\models\Pendaftaran;
