@@ -13,7 +13,6 @@
 namespace app\controllers;
 
 use app\components\Model;
-use app\models\CheckOut;
 use app\models\Layanan;
 use app\models\LayananDetail;
 use app\models\OrderLab;
@@ -293,17 +292,194 @@ class PosController extends \yii\web\Controller
 
         ]);
     }
+    public function actionPenunjang($reg = null, $rm = null){
+        // $model = OrderLab::find()->all();
+        $model = new OrderLab();
+        $modelDetail = [new OrderLabDetail()];
 
-    public function actionCheckOut($reg = null, $rm = null)
-    {
+        if ($reg != null & $rm != null) {
+            $model = OrderLab::find()
+                ->where([
+                    'and',
+                    ['no_daftar' => $reg,],
+                    ['no_rekam_medik' => $rm,],
+                ])
+                ->one();
+            if (!$model) { // kalau OrderLabnya belum nemu
+                $model = new OrderLab();
+                $pasien = Pasien::find()->where(['no_rekam_medik' => $rm])->one();
+                $model->nama_pasien = $pasien->nama_lengkap;
+                $model->no_rekam_medik = $pasien->no_rekam_medik;
+                $model->tanggal = date('d-m-Y');
+                $model->total_harga = 0;
+            }else{
+                $model->tanggal = Yii::$app->formatter->asDate($model->tanggal);
+            }
+            $model->no_daftar = $reg;
+            $model->no_transaksi = 'T';
+            $modelDetail = $model->labDetail ?? [new OrderLabDetail()];
 
-        $model = new CheckOut();
-        $pendaftaran = new Pendaftaran();
+        }
+        if ($model->load(Yii::$app->request->post())) {
 
-        return $this->render('check-out', [
-            'model' => $model,
-            'pendaftaran' => $pendaftaran,
-            // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
+            // echo '<pre>';
+            // var_dump($_POST);
+            // die();
+            // echo '</pre>';
+            $oldIDs = ArrayHelper::map($modelDetail, 'id_order_lab_detail', 'id_order_lab_detail');
+            $modelDetail = Model::createMultiple(OrderLabDetail::classname(), $modelDetail, 'id_order_lab_detail');
+            Model::loadMultiple($modelDetail, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_order_lab_detail', 'id_order_lab_detail')));
+            
+            
+            $model->tanggal = Yii::$app->formatter->asDate($model->tanggal, 'php:Y-m-d');
+            
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelDetail) && $valid;
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+
+                try {
+
+
+                    if ($flag = $model->save(false)) {
+
+                        if (!empty($deletedIDs)) {
+                            ResepDetail::deleteAll(['id_order_lab_detail' => $deletedIDs]);
+                        }
+
+                        // untuk save detail ke tabel pengadaan_detail
+                        foreach ($modelDetail as $modelDetail) {
+                            // var_dump($modelDetail);
+                            // exit;
+                            // $modelDetail->harga_tindakan = $_POST['OrderLabDetail']['harga_tindakan'];
+                            $modelDetail->id_order_lab = $model->id_lab;
+                            if (!($flag = $modelDetail->save(false))) {
+                                $transaction->rollBack();
+                                Yii::error($modelDetail->errors);
+                                // echo "<pre>";
+                                // print_r($modelDetail->errors);
+                                // echo "</pre>";
+                                // die;
+                                break;
+                            } else {
+
+                            }
+                        }
+                    } else {
+                        $transaction->rollBack();
+                        Yii::error($model->errors);
+                        // echo "<pre>";
+                        // print_r($model->errors);
+                        // echo "</pre>";
+                        die;
+                    }
+
+                    if ($flag) {
+                        $transaction->commit();
+
+                        // echo 'suskes yooooooooooo';
+                        // die;
+
+                        Yii::$app->session->setFlash('success', 'Berhasil menyimpan');
+                        // Yii::$app->session->setFlash('sukses', [
+                        //     'status' => 'create',
+                        //     'status_flash' => 'Menambah',
+                        //     'id' => $model->id_penjualan,
+                        //     'no_transaksi' => $model->no_transaksi,
+                        //     'no_rm' => $model->no_rm,
+                        //     'nama_pasien' => $model->nama_pasien,
+                        // ]);
+                        return $this->redirect(Yii::$app->request->referrer);
+
+                        // Yii::$app->session->setFlash('success', 'Berhasil menyimpan Distribusi Barang.');
+                        // return $this->redirect('index');
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+
+                    echo "<pre>";
+                    print_r($e);
+                    echo "</pre>";
+                    die;
+                }
+            }
+        }
+        return $this->render('penunjang',[
+            'model'=>$model,
+            'modelDetail' => (empty($modelDetail)) ? [new OrderLabDetail()] : $modelDetail,
+
         ]);
+
+    } 
+
+    public function actionCetakPenunjang($reg = null, $rm = null)
+    {
+        $model = (new \yii\db\Query())
+        ->select([
+            'ol.no_transaksi',
+            'ol.diagnosa',
+            'ol.no_rekam_medik',
+            'ol.no_daftar',
+            'ol.id_lab',
+            'ol.no_transaksi',
+            'ol.nama_pasien',
+            'p.nama_lengkap',
+            'p.alamat_lengkap',
+            'p.kel',
+            'p.kec',
+            'p.kab',
+            'p.nama_ayah',
+            'p.nama_ibu',
+            'p.tempat_lahir',
+            'p.tanggal_lahir'
+            ])	
+        ->from('order_lab ol')
+        ->leftjoin('pasien p','p.no_rekam_medik=ol.no_rekam_medik')
+        ->where([
+            'and',
+            ['ol.no_daftar' => $reg,],
+            ['ol.no_rekam_medik' => $rm,],
+        ])->one();
+
+        $modelDetail = (new \yii\db\Query())
+        ->select([
+            'old.item_pemeriksaan',
+            'old.jumlah',
+            'old.harga_tindakan harga_tindakan',
+            'old.subtotal subtotal',
+            'old.catatan catatan',
+            'il.nama_item nama_item',
+            'il.nama_jenis nama_jenis'
+            ])	
+        ->from('order_lab_detail old')
+        ->leftjoin('item_lab il','il.id_item_lab=old.item_pemeriksaan')
+        ->where(['id_order_lab'=>$model['id_lab']])->all();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'legal',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10
+        ]);
+        $mpdf->SetWatermarkImage(Url::to('@web/img/syafira.png'));
+        $mpdf->showWatermarkImage = true;
+
+        $mpdf->SetTitle('Laporan');
+        $mpdf->WriteHTML($this->renderPartial('cetak_penunjang', [
+            'model' => $model,
+            'modelDetail' => $modelDetail,
+            // 'no_rm' => $no_rm,
+            // 'pasien' => DataLayanan::find()->where(['no_rekam_medik' => $no_rm])->one(),
+        ]));
+        // $mpdf->Output('Spesialis Gigi ' . $model['no_rekam_medik'] . '.pdf', 'I');
+        $mpdf->Output('Laporan.pdf', 'I');
+        exit;
+        // return $this->render('anastesi');
     }
+    
 }
