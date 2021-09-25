@@ -6,16 +6,18 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-19 10:48:58 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-25 16:47:27
+ * @Last Modified time: 2021-09-25 21:34:44
  */
 
 
 namespace app\controllers;
 
 use app\components\Model;
+use app\models\CheckOut;
 use app\models\Layanan;
 use app\models\LayananDetail;
 use app\models\Pasien;
+use app\models\Pendaftaran;
 use Yii;
 use app\models\Resep;
 use app\models\ResepDetail;
@@ -286,6 +288,19 @@ class PosController extends \yii\web\Controller
             'model' => $model,
             'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
 
+        ]);
+    }
+
+    public function actionCheckOut($reg = null, $rm = null)
+    {
+
+        $model = new CheckOut();
+        $pendaftaran = new Pendaftaran();
+
+        return $this->render('check-out', [
+            'model' => $model,
+            'pendaftaran' => $pendaftaran,
+            // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
         ]);
     }
 }

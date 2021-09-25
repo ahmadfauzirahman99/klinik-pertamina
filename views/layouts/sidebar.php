@@ -59,7 +59,7 @@ use yii\helpers\Url;
     <li class="text-muted menu-title">Transaksi</li>
 
     <li>
-        <a href="<?= Url::to(['/pos/obat']) ?>" class="waves-effect"><i class="fas fa-poll-h "></i> <span> POS </span> </a>
+        <a href="<?= Url::to(['/pos/tindakan']) ?>" class="waves-effect"><i class="fas fa-poll-h "></i> <span> POS </span> </a>
     </li>
 
 
