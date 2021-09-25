@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-19 10:48:58 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-22 11:41:35
+ * @Last Modified time: 2021-09-24 17:37:14
  */
 
 
@@ -27,6 +27,15 @@ class PosController extends \yii\web\Controller
         return $this->render('index');
     }
 
+    public function actionTindakan($reg = null, $rm = null)
+    {
+
+        return $this->render('tindakan', [
+            // 'model' => $model,
+            // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
+        ]);
+    }
+
     public function actionObat($reg = null, $rm = null)
     {
         $model = new Resep();
@@ -40,10 +49,7 @@ class PosController extends \yii\web\Controller
                     ['no_rm' => $rm,],
                 ])
                 ->one();
-            // echo "<pre>";
-            // print_r($model);
-            // echo "</pre>";
-            // die;
+
             if (!$model) { // kalau resepnya belum nemu
                 $model = new Resep();
                 $pasien = Pasien::find()->where(['no_rekam_medik' => $rm])->one();
@@ -54,7 +60,7 @@ class PosController extends \yii\web\Controller
                 $model->diskon_persen = 0;
                 $model->diskon_total = 0;
                 $model->total_bayar = 0;
-            }else{
+            } else {
                 $model->tanggal = Yii::$app->formatter->asDate($model->tanggal);
             }
             $model->no_daftar = $reg;
@@ -62,8 +68,6 @@ class PosController extends \yii\web\Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            // $modelDetail = Model::createMultiple(ResepDetail::classname());
-            // Model::loadMultiple($modelDetail, Yii::$app->request->post());
 
             $oldIDs = ArrayHelper::map($modelDetail, 'id_resep_detail', 'id_resep_detail');
             $modelDetail = Model::createMultiple(ResepDetail::classname(), $modelDetail, 'id_resep_detail');
