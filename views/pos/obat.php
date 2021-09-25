@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-15 16:21:01 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-24 16:53:15
+ * @Last Modified time: 2021-09-25 13:16:56
  */
 
 use app\components\DynamicFormWidget;
@@ -28,6 +28,15 @@ $this->title = 'Point Of Service (POS)';
 ?>
 
 <style>
+    /* .select2-container.select2-container--bootstrap.select2-container--open {
+        left: 0px !important;
+        left: 423.925px !important;
+    }
+
+    .select2-dropdown.select2-dropdown--below {
+        position: unset;
+    } */
+
     form .col-form-label-sm {
         font-size: 10.5px;
     }
@@ -102,9 +111,9 @@ $this->title = 'Point Of Service (POS)';
                                 ],
                                 'initValueText' => !$model->isNewRecord ? $model->no_rm : null,
                                 'pluginOptions' => [
-                                    'allowClear' => true,
+                                    'allowClear' => false,
                                     'minimumInputLength' => 3,
-                                    // 'dropdownAutoWidth' => true,
+                                    'dropdownAutoWidth' => true,
                                     'language' => [
                                         'errorLoading' => new JsExpression('function () { 
                                             return "Menunggu hasil..."; 
@@ -316,7 +325,7 @@ $this->title = 'Point Of Service (POS)';
                                                     ],
                                                     'initValueText' => $modelDetail->barang->nama_barang ?? null,
                                                     'pluginOptions' => [
-                                                        // 'dropdownAutoWidth' => true,
+                                                        'dropdownAutoWidth' => true,
                                                         'allowClear' => false,
                                                         'minimumInputLength' => 3,
                                                         'language' => [

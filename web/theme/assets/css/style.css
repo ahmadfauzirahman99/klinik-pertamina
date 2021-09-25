@@ -2821,7 +2821,7 @@ File: Pages
 }
 
 /* Select 2 */
-.select2-container {
+/* .select2-container {
   width: 100% !important;
 }
 
@@ -2911,7 +2911,7 @@ File: Pages
 
 .select2-container .select2-selection--multiple .select2-selection__choice__remove:hover {
   color: #ffffff;
-}
+} */
 
 /* Bootstrap-select */
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
