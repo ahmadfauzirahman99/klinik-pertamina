@@ -8,6 +8,7 @@ use app\models\PekerjaanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * PekerjaanController implements the CRUD actions for Pekerjaan model.
@@ -66,8 +67,17 @@ class PekerjaanController extends Controller
     {
         $model = new Pekerjaan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_pekerjaan]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_pekerjaan]);
+        // }
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil menyimpan data Pekerjaan. <b>' . $model->id_pekerjaan . ' : '. $model->nama_pekerjaan . '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/pekerjaan/update', 'id' => $model->id_pekerjaan]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal menyimpan data Pekerjaan. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
 
         return $this->render('create', [
@@ -86,8 +96,18 @@ class PekerjaanController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_pekerjaan]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_pekerjaan]);
+        // }
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil mengubah data Pekerjaan. <b>' . $model->id_pekerjaan . ' : '. $model->nama_pekerjaan . '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/pekerjaan/update', 'id' => $model->id_pekerjaan]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal mengubah data Pekerjaan. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
 
         return $this->render('update', [
