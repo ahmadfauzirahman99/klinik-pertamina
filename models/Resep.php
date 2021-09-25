@@ -73,7 +73,7 @@ class Resep extends \app\models\BaseModel
             'deleted_by' => 'Deleted By',
             'deleted_at' => 'Deleted At',
             'riwayat' => 'Riwayat',
-            'no_daftar' => 'No Daftar',
+            'no_daftar' => 'No. Daftar',
             'no_rm' => 'No. RM',
             'id_poli' => 'Poli',
             'id_dokter' => 'Dokter',

@@ -50,13 +50,16 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['/kategori/index']) ?>" class="waves-effect"><i class="fa fa-list-ul"></i> <span> Master Ketegori Item </span> </a>
     </li>
     <li>
+        <a href="<?= Url::to(['/item-tindakan/index']) ?>" class="waves-effect"><i class="fa fa-stethoscope"></i> <span> Item Tindakan </span> </a>
+    </li>
+    <li>
         <a href="<?= Url::to(['/item-lab/index']) ?>" class="waves-effect"><i class="fa fa-thermometer-0 "></i> <span> Item Lab </span> </a>
     </li>
 
     <li class="text-muted menu-title">Transaksi</li>
 
     <li>
-        <a href="<?= Url::to(['/pos/obat']) ?>" class="waves-effect"><i class="fas fa-poll-h "></i> <span> POS </span> </a>
+        <a href="<?= Url::to(['/pos/tindakan']) ?>" class="waves-effect"><i class="fas fa-poll-h "></i> <span> POS </span> </a>
     </li>
 
 

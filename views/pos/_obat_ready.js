@@ -53,7 +53,7 @@ $(document).ready(function () {
             if (uda_dipilih == 2) {
                 $(`#resepdetail-${index}-id_barang`).val(null).trigger("change")
                 $(`#resepdetail-${index}-id_barang`).select2("open")
-                toastr.error('Upps,, Item sudah dipilih ya Bund. Coba yang lain ya')
+                toastr.error('Upps,, Item sudah dipilih Bund. Coba yang lain ya')
             } else {
                 $(`#resepdetail-${index}-harga_jual-disp`).val(barangDipilih.harga_jual).trigger("change")
                 let subtotal = $(`#resepdetail-${index}-jumlah`).val() * barangDipilih.harga_jual

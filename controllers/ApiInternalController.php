@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Barang;
+use app\models\ItemTindakan;
 use app\models\Layanan;
 use app\models\Pasien;
 use app\models\Pendaftaran;
@@ -16,7 +17,8 @@ class ApiInternalController extends \yii\web\Controller
         $pasien_di_pendaftaran = Layanan::find()
             ->alias('l')
             ->select([
-                'pdf.id_pendaftaran id',
+                'pdf.kode_pasien id',
+                'l.registrasi_kode no_daftar',
                 'p.no_rekam_medik no_rm',
                 'p.nama_lengkap nama',
                 'l.unit_tujuan_kode id_poli',
@@ -41,17 +43,32 @@ class ApiInternalController extends \yii\web\Controller
             ->asArray()
             ->all();
 
-        // $pasien_di_pendaftaran = ArrayHelper::getColumn($pasien_di_pendaftaran, function ($data) {
-        //     return [
-        //         'id' => $data->id_barang,
-        //         'text' => $data->nama_barang,
-        //         'harga_jual' => $data->harga_jual,
-        //         'stok' => $data->stok,
-        //     ];
-        // });
-
         $hasil = [
             'results' => $pasien_di_pendaftaran,
+        ];
+
+        return Json::encode($hasil);
+    }
+
+    public function actionCariTindakan($q, $limit = 150)
+    {
+        $tindakan = ItemTindakan::find()
+            ->where([
+                'like', 'nama_tindakan', $q
+            ])
+            ->limit($limit)
+            ->all();
+
+        $tindakan = ArrayHelper::getColumn($tindakan, function ($data) {
+            return [
+                'id' => $data->id_tindakan,
+                'text' => $data->nama_tindakan,
+                'harga_jual' => $data->harga_jual,
+            ];
+        });
+
+        $hasil = [
+            'results' => $tindakan,
         ];
 
         return Json::encode($hasil);
