@@ -13,6 +13,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "satuan".
@@ -73,5 +74,14 @@ class Satuan extends \app\models\BaseModel
             'nama_satuan' => 'Nama Satuan',
             'keterangan' => 'Keterangan',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return SatuanQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new SatuanQuery(get_called_class());
     }
 }

@@ -45,7 +45,8 @@ class Barang extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['id_barang', 'id_kategori', 'id_satuan', 'nama_barang', 'harga_terakhir', 'harga_tertinggi', 'harga_jual', 'stok'], 'required'],
+            // [['id_barang', 'id_kategori', 'id_satuan', 'nama_barang', 'harga_terakhir', 'harga_tertinggi', 'harga_jual', 'stok'], 'required'],
+            [[ 'id_satuan', 'nama_barang', 'harga_terakhir', 'harga_tertinggi', 'harga_jual', 'stok'], 'required'],
             [['created_by', 'updated_by', 'is_deleted', 'deleted_by', 'id_kategori', 'id_satuan'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['riwayat', 'jenis'], 'string'],
@@ -96,7 +97,13 @@ class Barang extends \app\models\BaseModel
         return new BarangQuery(get_called_class());
     }
 
-    
+    public function setKodeBarang()
+    {
+        $last_id_barang = Self::find()->select('id_barang')->orderBy(['id_barang' => SORT_DESC])->one();
+        $int_id_barang = intval(substr($last_id_barang->id_barang, 1));
+        $this->id_barang = 'B' . sprintf('%04s', $int_id_barang + 1);
+    }
+
     public function getSatuan()
     {
         return $this->hasOne(Satuan::className(), ['id_satuan' => 'id_satuan']);
