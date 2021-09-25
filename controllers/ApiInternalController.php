@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Barang;
+use app\models\ItemLab;
 use app\models\Layanan;
 use app\models\Pasien;
 use app\models\Pendaftaran;
@@ -73,6 +74,32 @@ class ApiInternalController extends \yii\web\Controller
                 'text' => $data->nama_barang,
                 'harga_jual' => $data->harga_jual,
                 'stok' => $data->stok,
+            ];
+        });
+
+        $hasil = [
+            'results' => $barang,
+        ];
+
+        return Json::encode($hasil);
+    }
+
+    // tindakan
+    public function actionCariTindakan($q, $limit = 150)
+    {
+        $barang = ItemLab::find()
+            ->where([
+                'like', 'nama_item', $q
+            ])
+            // ->with('satuan')
+            ->limit($limit)
+            ->all();
+
+        $barang = ArrayHelper::getColumn($barang, function ($data) {
+            return [
+                'id' => $data->id_item_lab,
+                'text' => $data->nama_item,
+                'harga_tindakan' => $data->harga_item,
             ];
         });
 
