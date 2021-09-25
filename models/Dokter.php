@@ -40,7 +40,8 @@ class Dokter extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['id_dokter', 'nama_dokter', 'gelar_depan', 'alamat', 'handphone'], 'required'],
+            // [['id_dokter', 'nama_dokter', 'gelar_depan', 'alamat', 'handphone'], 'required'],
+            [['nama_dokter', 'gelar_depan', 'alamat', 'handphone'], 'required'],
             [['created_by', 'updated_by', 'is_deleted', 'deleted_by'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['riwayat', 'jenis_kelamin'], 'string'],
@@ -83,5 +84,12 @@ class Dokter extends \app\models\BaseModel
     public static function find()
     {
         return new DokterQuery(get_called_class());
+    }
+
+    public function setKodeDokter()
+    {
+        $last_id_dokter = Self::find()->select('id_dokter')->orderBy(['id_dokter' => SORT_DESC])->one();
+        $int_id_dokter = intval(substr($last_id_dokter->id_dokter, 1));
+        $this->id_dokter = 'D' . sprintf('%03s', $int_id_dokter + 1);
     }
 }

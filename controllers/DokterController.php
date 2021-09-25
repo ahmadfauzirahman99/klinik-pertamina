@@ -8,6 +8,7 @@ use app\models\DokterSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * DokterController implements the CRUD actions for Dokter model.
@@ -66,9 +67,21 @@ class DokterController extends Controller
     {
         $model = new Dokter();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_dokter]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_dokter]);
+        // }
+        if ($model->load(Yii::$app->request->post())) {
+            $model->setKodeDokter();
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil menyimpan data Dokter. <b>' . $model->id_dokter . ' : '. $model->gelar_depan .' '. $model->nama_dokter .' '.$model->gelar_belakang. '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/dokter/update', 'id' => $model->id_dokter]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal menyimpan data Dokter. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
+        $model->gelar_depan = 'dr.';
+        $model->gelar_belakang = 'Sp.';
 
         return $this->render('create', [
             'model' => $model,
@@ -86,8 +99,14 @@ class DokterController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_dokter]);
+        if ($model->load(Yii::$app->request->post())) {
+            
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil mengubah data Dokter. <b>' . $model->id_dokter . ' : '. $model->gelar_depan .' '. $model->nama_dokter .' '.$model->gelar_belakang. '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/dokter/update', 'id' => $model->id_dokter]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal menyimpan data Dokter. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
 
         return $this->render('update', [
