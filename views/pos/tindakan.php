@@ -4,14 +4,15 @@
  * @Email: wanasaja@gmail.com 
  * @Web: dickyermawan.github.io 
  * @Linkedin: linkedin.com/in/dickyermawan 
- * @Date: 2021-09-15 16:21:01 
+ * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-25 13:16:56
+ * @Last Modified time: 2021-09-25 16:50:23
  */
 
 use app\components\DynamicFormWidget;
 use app\components\number\KyNumber;
 use app\models\Dokter;
+use app\models\Layanan;
 use app\models\Poli;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
@@ -21,6 +22,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
+
 
 $this->title = 'Point Of Service (POS)';
 
@@ -72,9 +74,8 @@ $this->title = 'Point Of Service (POS)';
                 <div class="card-body">
 
                     <?php $form = ActiveForm::begin([
-                        'id' => 'form-obat',
+                        'id' => 'form-tindakan',
                         'layout' => 'horizontal',
-                        // 'action' => ['/pos/obat'],
                         'fieldConfig' => [
                             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
                             'horizontalCssClasses' => [
@@ -88,10 +89,10 @@ $this->title = 'Point Of Service (POS)';
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <?= $form->field($model, 'no_daftar')->textInput([
+                            <?= $form->field($model, 'registrasi_kode')->textInput([
                                 'maxlength' => true,
                                 'readonly' => true,
-                            ]) ?>
+                            ])->label('No. Daftar') ?>
 
                             <?php
                             $url = Url::to(['api-internal/cari-rm']);
@@ -122,7 +123,7 @@ $this->title = 'Point Of Service (POS)';
                                         'data' => new JsExpression('function(params) { 
                                             return {
                                                 q:params.term, 
-                                                tanggal:$("#resep-tanggal").val()
+                                                tanggal:$("#layanan-tanggal").val()
                                             }; 
                                         }'),
                                         'delay' => 250,
@@ -153,34 +154,9 @@ $this->title = 'Point Of Service (POS)';
                                         let pasien = e.params.data
                                         //let tglLahir = new Date(pasien.TGL_LAHIR)
 
-                                        $(`#resep-no_daftar`).val(pasien.no_daftar).trigger("change")
-                                        $(`#resep-nama_pasien`).val(pasien.nama).trigger("change")
-                                        $(`#resep-id_poli`).val(pasien.id_poli).trigger("change")
-
-                                        // $(`#penjualan-nama_pasien`).val(pasien.px_name).trigger("change")
-                                        // $(`#penjualan-alamat_pasien`).val(pasien.px_address).trigger("change")
-                                        // $(`#penjualan-jenis_kelamin`).val(pasien.px_sex).trigger("change")
-                                        
-                                        // $(`#penjualan-no_sep`).val(pasien.pxsurety_no).trigger("change")
-
-                                        // if(pasien.id != "00000000") {
-                                        //     $(`#penjualan-tgl_lahir`).val(formatDateIndo(pasien.TGL_LAHIR)).trigger("change")
-                                        //     $("#penjualan-umur").val(pasien.umur).trigger("change")
-                                        //     $(`#penjualan-id_unit`).html(new Option(pasien.unit_name, pasien.unit_id_pelayanan, true, true)).trigger("change")
-                                        //     $(`#penjualan-id_dokter`).html(new Option(pasien.par_name, pasien.par_id, true, true)).trigger("change")
-                                        //     $("#penjualan-nama_dokter").val(pasien.par_name)
-                                        //     $(`#penjualan-id_penjamin`).html(new Option(pasien.surety_name, pasien.surety_id, true, true)).trigger("change")
-                                        // }
-                                        
-                                        // if(pasien.surety_id != 9999 || pasien.surety_id != 0037)
-                                        //     $(`#penjualan-tipe_pembayaran`).val(0).trigger("change")
-
-                                        // if(pasien.id == "00000000") {
-                                        //     $(`#penjualan-id_penjamin_lama`).html(new Option("Umum", 9999, true, true)).trigger("change")
-                                        //     $(`#penjualan-nama_pasien`).focus()
-                                        //     $(`#penjualan-tipe_pembayaran`).val(1).trigger("change")
-                                        // }
-
+                                        $(`#layanan-registrasi_kode`).val(pasien.no_daftar).trigger("change")
+                                        $(`#layanan-nama_pasien`).val(pasien.nama).trigger("change")
+                                        $(`#layanan-unit_tujuan_kode`).val(pasien.id_poli).trigger("change")
                                     }'),
                                 ]
                             ]);
@@ -189,44 +165,22 @@ $this->title = 'Point Of Service (POS)';
                             <?= $form->field($model, 'nama_pasien')->textInput(['maxlength' => true]) ?>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group row field-resep-id_poli required">
-                                <div class="col-sm-4">
-                                    <label class="col-form-label-sm" for="resep-tanggal">Tanggal Resep</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <?php
-                                            echo $form->field($model, 'tanggal', [
-                                                'wrapperOptions' => ['style' => 'margin-left: 0px;'],
-                                            ])->widget(DatePicker::classname(), [
-                                                'options' => ['placeholder' => 'Pilih...'],
-                                                'removeButton' => false,
-                                                'pluginOptions' => [
-                                                    'layout' => '{input}{error}',
-                                                    'todayHighlight' => true,
-                                                    'autoclose' => true,
-                                                    'format' => 'dd-mm-yyyy'
-                                                ]
-                                            ])->label(false)
-                                            ?>
+                            <?php
+                            echo $form->field($model, 'tgl_masuk', [
+                                'wrapperOptions' => ['style' => 'margin-left: 0px;'],
+                            ])->widget(DatePicker::classname(), [
+                                'options' => ['placeholder' => 'Pilih...'],
+                                'removeButton' => false,
+                                'pluginOptions' => [
+                                    'layout' => '{input}{error}',
+                                    'todayHighlight' => true,
+                                    'autoclose' => true,
+                                    'format' => 'dd-mm-yyyy'
+                                ]
+                            ])
+                            ?>
 
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <?= $form->field($model, 'jam')->widget(TimePicker::classname(), [
-                                                'pluginOptions' => [
-                                                    'showSeconds' => true,
-                                                    'showMeridian' => false,
-                                                    'minuteStep' => 5,
-                                                    'secondStep' => 5,
-                                                ]
-                                            ]) ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?= $form->field($model, 'id_poli')->widget(Select2::classname(), [
+                            <?= $form->field($model, 'unit_tujuan_kode')->widget(Select2::classname(), [
                                 'data' => Poli::find()->select2(),
                                 'pluginOptions' => [
                                     'allowClear' => false,
@@ -256,14 +210,15 @@ $this->title = 'Point Of Service (POS)';
                                 'insertButton' => '.add-item',
                                 'deleteButton' => '.delete-item',
                                 'model' => $modelDetail[0],
-                                'formId' => 'form-obat',
+                                'formId' => 'form-tindakan',
                                 'formFields' => [
-                                    'id_barang',
-                                    'dosis',
+                                    'id_layanan',
+                                    'id_tindakan',
                                     'keterangan',
                                     'harga_jual',
                                     'jumlah',
                                     'subtotal',
+                                    'status',
                                 ],
                             ]); ?>
 
@@ -271,12 +226,12 @@ $this->title = 'Point Of Service (POS)';
                                 <thead class="bg-teal" style="text-align: center;">
                                     <tr class="bg-danger">
                                         <th style="color: white; font-size: 11px; width: 3%">#</th>
-                                        <th style="color: white; font-size: 11px; width: 25%">Barang</th>
-                                        <th style="color: white; font-size: 11px; width: 14%">Keterangan</th>
-                                        <th style="color: white; font-size: 11px; width: 14%">Dosis</th>
-                                        <th style="color: white; font-size: 11px; width: 14%">Jumlah</th>
-                                        <th style="color: white; font-size: 11px; width: 14%">Harga Jual</th>
-                                        <th style="color: white; font-size: 11px; width: 15%">Subtotal</th>
+                                        <th style="color: white; font-size: 11px; width: 36%">Tindakan</th>
+                                        <th style="color: white; font-size: 11px; width: 12%">Jenis</th>
+                                        <th style="color: white; font-size: 11px; width: 12%">Keterangan</th>
+                                        <th style="color: white; font-size: 11px; width: 12%">Jumlah</th>
+                                        <th style="color: white; font-size: 11px; width: 12%">Harga Jual</th>
+                                        <th style="color: white; font-size: 11px; width: 12%">Subtotal</th>
                                         <th style="color: white; font-size: 11px; width: 1%"></th>
                                     </tr>
                                 </thead>
@@ -287,7 +242,7 @@ $this->title = 'Point Of Service (POS)';
                                             <?php
                                             // necessary for update action.
                                             if (!$modelDetail->isNewRecord) {
-                                                echo Html::activeHiddenInput($modelDetail, "[{$i}]id_resep_detail");
+                                                echo Html::activeHiddenInput($modelDetail, "[{$i}]id_layanan_detail");
                                             }
                                             ?>
                                             <td style="text-align: center;">
@@ -298,8 +253,8 @@ $this->title = 'Point Of Service (POS)';
 
                                             <td>
                                                 <?php
-                                                $url = Url::to(['api-internal/cari-obat']);
-                                                echo $form->field($modelDetail, "[{$i}]id_barang", [
+                                                $url = Url::to(['api-internal/cari-tindakan']);
+                                                echo $form->field($modelDetail, "[{$i}]id_tindakan", [
                                                     // <span class="label-detail required">Barang</span>
                                                     'template' => '
                                             <div class="col-sm-12">
@@ -312,19 +267,19 @@ $this->title = 'Point Of Service (POS)';
                                                     'options' => [
                                                         // 'id' => '',
                                                         'class' => 'dynamic-select2',
-                                                        'placeholder' => 'Ketik Nama Barang...',
+                                                        'placeholder' => 'Ketik Nama Tindakan...',
                                                     ],
-                                                    'initValueText' => $modelDetail->barang->nama_barang ?? null,
+                                                    'initValueText' => $modelDetail->tindakan->nama_tindakan ?? null,
                                                     'pluginOptions' => [
                                                         'dropdownAutoWidth' => true,
                                                         'allowClear' => false,
-                                                        'minimumInputLength' => 3,
+                                                        'minimumInputLength' => 2,
                                                         'language' => [
                                                             'errorLoading' => new JsExpression('function () { 
                                                         return "Menunggu hasil..."; 
                                                     }'),
                                                             'inputTooShort' => new JsExpression('function () {
-                                                        return "Minimal 3 karakter...";
+                                                        return "Minimal 2 karakter...";
                                                     }'),
                                                             'searching' => new JsExpression('function() {
                                                         return "Mencari...";
@@ -341,32 +296,17 @@ $this->title = 'Point Of Service (POS)';
                                                     }')
                                                         ],
                                                         'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                                        'templateResult' => new JsExpression('function(data) { 
-                                                    let warnaInfoStok = null
-                                                    let teksStok = null
-                                                    if(data.stok_depo == 0){
-                                                        warnaInfoStok = "warning"
-                                                        teksStok = "Kosong"
-                                                    }else {
-                                                        warnaInfoStok = "success"
-                                                        teksStok = "Ada"
-                                                    }
-                                                    return (data.loading) ?
-                                                        data.text :                                                        
-                                                        `${data.text} <span class="float-right"><button class="btn btn-xs bg-${warnaInfoStok}" style="width:85px; padding-top: 0px !important; padding-bottom: 0px !important;">${teksStok}</button></span>` ;     
-                                                }'),
-                                                        'templateSelection' => new JsExpression('function (data) { return data.text; }'),
                                                     ],
                                                     'pluginEvents' => [
                                                         "select2:select" => new JsExpression('function(e) { 
                                                             let index = $(this).closest("tr").index()
-                                                            let barangDipilih = e.params.data
+                                                            let tindakanDipilih = e.params.data
 
                                                             // cek item sudah dipilih atau belum
                                                             let uda_dipilih = 0
                                                             $(\'.dynamicform_wrapper .form-options-item\').each(function (e) {
-                                                                let id_barang_sudah_dipilih = $(this).find("select[name*=\'[id_barang]\']").val()
-                                                                if (id_barang_sudah_dipilih == barangDipilih.id) {
+                                                                let id_barang_sudah_dipilih = $(this).find("select[name*=\'[id_tindakan]\']").val()
+                                                                if (id_barang_sudah_dipilih == tindakanDipilih.id) {
                                                                     uda_dipilih++
                                                                     if (uda_dipilih == 2) {
                                                                         return false
@@ -375,14 +315,14 @@ $this->title = 'Point Of Service (POS)';
                                                             })
 
                                                             if (uda_dipilih == 2) {
-                                                                $(`#resepdetail-${index}-id_barang`).val(null).trigger("change")
-                                                                $(`#resepdetail-${index}-id_barang`).select2("open")
+                                                                $(`#layanandetail-${index}-id_tindakan`).val(null).trigger("change")
+                                                                $(`#layanandetail-${index}-id_tindakan`).select2("open")
                                                                 toastr.error(\'Upps,, Item sudah dipilih Bund. Coba yang lain ya\')
                                                             } else {
-                                                                $(`#resepdetail-${index}-harga_jual-disp`).val(barangDipilih.harga_jual).trigger("change")
-                                                                let subtotal = $(`#resepdetail-${index}-jumlah`).val() * barangDipilih.harga_jual
-                                                                $(`#resepdetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
-                                                                $(`#resepdetail-${index}-jumlah-disp`).focus()
+                                                                $(`#layanandetail-${index}-harga_jual-disp`).val(tindakanDipilih.harga_jual).trigger("change")
+                                                                let subtotal = $(`#layanandetail-${index}-jumlah`).val() * tindakanDipilih.harga_jual
+                                                                $(`#layanandetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
+                                                                $(`#layanandetail-${index}-jumlah-disp`).focus()
                                                             }
                                                         
                                                         }'),
@@ -402,24 +342,21 @@ $this->title = 'Point Of Service (POS)';
                                             </td>
                                             <td style="padding-top: 3.5px;">
                                                 <?php
-                                                echo $form->field($modelDetail, "[{$i}]keterangan", [
-                                                    // <span class="label-detail">Jlh. Diterima</span>
+                                                echo $form->field($modelDetail, "[{$i}]status", [
                                                     'template' => '
                                                 <div class="col-sm-12">
                                                     {input}
                                                     {hint}{error}
-                                                </div>
-                                            ',
-                                                ])->textInput([
-                                                    'class' => 'form-control form-control-md signa-typeahead det_signa',
-                                                    'onkeypress' => 'enterNewRow(this, event.keyCode)',
-                                                    'onfocus' => 'onFocusSelect(this)',
-                                                ])->label(false);
+                                                </div>'
+                                                ])
+                                                    ->dropDownList(Layanan::find()->select2Status(), [
+                                                        'prompt' => null
+                                                    ])->label(false);
                                                 ?>
                                             </td>
                                             <td style="padding-top: 3.5px;">
                                                 <?php
-                                                echo $form->field($modelDetail, "[{$i}]dosis", [
+                                                echo $form->field($modelDetail, "[{$i}]keterangan", [
                                                     // <span class="label-detail">Jlh. Diterima</span>
                                                     'template' => '
                                                 <div class="col-sm-12">
@@ -515,65 +452,12 @@ $this->title = 'Point Of Service (POS)';
                         </div>
                     </div>
 
-                    <div class="tabel-total" style="margin-top: 25px;">
-                        <table class="table">
-                            <tbody class="tbody-total">
-                                <tr>
-                                    <td><label>Total Harga :</label></td>
-                                    <td style="width: 35%;">
-                                        <?php
-                                        echo $form->field($model, 'total_harga', [])->widget(KyNumber::className(), ['displayOptions' => [
-                                            'style' => 'font-weight: bold;',
-                                            'readonly' => true,
-                                            'onchange' => 'onChangeTotalHarga()',
-                                        ]])->label(false);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-style: italic;"><label>Diskon (%) :</label></td>
-                                    <td style="width: 35%;">
-                                        <?php
-                                        echo $form->field($model, 'diskon_persen', [])->widget(KyNumber::className(), ['displayOptions' => [
-                                            'style' => 'font-weight: bold;',
-                                            'readonly' => false,
-                                            'onfocus' => '$(this).select()',
-                                            'oninput' => 'onChangeDiskonPersen()',
-                                        ]])->label(false);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-style: italic;"><label>Diskon Total :</label></td>
-                                    <td style="width: 35%;">
-                                        <?php
-                                        echo $form->field($model, 'diskon_total', [])->widget(KyNumber::className(), ['displayOptions' => [
-                                            'style' => 'font-weight: bold;',
-                                            'readonly' => true,
-                                        ]])->label(false);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label>Total Bayar :</label></td>
-                                    <td style="width: 35%;">
-                                        <?php
-                                        echo $form->field($model, 'total_bayar', [])->widget(KyNumber::className(), ['displayOptions' => [
-                                            'style' => 'font-weight: bold;',
-                                            'readonly' => true,
-                                        ]])->label(false);
-                                        ?>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
                     <div class="form-group float-right">
-                        <?= Html::submitButton('[ ALT+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
+                        <?= Html::submitButton('[ ALT+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-tindakan']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>
+
                 </div>
             </div>
         </div>
@@ -581,7 +465,6 @@ $this->title = 'Point Of Service (POS)';
 </div>
 
 
-
 <?php
-$this->registerJs($this->render('_obat.js'), View::POS_END);
-$this->registerJs($this->render('_obat_ready.js'));
+$this->registerJs($this->render('_tindakan.js'), View::POS_END);
+$this->registerJs($this->render('_tindakan_ready.js'));
