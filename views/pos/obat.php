@@ -63,7 +63,7 @@ $this->title = 'Point Of Service (POS)';
         border-top: none;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-        width: 700px !important;
+        width: 400px !important;
         min-width: 376.4px;
         position: relative;
     }
