@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-25 21:30:46
+ * @Last Modified time: 2021-09-25 21:43:38
  */
 
 use app\components\DynamicFormWidget;
@@ -189,12 +189,17 @@ $this->title = 'Point Of Service (POS)';
                                     ]);
                                     ?>
 
-                                    <?= $form->field($model, 'no_daftar')->textInput([
+                                    <?= $form->field($pendaftaran, 'id_pendaftaran')->textInput([
                                         'maxlength' => true,
                                         'readonly' => true,
                                     ]) ?>
 
-                                    <?= $form->field($model, 'id_cara_bayar')->widget(Select2::classname(), [
+                                    <?= $form->field($pendaftaran, 'tgl_masuk')->textInput([
+                                        'maxlength' => true,
+                                        'readonly' => true,
+                                    ]) ?>
+
+                                    <?= $form->field($pendaftaran, 'id_cara_bayar')->widget(Select2::classname(), [
                                         'data' => ArrayHelper::map(DebiturDetail::find()->all(), 'id_debitur_kode', 'nama'),
                                         'options' => ['placeholder' => 'Cara Bayar'],
                                         'theme' => Select2::THEME_BOOTSTRAP,
