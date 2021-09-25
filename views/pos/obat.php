@@ -28,15 +28,6 @@ $this->title = 'Point Of Service (POS)';
 ?>
 
 <style>
-    /* .select2-container.select2-container--bootstrap.select2-container--open {
-        left: 0px !important;
-        left: 423.925px !important;
-    }
-
-    .select2-dropdown.select2-dropdown--below {
-        position: unset;
-    } */
-
     form .col-form-label-sm {
         font-size: 10.5px;
     }
@@ -386,7 +377,7 @@ $this->title = 'Point Of Service (POS)';
                                                             if (uda_dipilih == 2) {
                                                                 $(`#resepdetail-${index}-id_barang`).val(null).trigger("change")
                                                                 $(`#resepdetail-${index}-id_barang`).select2("open")
-                                                                toastr.error(\'Upps,, Item sudah dipilih ya Bund. Coba yang lain ya\')
+                                                                toastr.error(\'Upps,, Item sudah dipilih Bund. Coba yang lain ya\')
                                                             } else {
                                                                 $(`#resepdetail-${index}-harga_jual-disp`).val(barangDipilih.harga_jual).trigger("change")
                                                                 let subtotal = $(`#resepdetail-${index}-jumlah`).val() * barangDipilih.harga_jual
@@ -579,7 +570,7 @@ $this->title = 'Point Of Service (POS)';
                     </div>
 
                     <div class="form-group float-right">
-                        <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
+                        <?= Html::submitButton('[ ALT+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>

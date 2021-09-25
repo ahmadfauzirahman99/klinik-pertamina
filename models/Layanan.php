@@ -22,6 +22,7 @@ use Yii;
  * @property string|null $updated_at
  * @property string|null $deleted_at
  * @property int|null $deleted_by
+ * @property string|null $id_dokter
  * @property string|null $status_layanan DAFTAR,DILAYANI,SELESAI,BATAL
  */
 class Layanan extends \yii\db\ActiveRecord
@@ -30,6 +31,9 @@ class Layanan extends \yii\db\ActiveRecord
     const DILAYANI = 'DILAYANI';
     const SELESAI = 'SELESAI';
     const BATAL = 'BATAL';
+
+    public $no_rm;
+    public $nama_pasien;
 
     /**
      * {@inheritdoc}
@@ -52,6 +56,11 @@ class Layanan extends \yii\db\ActiveRecord
             [['registrasi_kode'], 'string', 'max' => 120],
             [['unit_kode', 'status_layanan'], 'string', 'max' => 100],
             [['unit_asal_kode'], 'string', 'max' => 11],
+
+            ['id_dokter', 'string', 'max' => 15],
+            ['id_dokter', 'required'],
+
+            [['no_rm', 'nama_pasien'], 'required'],
         ];
     }
 
@@ -77,7 +86,20 @@ class Layanan extends \yii\db\ActiveRecord
             'deleted_at' => 'Deleted At',
             'deleted_by' => 'Deleted By',
             'status_layanan' => 'Status Layanan',
+            'id_dokter' => 'Dokter',
+            'no_rm' => 'No. RM',
+            'nama_pasien' => 'Nama Pasien',
         ];
+    }
+
+    
+    /**
+     * {@inheritdoc}
+     * @return LayananQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new LayananQuery(get_called_class());
     }
 
     public function getPendaftaran()
@@ -85,9 +107,13 @@ class Layanan extends \yii\db\ActiveRecord
         return $this->hasOne(Pendaftaran::className(), ['id_pendaftaran' => 'registrasi_kode']);
     }
 
-    
     public function getUnit()
     {
         return $this->hasOne(Poli::className(), ['id_poli' => 'unit_tujuan_kode']);
+    }
+
+    public function getLayananDetail()
+    {
+        return $this->hasMany(LayananDetail::className(), ['id_layanan' => 'id_layanan']);
     }
 }

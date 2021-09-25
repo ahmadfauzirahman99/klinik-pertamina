@@ -50,6 +50,9 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['/kategori/index']) ?>" class="waves-effect"><i class="fa fa-list-ul"></i> <span> Master Ketegori Item </span> </a>
     </li>
     <li>
+        <a href="<?= Url::to(['/item-tindakan/index']) ?>" class="waves-effect"><i class="fa fa-stethoscope"></i> <span> Item Tindakan </span> </a>
+    </li>
+    <li>
         <a href="<?= Url::to(['/item-lab/index']) ?>" class="waves-effect"><i class="fa fa-thermometer-0 "></i> <span> Item Lab </span> </a>
     </li>
 
