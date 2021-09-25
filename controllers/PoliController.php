@@ -8,6 +8,7 @@ use app\models\PoliSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * PoliController implements the CRUD actions for Poli model.
@@ -66,8 +67,18 @@ class PoliController extends Controller
     {
         $model = new Poli();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_poli]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_poli]);
+        // }
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil menyimpan data Poli. <b>' . $model->id_poli . ' : '. $model->nama_poli . '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/poli/update', 'id' => $model->id_poli]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal menyimpan data Poli. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
 
         return $this->render('create', [
@@ -86,8 +97,17 @@ class PoliController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_poli]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_poli]);
+        // }
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil mengubah data Poli. <b>' . $model->id_poli . ' : '. $model->nama_poli . '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/poli/update', 'id' => $model->id_poli]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
+            } else {
+                Yii::$app->session->setFlash('error', 'Gagal mengubah data Poli. <pre>' . json_encode($model->errors) . '</pre>');
+            }
+            return $this->redirect('index');
         }
 
         return $this->render('update', [

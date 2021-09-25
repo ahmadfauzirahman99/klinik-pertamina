@@ -13,10 +13,11 @@
 namespace app\controllers;
 
 use app\components\Model;
-use app\models\Layanan;
-use app\models\LayananDetail;
 use app\models\OrderLab;
 use app\models\OrderLabDetail;
+use app\models\CheckOut;
+use app\models\Layanan;
+use app\models\LayananDetail;
 use app\models\Pasien;
 use app\models\Pendaftaran;
 use Yii;
@@ -482,4 +483,17 @@ class PosController extends \yii\web\Controller
         // return $this->render('anastesi');
     }
     
+
+    public function actionCheckOut($reg = null, $rm = null)
+    {
+
+        $model = new CheckOut();
+        $pendaftaran = new Pendaftaran();
+
+        return $this->render('check-out', [
+            'model' => $model,
+            'pendaftaran' => $pendaftaran,
+            // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
+        ]);
+    }
 }

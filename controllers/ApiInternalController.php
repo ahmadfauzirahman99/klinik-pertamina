@@ -102,7 +102,7 @@ class ApiInternalController extends \yii\web\Controller
     }
 
     // tindakan
-    public function actionCariTindakanLab($q, $limit = 150)
+    public function actionCariTindakanlab($q, $limit = 150)
     {
         $barang = ItemLab::find()
             ->where([
