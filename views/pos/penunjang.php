@@ -477,7 +477,9 @@ $this->title = 'Point Of Service (POS)';
                     <div class="form-group float-right">
                         <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
                     </div>
-
+                    <div class="form-group float-left">
+                        <?= Html::a('Cetak',['/pos/cetak-penunjang?reg='.$_GET['reg'].'&rm='.$_GET['rm']], ['class' => 'btn btn-success']) ?>
+                    </div>
                     <?php ActiveForm::end(); ?>
                 </div>
             </div>
