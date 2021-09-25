@@ -3,11 +3,8 @@
 namespace app\controllers;
 
 use app\models\Barang;
-<<<<<<< HEAD
 use app\models\ItemLab;
-=======
 use app\models\ItemTindakan;
->>>>>>> 96fd5c599e0e49224742f4c8520e7aebcdb83b6c
 use app\models\Layanan;
 use app\models\Pasien;
 use app\models\Pendaftaran;
@@ -105,7 +102,7 @@ class ApiInternalController extends \yii\web\Controller
     }
 
     // tindakan
-    public function actionCariTindakan($q, $limit = 150)
+    public function actionCariTindakanlab($q, $limit = 150)
     {
         $barang = ItemLab::find()
             ->where([

@@ -285,7 +285,7 @@ $this->title = 'Point Of Service (POS)';
 
                                             <td>
                                                 <?php
-                                                $url = Url::to(['api-internal/cari-tindakan']);
+                                                $url = Url::to(['api-internal/cari-tindakanlab']);
                                                 echo $form->field($modelDetail, "[{$i}]item_pemeriksaan", [
                                                     // <span class="label-detail required">Barang</span>
                                                     'template' => '
@@ -478,7 +478,9 @@ $this->title = 'Point Of Service (POS)';
                         <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
                     </div>
                     <div class="form-group float-left">
+                        <?php if(isset($_GET['reg'])):?>
                         <?= Html::a('Cetak',['/pos/cetak-penunjang?reg='.$_GET['reg'].'&rm='.$_GET['rm']], ['class' => 'btn btn-success']) ?>
+                        <?php endif;?>
                     </div>
                     <?php ActiveForm::end(); ?>
                 </div>

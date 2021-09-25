@@ -13,14 +13,11 @@
 namespace app\controllers;
 
 use app\components\Model;
-<<<<<<< HEAD
 use app\models\OrderLab;
 use app\models\OrderLabDetail;
-=======
 use app\models\CheckOut;
 use app\models\Layanan;
 use app\models\LayananDetail;
->>>>>>> 96fd5c599e0e49224742f4c8520e7aebcdb83b6c
 use app\models\Pasien;
 use app\models\Pendaftaran;
 use Yii;
@@ -296,7 +293,6 @@ class PosController extends \yii\web\Controller
 
         ]);
     }
-<<<<<<< HEAD
     public function actionPenunjang($reg = null, $rm = null){
         // $model = OrderLab::find()->all();
         $model = new OrderLab();
@@ -487,7 +483,6 @@ class PosController extends \yii\web\Controller
         // return $this->render('anastesi');
     }
     
-=======
 
     public function actionCheckOut($reg = null, $rm = null)
     {
@@ -501,5 +496,4 @@ class PosController extends \yii\web\Controller
             // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
         ]);
     }
->>>>>>> 96fd5c599e0e49224742f4c8520e7aebcdb83b6c
 }
