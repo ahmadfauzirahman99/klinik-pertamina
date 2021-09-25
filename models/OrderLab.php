@@ -78,4 +78,5 @@ class OrderLab extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OrderLabDetail::className(), ['id_order_lab' => 'id_lab']);
     }
+    
 }

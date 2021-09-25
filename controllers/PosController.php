@@ -21,6 +21,7 @@ use app\models\Resep;
 use app\models\ResepDetail;
 use Exception;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 class PosController extends \yii\web\Controller
 {
@@ -301,4 +302,74 @@ class PosController extends \yii\web\Controller
         ]);
 
     } 
+
+    public function actionCetakPenunjang($reg = null, $rm = null)
+    {
+        $model = (new \yii\db\Query())
+        ->select([
+            'ol.no_transaksi',
+            'ol.diagnosa',
+            'ol.no_rekam_medik',
+            'ol.no_daftar',
+            'ol.id_lab',
+            'ol.no_transaksi',
+            'ol.nama_pasien',
+            'p.nama_lengkap',
+            'p.alamat_lengkap',
+            'p.kel',
+            'p.kec',
+            'p.kab',
+            'p.nama_ayah',
+            'p.nama_ibu',
+            'p.tempat_lahir',
+            'p.tanggal_lahir'
+            ])	
+        ->from('order_lab ol')
+        ->leftjoin('pasien p','p.no_rekam_medik=ol.no_rekam_medik')
+        ->where([
+            'and',
+            ['ol.no_daftar' => $reg,],
+            ['ol.no_rekam_medik' => $rm,],
+        ])->one();
+
+        $modelDetail = (new \yii\db\Query())
+        ->select([
+            'old.item_pemeriksaan',
+            'old.jumlah',
+            'old.harga_tindakan harga_tindakan',
+            'old.subtotal subtotal',
+            'old.catatan catatan',
+            'il.nama_item nama_item',
+            'il.nama_jenis nama_jenis'
+            ])	
+        ->from('order_lab_detail old')
+        ->leftjoin('item_lab il','il.id_item_lab=old.item_pemeriksaan')
+        ->where(['id_order_lab'=>$model['id_lab']])->all();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'legal',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10
+        ]);
+        $mpdf->SetWatermarkImage(Url::to('@web/img/syafira.png'));
+        $mpdf->showWatermarkImage = true;
+
+        $mpdf->SetTitle('Laporan');
+        $mpdf->WriteHTML($this->renderPartial('cetak_penunjang', [
+            'model' => $model,
+            'modelDetail' => $modelDetail,
+            // 'no_rm' => $no_rm,
+            // 'pasien' => DataLayanan::find()->where(['no_rekam_medik' => $no_rm])->one(),
+        ]));
+        // $mpdf->Output('Spesialis Gigi ' . $model['no_rekam_medik'] . '.pdf', 'I');
+        $mpdf->Output('Laporan.pdf', 'I');
+        exit;
+        // return $this->render('anastesi');
+    }
+    
 }
