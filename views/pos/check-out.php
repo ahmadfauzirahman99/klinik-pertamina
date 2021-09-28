@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-25 21:43:38
+ * @Last Modified time: 2021-09-28 11:20:08
  */
 
 use app\components\DynamicFormWidget;
@@ -100,6 +100,7 @@ $this->title = 'Point Of Service (POS)';
                                     $url = Url::to(['api-internal/cari-rm']);
 
                                     echo $form->field($model, "no_rm")->widget(Select2::classname(), [
+                                        
                                         'options' => [
                                             'placeholder' => 'Ketik No. RM / Nama Pasien...',
                                         ],

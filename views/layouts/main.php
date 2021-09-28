@@ -33,10 +33,10 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <style>
-        .select2-container .select2-selection--single .select2-selection__rendered {
+        /* .select2-container .select2-selection--single .select2-selection__rendered {
             line-height: 18.5px !important;
             padding-left: 5px !important;
-        }
+        } */
 
         #sidebar-menu>ul>li>a {
             color: #435966;
