@@ -5,7 +5,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2020-11-24 14:48:27 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-28 11:43:14
+ * @Last Modified time: 2021-09-28 21:17:11
  */
 
 $(document).ready(function () {
@@ -55,7 +55,7 @@ $(document).ready(function () {
                 $(`#layanandetail-${index}-id_tindakan`).select2("open")
                 toastr.error('Upps,, Item sudah dipilih ya Bund. Coba yang lain ya')
             } else {
-                $(`#layanandetail-${index}-harga_tindakan-disp`).val(itemlabDipilih.harga_tindakan).trigger("change")
+                $(`#layanandetail-${index}-harga_jual-disp`).val(itemlabDipilih.harga_jual).trigger("change")
                 let subtotal = $(`#layanandetail-${index}-jumlah`).val() * itemlabDipilih.harga_tindakan
                 $(`#layanandetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
                 $(`#layanandetail-${index}-jumlah-disp`).focus()

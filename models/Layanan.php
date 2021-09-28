@@ -24,6 +24,8 @@ use Yii;
  * @property int|null $deleted_by
  * @property string|null $id_dokter
  * @property string|null $status_layanan DAFTAR,DILAYANI,SELESAI,BATAL
+ * @property string|null $total_bayar
+ * @property string|null $biaya_registrasi
  */
 class Layanan extends \yii\db\ActiveRecord
 {
@@ -34,6 +36,7 @@ class Layanan extends \yii\db\ActiveRecord
 
     public $no_rm;
     public $nama_pasien;
+    public $total_bayar;
 
     /**
      * {@inheritdoc}
@@ -61,6 +64,8 @@ class Layanan extends \yii\db\ActiveRecord
             ['id_dokter', 'required'],
 
             [['no_rm', 'nama_pasien'], 'required'],
+            ['total_bayar', 'safe'],
+            ['biaya_registrasi', 'safe'],
         ];
     }
 
@@ -89,10 +94,11 @@ class Layanan extends \yii\db\ActiveRecord
             'id_dokter' => 'Dokter',
             'no_rm' => 'No. RM',
             'nama_pasien' => 'Nama Pasien',
+            'biaya_registrasi' => 'Biaya Registrasi',
         ];
     }
 
-    
+
     /**
      * {@inheritdoc}
      * @return LayananQuery the active query used by this AR class.

@@ -77,17 +77,17 @@ class Pasien extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_patient' => 'Id Patient',
-            'no_identitas' => 'No Identitas',
-            'no_rekam_medik' => 'No RM',
-            'no_kepesertaan' => 'No Anggota',
+            'id_patient' => 'Id Pasien',
+            'no_identitas' => 'No. Identitas',
+            'no_rekam_medik' => 'No. RM',
+            'no_kepesertaan' => 'No. Anggota',
             'nama_lengkap' => 'Nama Lengkap',
             'jenis_kelamin' => 'Jenis Kelamin',
             'alamat_lengkap' => 'Alamat Lengkap',
             'kel' => 'Kel',
             'kec' => 'Kec',
             'kab' => 'Kab',
-            'no_tlp_pasien' => 'No Telepon Pasien',
+            'no_tlp_pasien' => 'No. Telepon Pasien',
             'agama' => 'Agama',
             'status_perkawinan' => 'Status Perkawinan',
             'pendidikan_terakhir' => 'Pendidikan',

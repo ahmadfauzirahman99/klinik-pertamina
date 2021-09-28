@@ -56,8 +56,8 @@ class Pendaftaran extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_pendaftaran' => 'Id Pendaftaran',
-            'kode_pasien' => 'No RM',
+            'id_pendaftaran' => 'No. Daftar',
+            'kode_pasien' => 'No. RM',
             'tgl_masuk' => 'Tgl Masuk',
             'tgl_keluar' => 'Tgl Keluar',
             'id_kiriman' => 'Kiriman Dari',
@@ -78,6 +78,22 @@ class Pendaftaran extends \yii\db\ActiveRecord
 
     public function getLayanan()
     {
-        return $this->hasMany(Layanan::className(), ['registrasi_kode' => 'id_pendaftaran']);
+        return $this->hasOne(Layanan::className(), ['registrasi_kode' => 'id_pendaftaran']);
+    }
+
+    public function getResep()
+    {
+        return $this->hasOne(Resep::className(), [
+            'no_daftar' => 'id_pendaftaran',
+            'no_rm' => 'kode_pasien',
+        ]);
+    }
+
+    public function getPenunjang()
+    {
+        return $this->hasOne(OrderLab::className(), [
+            'no_daftar' => 'id_pendaftaran',
+            'no_rekam_medik' => 'kode_pasien',
+        ]);
     }
 }

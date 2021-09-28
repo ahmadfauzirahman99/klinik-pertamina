@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-25 21:14:43 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-25 21:25:26
+ * @Last Modified time: 2021-09-28 22:44:55
  */
 
 
@@ -19,6 +19,15 @@ class CheckOut extends Model
 {
     public $no_rm;
 
+    public $biaya_registrasi;
+    public $biaya_tindakan;
+    public $biaya_obat;
+    public $biaya_penunjang;
+
+    public $total_biaya;
+    public $sudah_dibayar;
+    public $sisa_pembayaran;
+
     /**
      * {@inheritdoc}
      */
@@ -27,6 +36,36 @@ class CheckOut extends Model
         return [
             [['no_rm'], 'required'],
 
+            [
+                [
+                    'biaya_registrasi',
+                    'biaya_tindakan',
+                    'biaya_obat',
+                    'biaya_penunjang',
+                ], 'safe'
+            ],
+            [
+                [
+                    'biaya_registrasi',
+                    'biaya_tindakan',
+                    'biaya_obat',
+                    'biaya_penunjang',
+                ], 'default', 'value' => 0,
+            ],
+            [
+                [
+                    'total_biaya',
+                    'sudah_dibayar',
+                    'sisa_pembayaran',
+                ], 'safe',
+            ],
+            [
+                [
+                    'total_biaya',
+                    'sudah_dibayar',
+                    'sisa_pembayaran',
+                ], 'default', 'value' => 0,
+            ],
         ];
     }
 

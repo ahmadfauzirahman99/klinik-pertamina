@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-19 10:48:58 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-25 21:34:44
+ * @Last Modified time: 2021-09-28 23:31:26
  */
 
 
@@ -16,6 +16,7 @@ use app\components\Model;
 use app\models\OrderLab;
 use app\models\OrderLabDetail;
 use app\models\CheckOut;
+use app\models\ItemTindakan;
 use app\models\Layanan;
 use app\models\LayananDetail;
 use app\models\Pasien;
@@ -293,7 +294,8 @@ class PosController extends \yii\web\Controller
 
         ]);
     }
-    public function actionPenunjang($reg = null, $rm = null){
+    public function actionPenunjang($reg = null, $rm = null)
+    {
         // $model = OrderLab::find()->all();
         $model = new OrderLab();
         $modelDetail = [new OrderLabDetail()];
@@ -313,13 +315,12 @@ class PosController extends \yii\web\Controller
                 $model->no_rekam_medik = $pasien->no_rekam_medik;
                 $model->tanggal = date('d-m-Y');
                 $model->total_harga = 0;
-            }else{
+            } else {
                 $model->tanggal = Yii::$app->formatter->asDate($model->tanggal);
             }
             $model->no_daftar = $reg;
             $model->no_transaksi = 'T';
             $modelDetail = $model->labDetail ?? [new OrderLabDetail()];
-
         }
         if ($model->load(Yii::$app->request->post())) {
 
@@ -331,10 +332,10 @@ class PosController extends \yii\web\Controller
             $modelDetail = Model::createMultiple(OrderLabDetail::classname(), $modelDetail, 'id_order_lab_detail');
             Model::loadMultiple($modelDetail, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_order_lab_detail', 'id_order_lab_detail')));
-            
-            
+
+
             $model->tanggal = Yii::$app->formatter->asDate($model->tanggal, 'php:Y-m-d');
-            
+
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelDetail) && $valid;
             if ($valid) {
@@ -364,7 +365,6 @@ class PosController extends \yii\web\Controller
                                 // die;
                                 break;
                             } else {
-
                             }
                         }
                     } else {
@@ -406,56 +406,55 @@ class PosController extends \yii\web\Controller
                 }
             }
         }
-        return $this->render('penunjang',[
-            'model'=>$model,
+        return $this->render('penunjang', [
+            'model' => $model,
             'modelDetail' => (empty($modelDetail)) ? [new OrderLabDetail()] : $modelDetail,
 
         ]);
-
-    } 
+    }
 
     public function actionCetakPenunjang($reg = null, $rm = null)
     {
         $model = (new \yii\db\Query())
-        ->select([
-            'ol.no_transaksi',
-            'ol.diagnosa',
-            'ol.no_rekam_medik',
-            'ol.no_daftar',
-            'ol.id_lab',
-            'ol.no_transaksi',
-            'ol.nama_pasien',
-            'p.nama_lengkap',
-            'p.alamat_lengkap',
-            'p.kel',
-            'p.kec',
-            'p.kab',
-            'p.nama_ayah',
-            'p.nama_ibu',
-            'p.tempat_lahir',
-            'p.tanggal_lahir'
-            ])	
-        ->from('order_lab ol')
-        ->leftjoin('pasien p','p.no_rekam_medik=ol.no_rekam_medik')
-        ->where([
-            'and',
-            ['ol.no_daftar' => $reg,],
-            ['ol.no_rekam_medik' => $rm,],
-        ])->one();
+            ->select([
+                'ol.no_transaksi',
+                'ol.diagnosa',
+                'ol.no_rekam_medik',
+                'ol.no_daftar',
+                'ol.id_lab',
+                'ol.no_transaksi',
+                'ol.nama_pasien',
+                'p.nama_lengkap',
+                'p.alamat_lengkap',
+                'p.kel',
+                'p.kec',
+                'p.kab',
+                'p.nama_ayah',
+                'p.nama_ibu',
+                'p.tempat_lahir',
+                'p.tanggal_lahir'
+            ])
+            ->from('order_lab ol')
+            ->leftjoin('pasien p', 'p.no_rekam_medik=ol.no_rekam_medik')
+            ->where([
+                'and',
+                ['ol.no_daftar' => $reg,],
+                ['ol.no_rekam_medik' => $rm,],
+            ])->one();
 
         $modelDetail = (new \yii\db\Query())
-        ->select([
-            'old.item_pemeriksaan',
-            'old.jumlah',
-            'old.harga_tindakan harga_tindakan',
-            'old.subtotal subtotal',
-            'old.catatan catatan',
-            'il.nama_item nama_item',
-            'il.nama_jenis nama_jenis'
-            ])	
-        ->from('order_lab_detail old')
-        ->leftjoin('item_lab il','il.id_item_lab=old.item_pemeriksaan')
-        ->where(['id_order_lab'=>$model['id_lab']])->all();
+            ->select([
+                'old.item_pemeriksaan',
+                'old.jumlah',
+                'old.harga_tindakan harga_tindakan',
+                'old.subtotal subtotal',
+                'old.catatan catatan',
+                'il.nama_item nama_item',
+                'il.nama_jenis nama_jenis'
+            ])
+            ->from('order_lab_detail old')
+            ->leftjoin('item_lab il', 'il.id_item_lab=old.item_pemeriksaan')
+            ->where(['id_order_lab' => $model['id_lab']])->all();
 
         $mpdf = new \Mpdf\Mpdf([
             'mode' => 'utf-8',
@@ -482,17 +481,68 @@ class PosController extends \yii\web\Controller
         exit;
         // return $this->render('anastesi');
     }
-    
+
 
     public function actionCheckOut($reg = null, $rm = null)
     {
-
         $model = new CheckOut();
         $pendaftaran = new Pendaftaran();
+        $pasien = new Pasien();
+        $tindakan = new Layanan();
+        $resep = new Resep();
+        $penunjang = new OrderLab();
+
+        if ($reg != null & $rm != null) {
+            $pendaftaran = Pendaftaran::find()
+                ->where([
+                    'and',
+                    ['id_pendaftaran' => $reg,],
+                    ['kode_pasien' => $rm,],
+                ])
+                ->one();
+
+            if ($pendaftaran) {
+                $pendaftaran->tgl_masuk = Yii::$app->formatter->asDate($pendaftaran->tgl_masuk);
+                $model->no_rm = $pendaftaran->kode_pasien;
+
+                $pasien = $pendaftaran->pasien;
+                $pasien->tanggal_lahir = Yii::$app->formatter->asDate($pasien->tanggal_lahir);
+
+                $tindakan = $pendaftaran->layanan;
+                $tindakan->total_bayar = $tindakan->getLayananDetail()->sum('subtotal');
+
+                $resep = $pendaftaran->resep;
+                $penunjang = $pendaftaran->penunjang;
+
+                $model->biaya_registrasi = $tindakan->biaya_registrasi;
+                $model->biaya_tindakan = $tindakan->total_bayar;
+                $model->biaya_obat = $resep->total_bayar ?? 0;
+                $model->biaya_penunjang = $penunjang->total_harga ?? 0;
+
+                $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang;
+                $model->sudah_dibayar = 0;
+                $model->sisa_pembayaran = $model->total_biaya - $model->sudah_dibayar;
+                // echo "<pre>";
+                // // print_r($tindakan);
+                // print_r($tindakan->getLayananDetail()->count());
+                // echo "</pre>";
+                // die;
+            }
+        }
+
+        // echo "<pre>";
+        // var_dump($resep->getResepDetail()->exists());
+        // var_dump($penunjang->getLabDetail()->exists());
+        // echo "</pre>";
+        // die;
 
         return $this->render('check-out', [
             'model' => $model,
             'pendaftaran' => $pendaftaran,
+            'pasien' => $pasien,
+            'tindakan' => $tindakan,
+            'resep' => $resep,
+            'penunjang' => $penunjang,
             // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
         ]);
     }
