@@ -72,9 +72,9 @@ $this->title = 'Point Of Service (POS)';
                 <div class="card-body">
 
                     <?php $form = ActiveForm::begin([
-                        'id' => 'form-obat',
+                        'id' => 'form-penunjang',
                         'layout' => 'horizontal',
-                        // 'action' => ['/pos/obat'],
+                        // 'action' => ['/pos/penunjang'],
                         'fieldConfig' => [
                             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
                             'horizontalCssClasses' => [
@@ -242,7 +242,7 @@ $this->title = 'Point Of Service (POS)';
                                     'insertButton' => '.add-item',
                                     'deleteButton' => '.delete-item',
                                     'model' => $modelDetail[0],
-                                    'formId' => 'form-obat',
+                                    'formId' => 'form-penunjang',
                                     'formFields' => [
                                         'item_pemeriksaan',
                                         'nama_item',
@@ -475,7 +475,7 @@ $this->title = 'Point Of Service (POS)';
                         </table>
                     </div>
                     <div class="form-group float-right">
-                        <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
+                        <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-penunjang']) ?>
                     </div>
                     <div class="form-group float-left">
                         <?php if(isset($_GET['reg'])):?>
@@ -492,5 +492,5 @@ $this->title = 'Point Of Service (POS)';
 
 
 <?php
-$this->registerJs($this->render('_tindakan.js'), View::POS_END);
-$this->registerJs($this->render('_tindakan_ready.js'));
+$this->registerJs($this->render('_penunjang.js'), View::POS_END);
+$this->registerJs($this->render('_penunjang_ready.js'));
