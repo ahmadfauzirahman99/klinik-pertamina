@@ -5,22 +5,22 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2020-11-24 14:48:27 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-21 14:19:08
+ * @Last Modified time: 2021-09-28 11:43:14
  */
 
 $(document).ready(function () {
 
     fungsi()
 
-    // $(document).on('submit','#form-obat',function(){
+    // $(document).on('submit','#form-tindakan',function(){
     //     $('#btn-simpan-penjualan').prop('disabled', true)
     //  });
-    jQuery('#form-obat').on('beforeSubmit', function (event) {
+    jQuery('#form-tindakan').on('beforeSubmit', function (event) {
         if (jQuery(this).data('submitting')) {
             event.preventDefault();
             return false;
         }
-        $('#btn-simpan-form-obat').prop('disabled', true)
+        $('#btn-simpan-form-tindakan').prop('disabled', true)
         jQuery(this).data('submitting', true);
         return true;
     });
@@ -32,17 +32,17 @@ $(document).ready(function () {
         // validasiJumlah()
 
         // update - agar select2 tidak terselect
-        $(item).find("select[name*='[item_pemeriksaan]']").val(null).trigger('change')
+        $(item).find("select[name*='[id_tindakan]']").val(null).trigger('change')
 
-        $(item).find("select[name*='[item_pemeriksaan]']").on('select2:select', function (e) {
+        $(item).find("select[name*='[id_tindakan]']").on('select2:select', function (e) {
             let index = $(this).closest("tr").index()
             let itemlabDipilih = e.params.data
 
             // cek item sudah dipilih atau belum
             let uda_dipilih = 0
             $('.dynamicform_wrapper .form-options-item').each(function (e) {
-                let item_pemeriksaan_sudah_dipilih = $(this).find("select[name*='[item_pemeriksaan]']").val()
-                if (item_pemeriksaan_sudah_dipilih == itemlabDipilih.id) {
+                let id_tindakan_sudah_dipilih = $(this).find("select[name*='[id_tindakan]']").val()
+                if (id_tindakan_sudah_dipilih == itemlabDipilih.id) {
                     uda_dipilih++
                     if (uda_dipilih == 2) {
                         return false
@@ -51,14 +51,14 @@ $(document).ready(function () {
             })
 
             if (uda_dipilih == 2) {
-                $(`#orderlabdetail-${index}-item_pemeriksaan`).val(null).trigger("change")
-                $(`#orderlabdetail-${index}-item_pemeriksaan`).select2("open")
+                $(`#layanandetail-${index}-id_tindakan`).val(null).trigger("change")
+                $(`#layanandetail-${index}-id_tindakan`).select2("open")
                 toastr.error('Upps,, Item sudah dipilih ya Bund. Coba yang lain ya')
             } else {
-                $(`#orderlabdetail-${index}-harga_tindakan-disp`).val(itemlabDipilih.harga_tindakan).trigger("change")
-                let subtotal = $(`#orderlabdetail-${index}-jumlah`).val() * itemlabDipilih.harga_tindakan
-                $(`#orderlabdetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
-                $(`#orderlabdetail-${index}-jumlah-disp`).focus()
+                $(`#layanandetail-${index}-harga_tindakan-disp`).val(itemlabDipilih.harga_tindakan).trigger("change")
+                let subtotal = $(`#layanandetail-${index}-jumlah`).val() * itemlabDipilih.harga_tindakan
+                $(`#layanandetail-${index}-subtotal-disp`).val(subtotal).trigger("change")
+                $(`#layanandetail-${index}-jumlah-disp`).focus()
             }
 
 
@@ -100,7 +100,7 @@ $(document).ready(function () {
         //     })
         // })
 
-        $(`#orderlabdetail-${index}-item_pemeriksaan`).select2('open')
+        $(`#layanandetail-${index}-id_tindakan`).select2('open')
         $('[data-toggle="tooltip"]').tooltip()
 
     })
@@ -113,7 +113,7 @@ $(document).ready(function () {
             $(this).find('.nomor').html((index + 1))
             // $(this).find('.det_satuan').attr('id', 'det_satuan_' + index)
         })
-        $(`#orderlabdetail-0-subtotal-disp`).trigger('change')
+        $(`#layanandetail-0-subtotal-disp`).trigger('change')
     })
 
 })
