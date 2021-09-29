@@ -514,8 +514,8 @@ class PosController extends \yii\web\Controller
                 $resep = $pendaftaran->resep;
                 $penunjang = $pendaftaran->penunjang;
 
-                $model->biaya_registrasi = $tindakan->biaya_registrasi;
-                $model->biaya_tindakan = $tindakan->total_bayar;
+                $model->biaya_registrasi = $tindakan->biaya_registrasi ?? 0;
+                $model->biaya_tindakan = $tindakan->total_bayar ?? 0;
                 $model->biaya_obat = $resep->total_bayar ?? 0;
                 $model->biaya_penunjang = $penunjang->total_harga ?? 0;
 

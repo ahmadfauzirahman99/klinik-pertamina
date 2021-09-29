@@ -82,6 +82,11 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
         margin-bottom: 0px;
     }
 
+    .tabel-total-biaya input {
+        font-family: "Lato", sans-serif;
+        font-weight: 700 !important;
+    }
+
     #accordion .card-body {
         padding: 5px;
     }
@@ -144,17 +149,17 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                 'errorLoading' => new JsExpression('function () { 
                                                         return "Menunggu hasil..."; 
                                                     }'),
-                                                            'inputTooShort' => new JsExpression('function () {
+                                                'inputTooShort' => new JsExpression('function () {
                                                         return "Minimal 3 karakter...";
                                                     }'),
-                                                            'searching' => new JsExpression('function() {
+                                                'searching' => new JsExpression('function() {
                                                         return "Mencari...";
                                                     }'),
                                             ],
                                             'ajax' => [
-                                                    'url' => $url,
-                                                    'dataType' => 'json',
-                                                    'data' => new JsExpression('function(params) { 
+                                                'url' => $url,
+                                                'dataType' => 'json',
+                                                'data' => new JsExpression('function(params) { 
                                                 return {
                                                     q:params.term, 
                                                     tanggal:$("#resep-tanggal").val()
@@ -191,7 +196,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                             }'),
                                             "change" => new JsExpression('function(data) { 
                                                 console.log("ganti")
-                                            }'), 
+                                            }'),
                                         ]
                                     ]);
                                     ?>
@@ -413,7 +418,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 
                                     <div style="margin-top: 10px;">
                                         TERBILANG
-                                        <input value="<?= strtoupper(HelperFormat::terbilang($model->sisa_pembayaran)) ?> RUPIAH" type="text" class="form-control" style="font-size: 1rem; font-weight: 900; cursor: no-drop;" readonly>
+                                        <input value="<?= strtoupper(HelperFormat::terbilang($model->sisa_pembayaran)) ?> RUPIAH" type="text" class="form-control" style="font-size: 0.8rem; font-weight: 900; cursor: no-drop;" readonly>
                                     </div>
 
                                     <div style="margin-top: 10px;">
@@ -422,7 +427,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                 <div class="card-header" id="headingTindakan">
                                                     <h6 class="m-0">
                                                         <a href="#rincianTindakan" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="rincianTindakan">
-                                                            Rincian Tindakan &nbsp; <?php $getLayananDetail = ($tindakan->getLayananDetail()->exists()) ? $tindakan->getLayananDetail()->count() : 0;
+                                                            Rincian Tindakan &nbsp; <?php $getLayananDetail = (isset($tindakan->layananDetail)) ? $tindakan->getLayananDetail()->count() : 0;
                                                                                     if ($getLayananDetail != 0) echo '<span class="badge badge-danger badge-pill">' . $getLayananDetail . '</span>'; ?>
                                                         </a>
                                                     </h6>
@@ -443,8 +448,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                             </thead>
                                                             <tbody>
                                                                 <?php
-                                                                foreach ($tindakan->layananDetail as $key => $value) {
-                                                                    echo '
+                                                                if ((isset($tindakan->layananDetail))) {
+                                                                    foreach ($tindakan->layananDetail as $key => $value) {
+                                                                        echo '
                                                                         <tr>
                                                                             <td class="teks-kecil text-center">' . ($key + 1) . '</td>
                                                                             <td class="teks-kecil">' . $value->tindakan->nama_tindakan . '</td>
@@ -455,6 +461,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                             <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
                                                                         </tr>
                                                                     ';
+                                                                    }
                                                                 }
                                                                 ?>
                                                             </tbody>
@@ -466,7 +473,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                 <div class="card-header" id="headingResep">
                                                     <h6 class="m-0">
                                                         <a href="#rincianResep" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="rincianResep">
-                                                            Rincian Resep &nbsp; <?php if($resep->resepDetail) $getResepDetail = $resep->getResepDetail()->count();
+                                                            Rincian Resep &nbsp; <?php $getResepDetail = (isset($resep->resepDetail)) ? $resep->getResepDetail()->count() : 0;
                                                                                     if ($getResepDetail != 0) echo '<span class="badge badge-danger badge-pill">' . $getResepDetail . '</span>'; ?>
                                                         </a>
                                                     </h6>
@@ -487,8 +494,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                             </thead>
                                                             <tbody>
                                                                 <?php
-                                                                foreach ($resep->resepDetail as $key => $value) {
-                                                                    echo '
+                                                                if ((isset($resep->resepDetail))) {
+                                                                    foreach ($resep->resepDetail as $key => $value) {
+                                                                        echo '
                                                                         <tr>
                                                                             <td class="teks-kecil text-center">' . ($key + 1) . '</td>
                                                                             <td class="teks-kecil">' . $value->barang->nama_barang . '</td>
@@ -499,6 +507,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                             <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
                                                                         </tr>
                                                                     ';
+                                                                    }
                                                                 }
                                                                 ?>
                                                             </tbody>
@@ -510,7 +519,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                 <div class="card-header" id="headingPenunjang">
                                                     <h6 class="m-0">
                                                         <a href="#rincianPenunjang" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="rincianPenunjang">
-                                                            Rincian Penunjang &nbsp; <?php $getLabDetail = ($penunjang->getLabDetail()->exists()) ? $penunjang->getLabDetail()->count() : 0;
+                                                            Rincian Penunjang &nbsp; <?php $getLabDetail = (isset($penunjang->labDetail)) ? $penunjang->getLabDetail()->count() : 0;
                                                                                         if ($getLabDetail != 0) echo '<span class="badge badge-danger badge-pill">' . $getLabDetail . '</span>'; ?>
                                                         </a>
                                                     </h6>
@@ -529,8 +538,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                             </thead>
                                                             <tbody>
                                                                 <?php
-                                                                foreach ($penunjang->labDetail as $key => $value) {
-                                                                    echo '
+                                                                if ((isset($penunjang->labDetail))) {
+                                                                    foreach ($penunjang->labDetail as $key => $value) {
+                                                                        echo '
                                                                         <tr>
                                                                             <td class="teks-kecil text-center">' . ($key + 1) . '</td>
                                                                             <td class="teks-kecil">' . $value->item->nama_item . '</td>
@@ -539,6 +549,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                             <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
                                                                         </tr>
                                                                     ';
+                                                                    }
                                                                 }
                                                                 ?>
                                                             </tbody>
