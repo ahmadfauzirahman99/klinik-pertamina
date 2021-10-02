@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-28 23:37:06
+ * @Last Modified time: 2021-10-02 15:56:19
  */
 
 use app\components\DynamicFormWidget;
@@ -418,17 +418,41 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 
                                     <div style="margin-top: 10px;">
                                         TERBILANG
-                                        <input value="<?= strtoupper(HelperFormat::terbilang($model->sisa_pembayaran)) ?> RUPIAH" type="text" class="form-control" style="font-size: 0.8rem; font-weight: 900; cursor: no-drop;" readonly>
+                                        <input value="<?= strtoupper(HelperFormat::terbilang(round($model->sisa_pembayaran))) ?> RUPIAH" type="text" class="form-control" style="font-size: 0.8rem; font-weight: 900; cursor: no-drop;" readonly>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px;">
+                                        <div class="col-sm-7" style="vertical-align: middle;">
+                                            <span class="badge badge-success badge-pill pull-left">
+                                                LUNAS &nbsp; <i class="fas fa-check-circle fa-md"></i>
+                                            </span>
+                                            <span class="badge badge-danger badge-pill pull-left">
+                                                BELUM LUNAS &nbsp; <i class="fas fa-times-circle fa-md"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-5 text-right">
+                                            <?= Html::a('<i class="fas fa-money-bill-wave fa-md"></i> Bayar', ['/pos/bayar'], [
+                                                'class' => 'btn btn-purple waves-effect waves-light m-b-5'
+                                            ]) ?>
+                                            <?= Html::a('<i class="fas fa-file-invoice fa-md"></i> Cetak Kuitansi', [
+                                                '/pos/invoice',
+                                                'reg' => $pendaftaran->id_pendaftaran,
+                                                'rm' => $pendaftaran->kode_pasien,
+                                            ], [
+                                                'target' => '_blank',
+                                                'class' => 'disabled-link btn btn-info waves-effect waves-light m-b-5',
+                                            ]) ?>
+                                        </div>
                                     </div>
 
                                     <div style="margin-top: 10px;">
                                         <div id="accordion">
-                                            <div class="card">`
-                                                <div class="card-header" id="headingTindakan">
+
+                                            <div class="card">
+                                                <div class="card-header" id="headingResep">
                                                     <h6 class="m-0">
                                                         <a href="#rincianTindakan" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="rincianTindakan">
                                                             Rincian Tindakan &nbsp; <?php $getLayananDetail = (isset($tindakan->layananDetail)) ? $tindakan->getLayananDetail()->count() : 0;
-                                                                                    if ($getLayananDetail != 0) echo '<span class="badge badge-danger badge-pill">' . $getLayananDetail . '</span>'; ?>
+                                                                                    if ($getLayananDetail != 0) echo '<span class="badge badge-info badge-pill">' . $getLayananDetail . '</span>'; ?>
                                                         </a>
                                                     </h6>
                                                 </div>
@@ -441,9 +465,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                     <th class="teks-kecil text-center bg-info text-white">Tindakan</th>
                                                                     <th class="teks-kecil text-center bg-info text-white">Jenis</th>
                                                                     <th class="teks-kecil text-center bg-info text-white">Keterangan</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Jumlah</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Harga</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Subtotal</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Jumlah</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Harga</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Subtotal</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -462,6 +486,12 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                         </tr>
                                                                     ';
                                                                     }
+                                                                    echo '
+                                                                        <tr>
+                                                                            <td colspan="6" class="teks-kecil text-center" style="font-style: italic; font-weight: bold;">Total</td>
+                                                                            <td class="teks-kecil text-right" style="font-weight: bold;">' . Yii::$app->formatter->asDecimal($tindakan->getLayananDetail()->sum('subtotal')) . '</td>
+                                                                        </tr>
+                                                                    ';
                                                                 }
                                                                 ?>
                                                             </tbody>
@@ -474,7 +504,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                     <h6 class="m-0">
                                                         <a href="#rincianResep" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="rincianResep">
                                                             Rincian Resep &nbsp; <?php $getResepDetail = (isset($resep->resepDetail)) ? $resep->getResepDetail()->count() : 0;
-                                                                                    if ($getResepDetail != 0) echo '<span class="badge badge-danger badge-pill">' . $getResepDetail . '</span>'; ?>
+                                                                                    if ($getResepDetail != 0) echo '<span class="badge badge-info badge-pill">' . $getResepDetail . '</span>'; ?>
                                                         </a>
                                                     </h6>
                                                 </div>
@@ -487,9 +517,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                     <th class="teks-kecil text-center bg-info text-white">Barang</th>
                                                                     <th class="teks-kecil text-center bg-info text-white">Keterangan</th>
                                                                     <th class="teks-kecil text-center bg-info text-white">Dosis</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Jumlah</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Harga</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Subtotal</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Jumlah</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Harga</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Subtotal</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -508,6 +538,12 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                         </tr>
                                                                     ';
                                                                     }
+                                                                    echo '
+                                                                        <tr>
+                                                                            <td colspan="6" class="teks-kecil text-center" style="font-style: italic; font-weight: bold;">Total</td>
+                                                                            <td class="teks-kecil text-right" style="font-weight: bold;">' . Yii::$app->formatter->asDecimal($resep->total_bayar) . '</td>
+                                                                        </tr>
+                                                                    ';
                                                                 }
                                                                 ?>
                                                             </tbody>
@@ -520,7 +556,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                     <h6 class="m-0">
                                                         <a href="#rincianPenunjang" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="rincianPenunjang">
                                                             Rincian Penunjang &nbsp; <?php $getLabDetail = (isset($penunjang->labDetail)) ? $penunjang->getLabDetail()->count() : 0;
-                                                                                        if ($getLabDetail != 0) echo '<span class="badge badge-danger badge-pill">' . $getLabDetail . '</span>'; ?>
+                                                                                        if ($getLabDetail != 0) echo '<span class="badge badge-info badge-pill">' . $getLabDetail . '</span>'; ?>
                                                         </a>
                                                     </h6>
                                                 </div>
@@ -531,9 +567,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                 <tr>
                                                                     <th class="teks-kecil text-center bg-info text-white" style="width: 5%;">#</th>
                                                                     <th class="teks-kecil text-center bg-info text-white">Tindakan</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Jumlah</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Harga</th>
-                                                                    <th class="teks-kecil text-center bg-info text-white">Subtotal</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Jumlah</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Harga</th>
+                                                                    <th class="teks-kecil text-center bg-info text-white" style="width: 15%;">Subtotal</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -550,6 +586,12 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                         </tr>
                                                                     ';
                                                                     }
+                                                                    echo '
+                                                                        <tr>
+                                                                            <td colspan="4" class="teks-kecil text-center" style="font-style: italic; font-weight: bold;">Total</td>
+                                                                            <td class="teks-kecil text-right" style="font-weight: bold;">' . Yii::$app->formatter->asDecimal($penunjang->total_harga) . '</td>
+                                                                        </tr>
+                                                                    ';
                                                                 }
                                                                 ?>
                                                             </tbody>

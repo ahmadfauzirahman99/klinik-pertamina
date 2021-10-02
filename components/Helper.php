@@ -6,6 +6,7 @@ namespace app\components;
 
 use app\models\Pasien;
 use app\models\Pendaftaran;
+use DateTime;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -58,6 +59,25 @@ class Helper
             $id = $kode . '0001';
         }
         return $id;
+    }
+
+    public static function MenghitungUmur($tanggal_lahir)
+    {
+        // tanggal lahir
+        $tanggal = new DateTime($tanggal_lahir);
+
+        // tanggal hari ini
+        $today = new DateTime('today');
+
+        // tahun
+        $y = $today->diff($tanggal)->y;
+
+        // bulan
+        $m = $today->diff($tanggal)->m;
+
+        // hari
+        $d = $today->diff($tanggal)->d;
+        return  $y . " tahun " . $m . " bulan " . $d . " hari";
     }
 
 }

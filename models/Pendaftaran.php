@@ -1,4 +1,14 @@
 <?php
+/*
+ * @Author: Dicky Ermawan S., S.T., MTA 
+ * @Email: wanasaja@gmail.com 
+ * @Web: dickyermawan.github.io 
+ * @Linkedin: linkedin.com/in/dickyermawan 
+ * @Date: 2021-10-02 19:02:18 
+ * @Last Modified by:   Dicky Ermawan S., S.T., MTA 
+ * @Last Modified time: 2021-10-02 19:02:18 
+ */
+
 
 namespace app\models;
 
@@ -69,6 +79,11 @@ class Pendaftaran extends \yii\db\ActiveRecord
             'is_delete' => 'Is Delete',
             'type' => 'Type',
         ];
+    }
+
+    public function getCaraBayar()
+    {
+        return $this->hasOne(DebiturDetail::className(), ['id_debitur_kode' => 'id_cara_bayar']);
     }
 
     public function getPasien()

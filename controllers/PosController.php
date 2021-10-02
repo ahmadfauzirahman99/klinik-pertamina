@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-19 10:48:58 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-28 23:31:26
+ * @Last Modified time: 2021-10-02 19:01:38
  */
 
 
@@ -545,5 +545,62 @@ class PosController extends \yii\web\Controller
             'penunjang' => $penunjang,
             // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
         ]);
+    }
+
+    public function actionInvoice($reg, $rm)
+    {
+        $model = new CheckOut();
+        $pendaftaran = Pendaftaran::find()
+            ->where([
+                'and',
+                ['id_pendaftaran' => $reg,],
+                ['kode_pasien' => $rm,],
+            ])
+            ->one();
+        $pendaftaran->tgl_masuk = Yii::$app->formatter->asDate($pendaftaran->tgl_masuk);
+        $model->no_rm = $pendaftaran->kode_pasien;
+
+        $pasien = $pendaftaran->pasien;
+        $pasien->tanggal_lahir = Yii::$app->formatter->asDate($pasien->tanggal_lahir);
+
+        $tindakan = $pendaftaran->layanan;
+        $tindakan->total_bayar = $tindakan->getLayananDetail()->sum('subtotal');
+
+        $resep = $pendaftaran->resep;
+        $penunjang = $pendaftaran->penunjang;
+
+        $model->biaya_registrasi = $tindakan->biaya_registrasi ?? 0;
+        $model->biaya_tindakan = $tindakan->total_bayar ?? 0;
+        $model->biaya_obat = $resep->total_bayar ?? 0;
+        $model->biaya_penunjang = $penunjang->total_harga ?? 0;
+
+        $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang;
+        $model->sudah_dibayar = 0;
+        $model->sisa_pembayaran = $model->total_biaya - $model->sudah_dibayar;
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'legal',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10
+        ]);
+        $mpdf->SetWatermarkImage(Url::to('@web/img/syafira.png'), -1, [170, 100]);
+        $mpdf->showWatermarkImage = true;
+
+        $mpdf->SetTitle('Laporan');
+        $mpdf->WriteHTML($this->renderPartial('invoice', [
+            'model' => $model,
+            'pendaftaran' => $pendaftaran,
+            'pasien' => $pasien,
+            'tindakan' => $tindakan,
+            'resep' => $resep,
+            'penunjang' => $penunjang,
+        ]));
+        $mpdf->Output('Laporan.pdf', 'I');
+        exit;
     }
 }
