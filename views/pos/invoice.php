@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-10-02 11:33:57 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-02 21:17:35
+ * @Last Modified time: 2021-10-02 23:45:52
  */
 
 use app\components\Helper;
@@ -315,7 +315,7 @@ use app\components\HelperFormat;
 
         TERBILANG
         <div class="text-bold" style="text-transform: uppercase; border: solid 1px black; border-radius: 3px; padding: 5px;">
-            <?= HelperFormat::terbilang(round($model->sisa_pembayaran)) ?> RUPIAH 
+            <?= HelperFormat::terbilang(round($model->sisa_pembayaran)) ?> RUPIAH
         </div>
     </div>
 
@@ -324,11 +324,10 @@ use app\components\HelperFormat;
             <tbody>
                 <tr>
                     <td style="width: 70%;"></td>
-                    <td class="text-center" style="width: 30%;">
+                    <td class="text-center" style="width: 30%; padding-left: 5%; padding-right: 5%;">
                         Petugas/Kasir
                         <br>
-                        <br>
-                        <br>
+                        <img alt="DickMen" src="data:image/png;base64,'.<?= base64_encode(Helper::getQrCode('DickMen')) ?>.'" />
                         <br>
                         DickMen
                     </td>

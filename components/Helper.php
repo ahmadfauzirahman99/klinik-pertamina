@@ -41,8 +41,8 @@ class Helper
             ])
             ->asArray()
             ->one();
-// var_dump($cek);
-// exit;
+        // var_dump($cek);
+        // exit;
 
         // if ($cek != Null) {
         //     if (count($cek) > 0) {
@@ -80,4 +80,19 @@ class Helper
         return  $y . " tahun " . $m . " bulan " . $d . " hari";
     }
 
+    public static function getQrCode($string)
+    {
+        $barcode = new \Com\Tecnick\Barcode\Barcode();
+        // generate a barcode
+        $bobj = $barcode->getBarcodeObj(
+            'QRCODE,H',                     // barcode type and additional comma-separated parameters
+            $string,        // data string to encode
+            -3,                             // bar width (use absolute or negative value as multiplication factor)
+            -3,                             // bar height (use absolute or negative value as multiplication factor)
+            'black',                        // foreground color
+            array(-2, -2, -2, -2)           // padding (use absolute or negative values as multiplication factors)
+        )->setBackgroundColor('white'); // background color
+
+        return $bobj->getPngData();
+    }
 }

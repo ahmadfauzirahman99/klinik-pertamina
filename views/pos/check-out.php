@@ -6,17 +6,19 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-02 15:56:19
+ * @Last Modified time: 2021-10-02 22:11:51
  */
 
 use app\components\DynamicFormWidget;
 use app\components\HelperFormat;
-use app\components\number\KyNumber;
 use app\models\DebiturDetail;
 use app\models\Dokter;
 use app\models\Layanan;
 use app\models\Pekerjaan;
 use app\models\Poli;
+use dickyermawan\base\KyNumber;
+// use app\components\number\KyNumber;
+use dickyermawan\base\Rupiah;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use kartik\time\TimePicker;
@@ -418,7 +420,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 
                                     <div style="margin-top: 10px;">
                                         TERBILANG
-                                        <input value="<?= strtoupper(HelperFormat::terbilang(round($model->sisa_pembayaran))) ?> RUPIAH" type="text" class="form-control" style="font-size: 0.8rem; font-weight: 900; cursor: no-drop;" readonly>
+                                        <input value="<?= strtoupper(Rupiah::terbilang(round($model->sisa_pembayaran))) ?> RUPIAH" type="text" class="form-control" style="font-size: 0.8rem; font-weight: 900; cursor: no-drop;" readonly>
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-sm-7" style="vertical-align: middle;">

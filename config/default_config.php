@@ -71,24 +71,24 @@ return [
             'theme' => 'bootstrap',
             'size' => 'sm',
         ],
-        kartik\number\NumberControl::class => [
-            'maskedInputOptions' => [
-                // 'prefix' => 'Rp ',
-                'groupSeparator' => '.',
-                'radixPoint' => ',',
-                'allowMinus' => false,
-            ],
-            'displayOptions' => ['class' => 'form-control form-control-sm kv-monospace'],
-            'options' => [
-                'type' => 'hidden',
-                'label' => '<label>Saved Value: </label>',
-                'class' => 'kv-saved',
-                'readonly' => true,
-                'tabindex' => 1000
-            ],
-            'saveInputContainer' => ['class' => 'kv-saved-cont'],
-        ],
-        app\components\number\KyNumber::class => [
+        // kartik\number\NumberControl::class => [
+        //     'maskedInputOptions' => [
+        //         // 'prefix' => 'Rp ',
+        //         'groupSeparator' => '.',
+        //         'radixPoint' => ',',
+        //         'allowMinus' => false,
+        //     ],
+        //     'displayOptions' => ['class' => 'form-control form-control-sm kv-monospace'],
+        //     'options' => [
+        //         'type' => 'hidden',
+        //         'label' => '<label>Saved Value: </label>',
+        //         'class' => 'kv-saved',
+        //         'readonly' => true,
+        //         'tabindex' => 1000
+        //     ],
+        //     'saveInputContainer' => ['class' => 'kv-saved-cont'],
+        // ],
+        dickyermawan\base\KyNumber::class => [
             'maskedInputOptions' => [
                 // 'prefix' => 'Rp ',
                 // 'alias' => 'numeric',

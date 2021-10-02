@@ -13,6 +13,7 @@ use app\components\DynamicFormWidget;
 use app\components\number\KyNumber;
 use app\models\Dokter;
 use app\models\Poli;
+use dickyermawan\base\KyDynamicForm;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use kartik\time\TimePicker;
@@ -257,7 +258,7 @@ $this->title = 'Point Of Service (POS)';
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-sm-12">
 
-                            <?php DynamicFormWidget::begin([
+                            <?php KyDynamicForm::begin([
                                 'widgetContainer' => 'dynamicform_wrapper',
                                 'widgetBody' => '.form-options-body',
                                 'widgetItem' => '.form-options-item',
@@ -518,7 +519,7 @@ $this->title = 'Point Of Service (POS)';
                                 </tfoot>
                             </table>
 
-                            <?php DynamicFormWidget::end(); ?>
+                            <?php KyDynamicForm::end(); ?>
 
 
                         </div>
