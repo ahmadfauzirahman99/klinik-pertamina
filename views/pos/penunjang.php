@@ -6,13 +6,13 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-15 16:21:01 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-02 21:13:45
+ * @Last Modified time: 2021-10-03 00:29:58
  */
 
-use app\components\DynamicFormWidget;
-use app\components\number\KyNumber;
 use app\models\Dokter;
 use app\models\Poli;
+use dickyermawan\base\KyDynamicForm;
+use dickyermawan\base\KyNumber;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use kartik\time\TimePicker;
@@ -234,7 +234,7 @@ $this->title = 'Point Of Service (POS)';
                     <!-- tindakan -->
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-sm-12">
-                            <?php DynamicFormWidget::begin([
+                            <?php KyDynamicForm::begin([
                                     'widgetContainer' => 'dynamicform_wrapper',
                                     'widgetBody' => '.form-options-body',
                                     'widgetItem' => '.form-options-item',
@@ -450,7 +450,7 @@ $this->title = 'Point Of Service (POS)';
                                     </tr>
                                 </tfoot>
                             </table>
-                            <?php DynamicFormWidget::end(); ?>
+                            <?php KyDynamicForm::end(); ?>
 
 
 
