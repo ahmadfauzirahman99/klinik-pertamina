@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-15 16:21:01 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-24 16:19:06
+ * @Last Modified time: 2021-10-02 21:13:45
  */
 
 use app\components\DynamicFormWidget;
@@ -475,7 +475,7 @@ $this->title = 'Point Of Service (POS)';
                         </table>
                     </div>
                     <div class="form-group float-right">
-                        <?= Html::submitButton('[ CTRL+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-penunjang']) ?>
+                        <?= Html::submitButton('[ ALT+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-penunjang']) ?>
                     </div>
                     <div class="form-group float-left">
                         <?php if(isset($_GET['reg'])):?>

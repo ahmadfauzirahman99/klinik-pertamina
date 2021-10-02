@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-10-02 11:33:57 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-02 19:01:21
+ * @Last Modified time: 2021-10-02 21:15:13
  */
 
 use app\components\Helper;
@@ -296,7 +296,7 @@ use app\components\HelperFormat;
                     <td></td>
                     <td>BIAYA OBAT</td>
                     <td>Rp.</td>
-                    <td class="text-right"><?= Yii::$app->formatter->asDecimal($resep->total_bayar) ?></td>
+                    <td class="text-right"><?= Yii::$app->formatter->asDecimal($resep->total_bayar ?? 0) ?></td>
                 </tr>
                 <tr>
                     <td></td>
