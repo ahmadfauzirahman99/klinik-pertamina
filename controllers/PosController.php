@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-19 10:48:58 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-02 19:01:38
+ * @Last Modified time: 2021-10-04 16:12:49
  */
 
 
@@ -20,6 +20,7 @@ use app\models\ItemTindakan;
 use app\models\Layanan;
 use app\models\LayananDetail;
 use app\models\Pasien;
+use app\models\Pembayaran;
 use app\models\Pendaftaran;
 use Yii;
 use app\models\Resep;
@@ -522,9 +523,19 @@ class PosController extends \yii\web\Controller
                 $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang;
                 $model->sudah_dibayar = 0;
                 $model->sisa_pembayaran = $model->total_biaya - $model->sudah_dibayar;
+
+                // cek pembayaran (udah dibayar atau belum)
+                $pembayaran = $pendaftaran->pembayaran;
+                if ($pembayaran) {
+                    $model->sudah_dibayar = $pembayaran->total_bayar;
+                    $model->sisa_pembayaran = $model->total_biaya - $model->sudah_dibayar;
+                }
+                if ($model->sisa_pembayaran == 0)
+                    $model->status_pembayaran = 1;
+
                 // echo "<pre>";
-                // // print_r($tindakan);
-                // print_r($tindakan->getLayananDetail()->count());
+                // print_r($pembayaran);
+                // // print_r($tindakan->getLayananDetail()->count());
                 // echo "</pre>";
                 // die;
             }
@@ -545,6 +556,45 @@ class PosController extends \yii\web\Controller
             'penunjang' => $penunjang,
             // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
         ]);
+    }
+
+    public function actionBayar()
+    {
+        $pembayaran = new Pembayaran();
+        $pembayaran->attributes = ($data = Yii::$app->request->post());
+        $pembayaran->tanggal = date('Y-m-d');
+        $pembayaran->jam = date('H:i:s');
+
+        $pendaftaran = Pendaftaran::find()
+            ->where([
+                'and',
+                ['id_pendaftaran' => $data['no_daftar'],],
+                ['kode_pasien' => $data['no_rm'],],
+            ])
+            ->one();
+        $tindakan = $pendaftaran->layanan->toArray();
+        $tindakan['tindakan_detail'] = $pendaftaran->layanan->getLayananDetail()->asArray()->all();
+        $resep = $pendaftaran->resep->toArray();
+        $resep['resep_detail'] = $pendaftaran->resep->getResepDetail()->asArray()->all();
+        $penunjang = $pendaftaran->penunjang->toArray();
+        $penunjang['penunjang_detail'] = $pendaftaran->penunjang->getLabDetail()->asArray()->all();
+
+        $detail['tindakan'] = $tindakan;
+        $detail['resep'] = $resep;
+        $detail['penunjang'] = $penunjang;
+
+        $pembayaran->json_detail = json_encode($detail);
+        if ($pembayaran->save()) {
+            return json_encode([
+                's' => true,
+                'm' => 'Berhasil',
+            ]);
+        } else {
+            return json_encode([
+                's' => false,
+                'm' => $pembayaran->errors,
+            ]);
+        }
     }
 
     public function actionInvoice($reg, $rm)

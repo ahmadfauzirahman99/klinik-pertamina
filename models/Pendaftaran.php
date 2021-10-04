@@ -111,4 +111,12 @@ class Pendaftaran extends \yii\db\ActiveRecord
             'no_rekam_medik' => 'kode_pasien',
         ]);
     }
+
+    public function getPembayaran()
+    {
+        return $this->hasOne(Pembayaran::className(), [
+            'no_daftar' => 'id_pendaftaran',
+            'no_rm' => 'kode_pasien',
+        ]);
+    }
 }
