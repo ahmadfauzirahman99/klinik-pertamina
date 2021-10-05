@@ -42,7 +42,7 @@ AppAsset::register($this);
         #sidebar-menu>ul>li>a {
             color: #435966;
             display: block;
-            padding: 8px 20px !important;
+            padding: 4px 20px !important;
             margin: 4px 0px;
             background-color: #ffffff;
             border-left: 3px solid transparent;
