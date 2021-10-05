@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-03 00:01:48
+ * @Last Modified time: 2021-10-04 16:14:07
  */
 
 use app\components\DynamicFormWidget;
@@ -28,7 +28,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
-
+use yii\widgets\Pjax;
 
 $this->title = 'Point Of Service (POS)';
 
@@ -99,6 +99,10 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 
     #accordion td {
         padding: 1px 4px 1px 4px;
+    }
+
+    .swal2-actions button {
+        margin: 0px 8px 0px 8px !important;
     }
 </style>
 
@@ -308,6 +312,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                     <i class="fas fa-file-invoice-dollar fa-md"></i> &nbsp; Biaya
                                 </div>
                                 <div class="card-body">
+                                    <?php Pjax::begin(['id' => 'pjax-rekapitulasi', 'timeout' => false]) ?>
                                     <table class="tabel-total-biaya" style="width: 100%;" border="2">
                                         <tbody>
                                             <tr>
@@ -424,27 +429,44 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-sm-7" style="vertical-align: middle;">
-                                            <span class="badge badge-success badge-pill pull-left">
-                                                LUNAS &nbsp; <i class="fas fa-check-circle fa-md"></i>
-                                            </span>
-                                            <span class="badge badge-danger badge-pill pull-left">
-                                                BELUM LUNAS &nbsp; <i class="fas fa-times-circle fa-md"></i>
-                                            </span>
+                                            <?php
+                                            if ($model->status_pembayaran == 1) {
+                                                echo '
+                                                    <span class="badge badge-success badge-pill pull-left">
+                                                        LUNAS &nbsp; <i class="fas fa-check-circle fa-md"></i>
+                                                    </span>
+                                                ';
+                                            } else {
+                                                echo '
+                                                    <span class="badge badge-danger badge-pill pull-left">
+                                                        BELUM LUNAS &nbsp; <i class="fas fa-times-circle fa-md"></i>
+                                                    </span>
+                                                ';
+                                            }
+                                            ?>
                                         </div>
                                         <div class="col-sm-5 text-right">
-                                            <?= Html::a('<i class="fas fa-money-bill-wave fa-md"></i> Bayar', ['/pos/bayar'], [
-                                                'class' => 'btn btn-purple waves-effect waves-light m-b-5'
-                                            ]) ?>
-                                            <?= Html::a('<i class="fas fa-file-invoice fa-md"></i> Cetak Kuitansi', [
-                                                '/pos/invoice',
-                                                'reg' => $pendaftaran->id_pendaftaran,
-                                                'rm' => $pendaftaran->kode_pasien,
-                                            ], [
-                                                'target' => '_blank',
-                                                'class' => 'disabled-link btn btn-info waves-effect waves-light m-b-5',
-                                            ]) ?>
+                                            <?php
+                                            if ($model->status_pembayaran == 1) {
+                                                echo Html::a('<i class="fas fa-file-invoice fa-md"></i> Cetak Kuitansi', [
+                                                    '/pos/invoice',
+                                                    'reg' => $pendaftaran->id_pendaftaran,
+                                                    'rm' => $pendaftaran->kode_pasien,
+                                                ], [
+                                                    'target' => '_blank',
+                                                    'data-pjax' => 0,
+                                                    'class' => 'disabled-link btn btn-info waves-effect waves-light m-b-5',
+                                                ]);
+                                            } else {
+                                                echo Html::a('<i class="fas fa-money-bill-wave fa-md"></i> Bayar', ['/pos/bayar'], [
+                                                    'class' => 'btn btn-purple waves-effect waves-light m-b-5',
+                                                    'id' => 'btn-bayar'
+                                                ]);
+                                            }
+                                            ?>
                                         </div>
                                     </div>
+                                    <?php Pjax::end(); ?>
 
                                     <div style="margin-top: 10px;">
                                         <div id="accordion">
@@ -482,16 +504,16 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                             <td class="teks-kecil">' . $value->tindakan->nama_tindakan . '</td>
                                                                             <td class="teks-kecil">' . $value->status . '</td>
                                                                             <td class="teks-kecil">' . $value->keterangan . '</td>
-                                                                            <td class="teks-kecil text-center">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
-                                                                            <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->harga_jual) . '</td>
-                                                                            <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-center">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->harga_jual) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
                                                                         </tr>
                                                                     ';
                                                                     }
                                                                     echo '
                                                                         <tr>
                                                                             <td colspan="6" class="teks-kecil text-center" style="font-style: italic; font-weight: bold;">Total</td>
-                                                                            <td class="teks-kecil text-right" style="font-weight: bold;">' . Yii::$app->formatter->asDecimal($tindakan->getLayananDetail()->sum('subtotal')) . '</td>
+                                                                            <td class="teks-kecil text-right" style="font-family: \'Lato\', sans-serif; font-weight: bold;">' . Yii::$app->formatter->asDecimal($tindakan->getLayananDetail()->sum('subtotal')) . '</td>
                                                                         </tr>
                                                                     ';
                                                                 }
@@ -534,16 +556,16 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                             <td class="teks-kecil">' . $value->barang->nama_barang . '</td>
                                                                             <td class="teks-kecil">' . $value->keterangan . '</td>
                                                                             <td class="teks-kecil">' . $value->dosis . '</td>
-                                                                            <td class="teks-kecil text-center">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
-                                                                            <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->harga_jual) . '</td>
-                                                                            <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-center">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->harga_jual) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
                                                                         </tr>
                                                                     ';
                                                                     }
                                                                     echo '
                                                                         <tr>
                                                                             <td colspan="6" class="teks-kecil text-center" style="font-style: italic; font-weight: bold;">Total</td>
-                                                                            <td class="teks-kecil text-right" style="font-weight: bold;">' . Yii::$app->formatter->asDecimal($resep->total_bayar) . '</td>
+                                                                            <td class="teks-kecil text-right" style="font-family: \'Lato\', sans-serif; font-weight: bold;">' . Yii::$app->formatter->asDecimal($resep->total_bayar) . '</td>
                                                                         </tr>
                                                                     ';
                                                                 }
@@ -582,16 +604,16 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                                         <tr>
                                                                             <td class="teks-kecil text-center">' . ($key + 1) . '</td>
                                                                             <td class="teks-kecil">' . $value->item->nama_item . '</td>
-                                                                            <td class="teks-kecil text-center">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
-                                                                            <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->harga_tindakan) . '</td>
-                                                                            <td class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-center">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->harga_tindakan) . '</td>
+                                                                            <td style="font-family: \'Lato\', sans-serif;" class="teks-kecil text-right">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
                                                                         </tr>
                                                                     ';
                                                                     }
                                                                     echo '
                                                                         <tr>
                                                                             <td colspan="4" class="teks-kecil text-center" style="font-style: italic; font-weight: bold;">Total</td>
-                                                                            <td class="teks-kecil text-right" style="font-weight: bold;">' . Yii::$app->formatter->asDecimal($penunjang->total_harga) . '</td>
+                                                                            <td class="teks-kecil text-right" style="font-family: \'Lato\', sans-serif; font-weight: bold;">' . Yii::$app->formatter->asDecimal($penunjang->total_harga) . '</td>
                                                                         </tr>
                                                                     ';
                                                                 }
@@ -615,7 +637,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 
 <?php
 
+$this->registerJs($this->render('check-out.js'));
+
 $this->registerJs(<<<JS
     $('.div-pasien input, .div-pasien textarea').prop("readonly",true);
-    $('.div-pasien select').prop("disabled",true);
+    $('.div-pasien select').prop("disabled",true);  
 JS);

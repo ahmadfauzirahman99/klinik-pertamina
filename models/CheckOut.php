@@ -28,6 +28,8 @@ class CheckOut extends Model
     public $sudah_dibayar;
     public $sisa_pembayaran;
 
+    public $status_pembayaran;
+
     /**
      * {@inheritdoc}
      */
@@ -66,6 +68,9 @@ class CheckOut extends Model
                     'sisa_pembayaran',
                 ], 'default', 'value' => 0,
             ],
+            ['status_pembayaran', 'required'],
+            ['status_pembayaran', 'number',],
+            ['status_pembayaran', 'default', 'value' => 0],
         ];
     }
 
