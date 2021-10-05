@@ -1661,12 +1661,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "bf9a48785c5c7956284923a2ef0f7604a746d7c4"
+                "reference": "d0ea066fabcc7958d30afde981921cf1abcd2e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/bf9a48785c5c7956284923a2ef0f7604a746d7c4",
-                "reference": "bf9a48785c5c7956284923a2ef0f7604a746d7c4",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/d0ea066fabcc7958d30afde981921cf1abcd2e7e",
+                "reference": "d0ea066fabcc7958d30afde981921cf1abcd2e7e",
                 "shasum": ""
             },
             "require": {
@@ -1718,7 +1718,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-28T15:05:25+00:00"
+            "time": "2021-10-03T10:19:38+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-timepicker",
@@ -7359,5 +7359,5 @@
         "php": ">=5.6.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
