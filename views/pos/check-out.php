@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-04 16:14:07
+ * @Last Modified time: 2021-10-05 09:28:24
  */
 
 use app\components\DynamicFormWidget;
@@ -104,6 +104,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
     .swal2-actions button {
         margin: 0px 8px 0px 8px !important;
     }
+    .swal-wide {
+        width: 850px !important;
+    }
 </style>
 
 <div class="container-fluid">
@@ -142,7 +145,6 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                     $url = Url::to(['api-internal/cari-rm']);
 
                                     echo $form->field($model, "no_rm")->widget(Select2::classname(), [
-
                                         'options' => [
                                             'placeholder' => 'Ketik No. RM / Nama Pasien...',
                                         ],

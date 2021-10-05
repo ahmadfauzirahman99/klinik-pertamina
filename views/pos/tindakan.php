@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-03 00:30:25
+ * @Last Modified time: 2021-10-05 09:13:48
  */
 
 use app\models\Dokter;
@@ -152,11 +152,15 @@ $this->title = 'Point Of Service (POS)';
                                 'pluginEvents' => [
                                     "select2:select" => new JsExpression('function(e) { 
                                         let pasien = e.params.data
+                                        console.log(pasien)
+                                        window.open(baseUrl + "/pos/tindakan" + "?reg=" + pasien.no_daftar + "&rm=" + pasien.no_rm, \'_self\');
+                                    
+                                        // let pasien = e.params.data
                                         //let tglLahir = new Date(pasien.TGL_LAHIR)
 
-                                        $(`#layanan-registrasi_kode`).val(pasien.no_daftar).trigger("change")
-                                        $(`#layanan-nama_pasien`).val(pasien.nama).trigger("change")
-                                        $(`#layanan-unit_tujuan_kode`).val(pasien.id_poli).trigger("change")
+                                        // $(`#layanan-registrasi_kode`).val(pasien.no_daftar).trigger("change")
+                                        // $(`#layanan-nama_pasien`).val(pasien.nama).trigger("change")
+                                        // $(`#layanan-unit_tujuan_kode`).val(pasien.id_poli).trigger("change")
                                     }'),
                                 ]
                             ]);
