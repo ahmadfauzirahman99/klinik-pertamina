@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-15 16:21:01 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-03 00:29:58
+ * @Last Modified time: 2021-10-05 09:20:11
  */
 
 use app\models\Dokter;
@@ -151,32 +151,36 @@ $this->title = 'Point Of Service (POS)';
                                 'pluginEvents' => [
                                     "select2:select" => new JsExpression('function(e) { 
                                         let pasien = e.params.data
+                                        console.log(pasien)
+                                        window.open(baseUrl + "/pos/penunjang" + "?reg=" + pasien.no_daftar + "&rm=" + pasien.no_rm, \'_self\');
+                                    
+                                        // let pasien = e.params.data
                                         //let tglLahir = new Date(pasien.TGL_LAHIR)
 
-                                        $(`#penjualan-no_daftar`).val(pasien.no_daftar).trigger("change")
-                                        $(`#penjualan-nama_pasien`).val(pasien.px_name).trigger("change")
-                                        $(`#penjualan-alamat_pasien`).val(pasien.px_address).trigger("change")
-                                        $(`#penjualan-jenis_kelamin`).val(pasien.px_sex).trigger("change")
+                                        // $(`#penjualan-no_daftar`).val(pasien.no_daftar).trigger("change")
+                                        // $(`#penjualan-nama_pasien`).val(pasien.px_name).trigger("change")
+                                        // $(`#penjualan-alamat_pasien`).val(pasien.px_address).trigger("change")
+                                        // $(`#penjualan-jenis_kelamin`).val(pasien.px_sex).trigger("change")
                                         
-                                        $(`#penjualan-no_sep`).val(pasien.pxsurety_no).trigger("change")
+                                        // $(`#penjualan-no_sep`).val(pasien.pxsurety_no).trigger("change")
 
-                                        if(pasien.id != "00000000") {
-                                            $(`#penjualan-tgl_lahir`).val(formatDateIndo(pasien.TGL_LAHIR)).trigger("change")
-                                            $("#penjualan-umur").val(pasien.umur).trigger("change")
-                                            $(`#penjualan-id_unit`).html(new Option(pasien.unit_name, pasien.unit_id_pelayanan, true, true)).trigger("change")
-                                            $(`#penjualan-id_dokter`).html(new Option(pasien.par_name, pasien.par_id, true, true)).trigger("change")
-                                            $("#penjualan-nama_dokter").val(pasien.par_name)
-                                            $(`#penjualan-id_penjamin`).html(new Option(pasien.surety_name, pasien.surety_id, true, true)).trigger("change")
-                                        }
+                                        // if(pasien.id != "00000000") {
+                                        //     $(`#penjualan-tgl_lahir`).val(formatDateIndo(pasien.TGL_LAHIR)).trigger("change")
+                                        //     $("#penjualan-umur").val(pasien.umur).trigger("change")
+                                        //     $(`#penjualan-id_unit`).html(new Option(pasien.unit_name, pasien.unit_id_pelayanan, true, true)).trigger("change")
+                                        //     $(`#penjualan-id_dokter`).html(new Option(pasien.par_name, pasien.par_id, true, true)).trigger("change")
+                                        //     $("#penjualan-nama_dokter").val(pasien.par_name)
+                                        //     $(`#penjualan-id_penjamin`).html(new Option(pasien.surety_name, pasien.surety_id, true, true)).trigger("change")
+                                        // }
                                         
-                                        if(pasien.surety_id != 9999 || pasien.surety_id != 0037)
-                                            $(`#penjualan-tipe_pembayaran`).val(0).trigger("change")
+                                        // if(pasien.surety_id != 9999 || pasien.surety_id != 0037)
+                                        //     $(`#penjualan-tipe_pembayaran`).val(0).trigger("change")
 
-                                        if(pasien.id == "00000000") {
-                                            $(`#penjualan-id_penjamin_lama`).html(new Option("Umum", 9999, true, true)).trigger("change")
-                                            $(`#penjualan-nama_pasien`).focus()
-                                            $(`#penjualan-tipe_pembayaran`).val(1).trigger("change")
-                                        }
+                                        // if(pasien.id == "00000000") {
+                                        //     $(`#penjualan-id_penjamin_lama`).html(new Option("Umum", 9999, true, true)).trigger("change")
+                                        //     $(`#penjualan-nama_pasien`).focus()
+                                        //     $(`#penjualan-tipe_pembayaran`).val(1).trigger("change")
+                                        // }
 
                                     }'),
                                 ]
@@ -476,11 +480,6 @@ $this->title = 'Point Of Service (POS)';
                     </div>
                     <div class="form-group float-right">
                         <?= Html::submitButton('[ ALT+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-penunjang']) ?>
-                    </div>
-                    <div class="form-group float-left">
-                        <?php if(isset($_GET['reg'])):?>
-                        <?= Html::a('Cetak',['/pos/cetak-penunjang?reg='.$_GET['reg'].'&rm='.$_GET['rm']], ['class' => 'btn btn-success']) ?>
-                        <?php endif;?>
                     </div>
                     <?php ActiveForm::end(); ?>
                 </div>

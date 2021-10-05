@@ -5,7 +5,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-10-04 15:18:43 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-04 16:19:09
+ * @Last Modified time: 2021-10-05 09:35:27
  */
 
 $(document).ready(function (e) {
@@ -44,8 +44,11 @@ let initJs = _ => {
 
         swalWithBootstrapButtons.fire({
             title: 'Checkout dan Bayar?',
-            html: "<div style='margin-bottom: 5px; font-weight: bold;'>" + nama_lengkap + " (" + no_rm + ")</div>Tagihan sebesar: <b>Rp " + total_bayar_teks + "</b>",
+            html: "<br><br><br><div style='font-size: 1.2rem;'><div style='margin-bottom: 5px; font-weight: bold;'>" + nama_lengkap + " (" + no_rm + ")</div>No. Daftar: <b>" + no_daftar + "</b><br><br>Tagihan sebesar: <span style='font-size: 1.2rem; font-family: \"Lato\", sans-serif;'><b>Rp " + total_bayar_teks + "</b></span></div><br><br><br>",
             icon: 'question',
+            width: '100%',
+            height: 1600,
+            heightAuto: false,
             showCancelButton: true,
             confirmButtonText: 'Ya, bayar!',
             cancelButtonText: 'Tidak Jadi',

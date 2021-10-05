@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-19 10:48:58 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-04 16:12:49
+ * @Last Modified time: 2021-10-05 09:21:14
  */
 
 
@@ -66,7 +66,7 @@ class PosController extends \yii\web\Controller
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_layanan_detail', 'id_layanan_detail')));
 
 
-            $model->tgl_masuk = Yii::$app->formatter->asDate($model->tgl_masuk, 'php:Y-m-d');
+            $model->tgl_masuk = Yii::$app->formatter->asDate($model->tgl_masuk, 'php:Y-m-d H:i:s');
 
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelDetail) && $valid;
@@ -130,7 +130,18 @@ class PosController extends \yii\web\Controller
                         //     'no_rm' => $model->no_rm,
                         //     'nama_pasien' => $model->nama_pasien,
                         // ]);
-                        return $this->redirect(Yii::$app->request->referrer);
+
+                        // echo "<pre>";
+                        // print_r($model);
+                        // echo "</pre>";
+                        // die;
+
+                        return $this->redirect([
+                            '/pos/tindakan',
+                            'reg' => $model->registrasi_kode,
+                            'rm' => $model->no_rm,
+                        ]);
+                        // return $this->redirect(Yii::$app->request->referrer);
 
                         // Yii::$app->session->setFlash('success', 'Berhasil menyimpan Distribusi Barang.');
                         // return $this->redirect('index');
@@ -273,7 +284,17 @@ class PosController extends \yii\web\Controller
                         //     'no_rm' => $model->no_rm,
                         //     'nama_pasien' => $model->nama_pasien,
                         // ]);
-                        return $this->redirect(Yii::$app->request->referrer);
+                        // echo "<pre>";
+                        // print_r($model);
+                        // echo "</pre>";
+                        // die;
+
+                        return $this->redirect([
+                            '/pos/obat',
+                            'reg' => $model->no_daftar,
+                            'rm' => $model->no_rm,
+                        ]);
+                        // return $this->redirect(Yii::$app->request->referrer);
 
                         // Yii::$app->session->setFlash('success', 'Berhasil menyimpan Distribusi Barang.');
                         // return $this->redirect('index');
@@ -348,7 +369,7 @@ class PosController extends \yii\web\Controller
                     if ($flag = $model->save(false)) {
 
                         if (!empty($deletedIDs)) {
-                            ResepDetail::deleteAll(['id_order_lab_detail' => $deletedIDs]);
+                            OrderLabDetail::deleteAll(['id_order_lab_detail' => $deletedIDs]);
                         }
 
                         // untuk save detail ke tabel pengadaan_detail
@@ -392,7 +413,19 @@ class PosController extends \yii\web\Controller
                         //     'no_rm' => $model->no_rm,
                         //     'nama_pasien' => $model->nama_pasien,
                         // ]);
-                        return $this->redirect(Yii::$app->request->referrer);
+
+                        // echo "<pre>";
+                        // print_r($model);
+                        // echo "</pre>";
+                        // die;
+
+                        return $this->redirect([
+                            '/pos/penunjang',
+                            'reg' => $model->no_daftar,
+                            'rm' => $model->no_rekam_medik,
+                        ]);
+
+                        // return $this->redirect(Yii::$app->request->referrer);
 
                         // Yii::$app->session->setFlash('success', 'Berhasil menyimpan Distribusi Barang.');
                         // return $this->redirect('index');

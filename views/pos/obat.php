@@ -6,7 +6,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-15 16:21:01 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-28 11:01:30
+ * @Last Modified time: 2021-10-05 09:18:09
  */
 
 use app\components\DynamicFormWidget;
@@ -161,11 +161,15 @@ $this->title = 'Point Of Service (POS)';
                                 'pluginEvents' => [
                                     "select2:select" => new JsExpression('function(e) { 
                                         let pasien = e.params.data
+                                        console.log(pasien)
+                                        window.open(baseUrl + "/pos/obat" + "?reg=" + pasien.no_daftar + "&rm=" + pasien.no_rm, \'_self\');
+                                    
+                                        // let pasien = e.params.data
                                         //let tglLahir = new Date(pasien.TGL_LAHIR)
 
-                                        $(`#resep-no_daftar`).val(pasien.no_daftar).trigger("change")
-                                        $(`#resep-nama_pasien`).val(pasien.nama).trigger("change")
-                                        $(`#resep-id_poli`).val(pasien.id_poli).trigger("change")
+                                        // $(`#resep-no_daftar`).val(pasien.no_daftar).trigger("change")
+                                        // $(`#resep-nama_pasien`).val(pasien.nama).trigger("change")
+                                        // $(`#resep-id_poli`).val(pasien.id_poli).trigger("change")
 
                                         // $(`#penjualan-nama_pasien`).val(pasien.px_name).trigger("change")
                                         // $(`#penjualan-alamat_pasien`).val(pasien.px_address).trigger("change")
