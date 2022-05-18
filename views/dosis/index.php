@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\DosisSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Doses';
+$this->title = 'Dosis';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container-fluid">
@@ -17,21 +17,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-12">
-                            <?= Html::a('Create Dosis', ['create'], ['class' => 'btn btn-success']) ?>
+                            <?= Html::a('Tambah Dosis', ['create'], ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
 
 
                     <?php Pjax::begin(); ?>
-                    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+                    ?>
 
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
                         'columns' => [
-                            ['class' => 'yii\grid\SerialColumn'],
+                            [
+                                'class' => 'yii\grid\SerialColumn'],
 
-                            'id_dosis',
+                            // 'id_dosis',
                             // 'is_active',
                             // 'created_by',
                             // 'created_at',

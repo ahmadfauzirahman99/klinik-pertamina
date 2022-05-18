@@ -65,7 +65,7 @@ $this->title = 'Point Of Service (POS)';
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card card-success">
                 <div class="card-header">
                     <ul class="nav nav-tabs align-items-end card-header-tabs">
                         <?= $this->render('form-wizard', ['model' => '']) ?>

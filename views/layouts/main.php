@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\components\Menu;
 use app\widgets\Alert;
 use yii\helpers\Url;
 
@@ -42,7 +43,7 @@ AppAsset::register($this);
         #sidebar-menu>ul>li>a {
             color: #435966;
             display: block;
-            padding: 4px 20px !important;
+            padding: 5px 20px !important;
             margin: 4px 0px;
             background-color: #ffffff;
             border-left: 3px solid transparent;
@@ -81,7 +82,7 @@ AppAsset::register($this);
 
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="index.html" class="logo"><span>A<span>dmin</span></span><i class="mdi mdi-layers"></i></a>
+                <a href="<?= Url::to(['/']) ?>" class="logo"><span>A<span>dmin</span></span><i class="mdi mdi-layers"></i></a>
             </div>
 
             <!-- Button mobile view to collapse sidebar menu -->
@@ -119,7 +120,7 @@ AppAsset::register($this);
                 <!-- User -->
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="<?= Url::to('@web/theme/assets/images/users/avatar-1.jpg') ?>" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                        <img src="<?= Url::to('@web/img/s.png') ?>" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
                         <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
                     </div>
                     <h5><a href="#">Mat Helme</a> </h5>
@@ -141,7 +142,25 @@ AppAsset::register($this);
 
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
-                    <?= $this->render('sidebar') ?>
+                    <?php
+                    $menuItems =   [
+
+                        ['label' => 'Informasi', 'header' => true],
+                        ['label' => 'Dashboard', 'icon' => 'info', 'url' => ['/site/index']],
+                        ['label' => 'Data Pasien', 'icon' => 'user', 'url' => ['/pasien/index']],
+                        ['label' => 'Data Transaksi', 'header' => true],
+                        ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/tindakan']],
+                        ['label' => 'Maste', 'header' => true],
+                        ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
+                        ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index']],
+                        ['label' => 'Data Satuan', 'icon' => 'list', 'url' => ['/satuan/index']],
+
+
+                    ];
+                    echo Menu::widget([
+                        'items' => $menuItems   
+                    ]);
+                    ?>
                     <div class="clearfix"></div>
                 </div>
                 <!-- Sidebar -->
@@ -151,9 +170,6 @@ AppAsset::register($this);
 
         </div>
         <!-- Left Sidebar End -->
-
-
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->

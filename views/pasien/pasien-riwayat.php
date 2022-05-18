@@ -49,7 +49,7 @@ use yii\widgets\Pjax;
         // },
         'columns' => [
             [
-                'headerOptions' => ['style' => 'width:10px'],
+                'headerOptions' => ['style' => 'width:10px;text-align:center'],
 
                 'class' => 'yii\grid\SerialColumn'
             ],

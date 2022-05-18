@@ -84,7 +84,7 @@ $this->title = "Pendaftaran Pasien - " . $model->nama_lengkap
 
                         </div>
                         <div class="col-md-6">
-                        <?php Pjax::begin(['id' => 'pjax-timeline']) ?>
+                            <?php Pjax::begin(['id' => 'pjax-timeline']) ?>
 
                             <div class="card border border-danger m-b-20">
                                 <h5 class="card-header"><span class="mdi mdi-information-outline"></span> Timeline Pendaftaran Pasien</h5>

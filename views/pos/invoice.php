@@ -68,7 +68,7 @@ use app\components\HelperFormat;
 
 <div class="invoice">
 
-    <?= $this->render('//layouts/kop-surat-pdf') ?>
+    <?= $this->render('/layouts/kop-surat-pdf') ?>
 
     <br>
     <table class="w-100 tabel-default">

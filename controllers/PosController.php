@@ -605,16 +605,25 @@ class PosController extends \yii\web\Controller
                 ['kode_pasien' => $data['no_rm'],],
             ])
             ->one();
-        $tindakan = $pendaftaran->layanan->toArray();
-        $tindakan['tindakan_detail'] = $pendaftaran->layanan->getLayananDetail()->asArray()->all();
-        $resep = $pendaftaran->resep->toArray();
-        $resep['resep_detail'] = $pendaftaran->resep->getResepDetail()->asArray()->all();
-        $penunjang = $pendaftaran->penunjang->toArray();
-        $penunjang['penunjang_detail'] = $pendaftaran->penunjang->getLabDetail()->asArray()->all();
 
-        $detail['tindakan'] = $tindakan;
-        $detail['resep'] = $resep;
-        $detail['penunjang'] = $penunjang;
+        if ($pendaftaran->layanan) {
+            $tindakan = $pendaftaran->layanan->toArray();
+            $tindakan['tindakan_detail'] = $pendaftaran->layanan->getLayananDetail()->asArray()->all();
+            $detail['tindakan'] = $tindakan;
+        }
+
+        if ($pendaftaran->resep) {
+            $resep = $pendaftaran->resep->toArray();
+            $resep['resep_detail'] = $pendaftaran->resep->getResepDetail()->asArray()->all();
+            $detail['resep'] = $resep;
+        }
+
+        if ($pendaftaran->penunjang) {
+            $penunjang = $pendaftaran->penunjang->toArray();
+            $penunjang['penunjang_detail'] = $pendaftaran->penunjang->getLabDetail()->asArray()->all();
+            $detail['penunjang'] = $penunjang;
+        }
+
 
         $pembayaran->json_detail = json_encode($detail);
         if ($pembayaran->save()) {
@@ -666,12 +675,12 @@ class PosController extends \yii\web\Controller
             'format' => 'legal',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 10,
+            'margin_top' => 5,
             'margin_bottom' => 10,
             'margin_header' => 10,
             'margin_footer' => 10
         ]);
-        $mpdf->SetWatermarkImage(Url::to('@web/img/syafira.png'), -1, [170, 100]);
+        // $mpdf->SetWatermarkImage(Url::to('@web/img/syafira.png'), -1, [170, 100]);
         $mpdf->showWatermarkImage = true;
 
         $mpdf->SetTitle('Laporan');

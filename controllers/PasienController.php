@@ -200,7 +200,7 @@ class PasienController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
 
                 try {
-                    if ($pendaftaran->save()) {
+                    if ($pendaftaran->save(false)) {
                         $pendaftaran->refresh();
 
                         $layanan->load(Yii::$app->request->post());
@@ -211,7 +211,7 @@ class PasienController extends Controller
                         $layanan->unit_kode = null;
                         $layanan->keterangan = "-";
                         $layanan->status_layanan = Layanan::DAFTAR;
-                        if ($layanan->save()) {
+                        if ($layanan->save(false)) {
                             $transaction->commit();
 
                             return [
