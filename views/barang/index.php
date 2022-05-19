@@ -30,7 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        [
+                            'contentOptions' => ['style' => 'text-align:center'],
+                            'headerOptions' => ['style' => 'text-align:center'],
+                            'class' => 'yii\grid\SerialColumn'
+                        ],
 
                         // 'id_barang',
                         // 'created_by',
@@ -84,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'summaryOptions' => ['class' => 'summary mb-2'],
                     'pager' => [
-                        'class' => 'yii\bootstrap4\LinkPager',
+                        'class' => 'app\components\GridPager',
                     ]
                 ]); ?>
 

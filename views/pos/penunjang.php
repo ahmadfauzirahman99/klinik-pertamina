@@ -28,10 +28,7 @@ $this->title = 'Point Of Service (POS)';
 ?>
 
 <style>
-    form .col-form-label-sm {
-        font-size: 10.5px;
-    }
-
+    
     form .col-form-label-sm,
     form .form-group {
         margin-bottom: 0.15rem;

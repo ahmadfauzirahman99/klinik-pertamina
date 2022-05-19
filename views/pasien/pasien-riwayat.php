@@ -50,6 +50,7 @@ use yii\widgets\Pjax;
         'columns' => [
             [
                 'headerOptions' => ['style' => 'width:10px;text-align:center'],
+                'contentOptions' => ['style' => 'width:10px;text-align:center'],
 
                 'class' => 'yii\grid\SerialColumn'
             ],
@@ -57,7 +58,8 @@ use yii\widgets\Pjax;
             // 'id_layanan',
             [
                 'attribute' => 'registrasi_kode',
-                'headerOptions' => ['style' => 'width:130px'],
+                'headerOptions' => ['style' => 'width:130px;'],
+                'contentOptions' => ['style' => 'width:130px;'],
                 'format' => 'raw',
                 'value' => function ($model) {
                     return '<a data-pjax="0"  href="' . Url::to(['/pos/tindakan', 'reg' => $model->registrasi_kode, 'rm' => $model->pendaftaran->kode_pasien]) . '" target="_blank">' . $model->registrasi_kode . '</a>';

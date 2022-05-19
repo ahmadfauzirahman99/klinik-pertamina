@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'attribute' => 'pekerjaan_terakhir',
                             'value' => function ($model) {
-                                return $model->pekerjaan->nama_pekerjaan;
+                                return empty($model->pekerjaan) ? '' : $model->pekerjaan->nama_pekerjaan ;
                             },
                             'headerOptions' => ['style' => 'padding-left:10px;'],
                             'contentOptions' => ['style' => 'padding-left:10px;'],

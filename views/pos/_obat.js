@@ -182,7 +182,7 @@ let enterNewRow = (data, key) => {
             $('.add-item').click()
             $(data).trigger('change')
         } else {
-            $(`#resepdetail-${index+1}-id_barang`).select2('open')
+            $(`#resepdetail-${index + 1}-id_barang`).select2('open')
             $(data).trigger('change')
         }
     }

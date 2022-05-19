@@ -192,7 +192,7 @@ class PasienController extends Controller
                 // exit;
                 if ($_POST['Pendaftaran']['kode_pasien'])
 
-                $pendaftaran->id_pendaftaran = Helper::GenerateId();
+                    $pendaftaran->id_pendaftaran = Helper::GenerateId();
                 $pendaftaran->created_by = '1';
                 $pendaftaran->created_at = date('Y-m-d H:i:s');
                 $pendaftaran->type =  Pendaftaran::WEB;
@@ -273,5 +273,36 @@ class PasienController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionCariPasienModal()
+    {
+        $model = new Pasien();
+        return $this->renderAjax('cari-pasien', ['model' => $model]);
+    }
+
+    public function actionApiPasien($q = null, $id = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $data = Pasien::find()->select(
+                [
+
+                    'id_patient as id',
+                    'concat(UPPER(nama_lengkap), " - ", DATE_FORMAT(tanggal_lahir,"%d-%m-%Y")) as text',
+                ]
+            )
+                ->where(['like', 'no_rekam_medik', '%' . $q . '%', false])
+                ->orFilterWhere(['like', 'nama_lengkap', '%' . $q . '%', false])
+                ->orFilterWhere(['like', 'no_kepesertaan', '%' . $q . '%', false])
+                ->asArray()
+                ->limit(100)
+                ->all();
+            $out['results'] = array_values($data);
+        } elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => Pasien::find($id)->no_rekam_medik];
+        }
+        return $out;
     }
 }

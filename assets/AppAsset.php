@@ -49,7 +49,7 @@ class AppAsset extends AssetBundle
         // // "theme/assets/plugins/morris/morris.min.js",
         // "theme/assets/pages/jquery.morris.init.js",
         "theme/assets/js/jquery.core.js",
-        "theme/assets/plugins/select2/js/select2.min.js",
+        "theme/assets/plugins/select2/js/select2.full.min.js",
         "theme/assets/js/jquery.app.js",
         'plugins/typeahead.js/typeahead.bundle.min.js',
         // 'https://unpkg.com/hotkeys-js/dist/hotkeys.min.js',

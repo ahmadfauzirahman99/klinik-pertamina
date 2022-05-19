@@ -43,9 +43,6 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
         font-size: 0.8rem;
     }
 
-    form .col-form-label-sm {
-        font-size: 10.5px;
-    }
 
     form .col-form-label-sm,
     form .form-group {
@@ -104,6 +101,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
     .swal2-actions button {
         margin: 0px 8px 0px 8px !important;
     }
+
     .swal-wide {
         width: 850px !important;
     }

@@ -22,6 +22,8 @@ use app\models\LayananDetail;
 use app\models\Pasien;
 use app\models\Pembayaran;
 use app\models\Pendaftaran;
+use app\models\Racikan;
+use app\models\RacikanDetail;
 use Yii;
 use app\models\Resep;
 use app\models\ResepDetail;
@@ -169,7 +171,13 @@ class PosController extends \yii\web\Controller
         $model = new Resep();
         $modelDetail = [new ResepDetail()];
 
+        $modelRacikan = [new Racikan()];
+        $modelRacikanDetail = [[new RacikanDetail()]];
+
+
         if ($reg != null & $rm != null) {
+            $pasien = Pasien::find()->where(['no_rekam_medik' => $rm])->one();
+
             $model = Resep::find()
                 ->where([
                     'and',
@@ -177,10 +185,31 @@ class PosController extends \yii\web\Controller
                     ['no_rm' => $rm,],
                 ])
                 ->one();
+            $modelRacikan = Racikan::find()
+                ->where([
+                    'and',
+                    [
+                        'no_daftar' => $reg,
+                        'no_rekam_medik' => $rm
+                    ]
+                ])->one();
+
+            if (!$modelRacikan) { // racikan belum nemu
+                $modelRacikan = new Racikan();
+                $modelRacikan->no_rekam_medik = $pasien->no_rekam_medik;
+                $modelRacikan->created_by = 1;
+                $modelRacikan->update_by = 1;
+                $modelRacikan->total_bayar = 0;
+                $modelRacikan->total_harga = 0;
+                $modelRacikan->diskon_persen = 0;
+                $modelRacikan->diskon_total = 0;
+                // $modelRacikan->created_at = date('Y-m-d H:i')
+            } else {
+                $modelRacikan->tanggal = Yii::$app->formatter->asDate($model->tanggal);
+            }
 
             if (!$model) { // kalau resepnya belum nemu
                 $model = new Resep();
-                $pasien = Pasien::find()->where(['no_rekam_medik' => $rm])->one();
                 $model->nama_pasien = $pasien->nama_lengkap;
                 $model->no_rm = $pasien->no_rekam_medik;
                 $model->tanggal = date('d-m-Y');
@@ -192,7 +221,11 @@ class PosController extends \yii\web\Controller
                 $model->tanggal = Yii::$app->formatter->asDate($model->tanggal);
             }
             $model->no_daftar = $reg;
+            $modelRacikan->no_daftar = $reg;
+            // $modelRacikanDetail = $model
             $modelDetail = $model->resepDetail ?? [new ResepDetail()];
+            $modelRacikanDetail = $model->racikanDetail ?? [[new RacikanDetail()]];
+            $modelRacikan = [new Racikan()];
         }
 
         if ($model->load(Yii::$app->request->post())) {
@@ -313,6 +346,8 @@ class PosController extends \yii\web\Controller
         return $this->render('obat', [
             'model' => $model,
             'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
+            'modelRacikanDetail' => (empty($modelRacikanDetail)) ? [[new RacikanDetail()]] : $modelRacikanDetail,
+            'modelRacikan' => (empty($modelRacikan)) ? [[new Racikan()]] : $modelRacikan
 
         ]);
     }
@@ -554,6 +589,9 @@ class PosController extends \yii\web\Controller
                 $model->biaya_penunjang = $penunjang->total_harga ?? 0;
 
                 $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang;
+
+                // var_dump($model->total_biaya);
+                // exit;
                 $model->sudah_dibayar = 0;
                 $model->sisa_pembayaran = $model->total_biaya - $model->sudah_dibayar;
 
@@ -593,8 +631,33 @@ class PosController extends \yii\web\Controller
 
     public function actionBayar()
     {
-        $pembayaran = new Pembayaran();
-        $pembayaran->attributes = ($data = Yii::$app->request->post());
+        $data = Yii::$app->request->post();
+
+        $pembayaran = Pembayaran::find()->where(
+            [
+                'and',
+                [
+                    'no_daftar' => $data['no_daftar'],
+                    'no_rm' => $data['no_rm']
+                ]
+            ]
+        )->one();
+
+
+        // var_dump($data);
+        // exit;
+        if (is_null($pembayaran)) {
+            $pembayaran = new Pembayaran();
+        }
+        // exit;
+        // 
+        // var_dump($data);
+        // exit;
+        $pembayaran->attributes = ($data);
+
+        if (!$pembayaran->isNewRecord) {
+            $pembayaran->total_bayar = (int)$data['sudah_dibayar'] +  (int)$data['total_bayar'];
+        }
         $pembayaran->tanggal = date('Y-m-d');
         $pembayaran->jam = date('H:i:s');
 
@@ -605,6 +668,11 @@ class PosController extends \yii\web\Controller
                 ['kode_pasien' => $data['no_rm'],],
             ])
             ->one();
+
+        // echo '<pre>';
+        // print_r($pendaftaran);
+        // // var_dump(Yii::$app->request->post());
+        // exit;
 
         if ($pendaftaran->layanan) {
             $tindakan = $pendaftaran->layanan->toArray();

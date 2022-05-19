@@ -33,6 +33,15 @@ $this->title = "Pendaftaran Pasien - " . $model->nama_lengkap
                             <?php $form = ActiveForm::begin([
                                 'id' => 'form',
                                 'layout' => 'horizontal',
+                                'fieldConfig' => [
+                                    'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+                                    'horizontalCssClasses' => [
+                                        'label' => 'col-sm-4 col-form-label-md',
+                                        'wrapper' => 'col-sm-8',
+                                        'error' => '',
+                                        'hint' => '',
+                                    ],
+                                ],
                                 // 'action' => 'simpan-pendaftaran'
                             ]); ?>
 

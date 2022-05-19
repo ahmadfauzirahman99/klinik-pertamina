@@ -17,7 +17,7 @@ class GridPager extends \yii\widgets\LinkPager
     public $prevPageLabel = '<span class="ti-angle-left"></span>';
     public $nextPageLabel = '<span class="ti-angle-right"></span>';
 
-    public $options = ['class' => 'pagination pagination-circle justify-content-end'];
+    public $options = ['class' => 'pagination pagination-split justify-content-end'];
 
     public $linkContainerOptions = ['class' => 'page-item'];
 

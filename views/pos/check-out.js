@@ -25,6 +25,7 @@ let initJs = _ => {
         let no_daftar = $('#pendaftaran-id_pendaftaran').val()
         let no_rm = $('#checkout-no_rm').val()
         let total_harga = $('#checkout-total_biaya').val()
+        let sudah_dibayar = $('#checkout-sudah_dibayar').val()
         let total_bayar = $('#checkout-sisa_pembayaran').val()
         let total_bayar_teks = $('#checkout-sisa_pembayaran-disp').val()
 
@@ -63,7 +64,8 @@ let initJs = _ => {
                         no_daftar: no_daftar,
                         no_rm: no_rm,
                         total_harga: total_harga,
-                        total_bayar: total_bayar
+                        total_bayar: total_bayar,
+                        sudah_dibayar: sudah_dibayar
                     },
                     beforeSend: function () {
                         setBtnLoading(btn, "Memproses Pembayaran");
@@ -90,7 +92,7 @@ let initJs = _ => {
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
-            ) {}
+            ) { }
         })
 
     })
