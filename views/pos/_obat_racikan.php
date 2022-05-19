@@ -115,13 +115,11 @@ use yii\web\View;
                             'templateSelection' => new JsExpression('function (data) { return data.text; }'),
                         ],
                         'pluginEvents' => [
-                            "select2:select" => new JsExpression(
-                                
-                                'function(e) { 
+                            "select2:select" => new JsExpression('function(e) { 
                             let index = $(this).closest("tr").index()
                             let barangDipilih = e.params.data
                             let index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
-
+                            
 
                             // cek item sudah dipilih atau belum
                             let uda_dipilih = 0
@@ -262,7 +260,7 @@ use yii\web\View;
     </tbody>
     <tfoot>
         <tr>
-            <td style="text-align: center;" colspan="7">
+            <td style="text-align: center;" colspan="6">
             </td>
             <td class="text-center">
                 <button type="button" class="add-item-obat-racikan-detail btn btn-xs" title="Tambah Item">

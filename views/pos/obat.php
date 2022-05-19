@@ -565,7 +565,7 @@ $this->title = 'Point Of Service (POS)';
                                     <tr class="bg-danger">
                                         <th style="color: white; font-size: 11px; width: 3%">#</th>
                                         <!-- <th style="color: white; font-size: 11px; width: 25%">Barang</th> -->
-                                        <th style="color: white; font-size: 11px; width: 14%">Keterangan</th>
+                                        <th style="color: white; font-size: 11px; width: 20%">Keterangan</th>
                                         <th style="color: white; font-size: 11px; width: 80%">Racikan</th>
                                         <!-- <th style="color: white; font-size: 11px; width: 14%">Jumlah</th>
                                         <th style="color: white; font-size: 11px; width: 14%">Harga Jual</th>
@@ -628,7 +628,7 @@ $this->title = 'Point Of Service (POS)';
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td style="text-align: center;" colspan="7">
+                                        <td style="text-align: center;" colspan="3">
                                         </td>
                                         <td class="text-center">
                                             <button type="button" class="add-item-racikan btn btn-xs" title="Tambah Item">

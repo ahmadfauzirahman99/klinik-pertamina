@@ -235,6 +235,11 @@ class PosController extends \yii\web\Controller
             Model::loadMultiple($modelDetail, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_resep_detail', 'id_resep_detail')));
 
+            // if()
+
+            echo '<pre>';
+            print_r(Yii::$app->request->post());
+            exit;
 
             $model->tanggal = Yii::$app->formatter->asDate($model->tanggal, 'php:Y-m-d');
 
@@ -242,7 +247,7 @@ class PosController extends \yii\web\Controller
             $valid = Model::validateMultiple($modelDetail) && $valid;
 
             if ($valid) {
-                $transaction = \Yii::$app->db->beginTransaction();
+                // $transaction = \Yii::$app->db->beginTransaction();
 
                 try {
 
@@ -270,7 +275,7 @@ class PosController extends \yii\web\Controller
                             // $modelDetail->pemakaian_sepekan = $modelDetail->barang->jumlahPakaiPekanIni($model->unit_peminta) ?? 0;
 
                             if (!($flag = $modelDetail->save(false))) {
-                                $transaction->rollBack();
+                                // $transaction->rollBack();
                                 Yii::error($modelDetail->errors);
                                 echo "<pre>";
                                 print_r($modelDetail->errors);
@@ -294,7 +299,7 @@ class PosController extends \yii\web\Controller
                             }
                         }
                     } else {
-                        $transaction->rollBack();
+                        // $transaction->rollBack();
                         Yii::error($model->errors);
                         echo "<pre>";
                         print_r($model->errors);
@@ -303,7 +308,7 @@ class PosController extends \yii\web\Controller
                     }
 
                     if ($flag) {
-                        $transaction->commit();
+                        // $transaction->commit();
 
                         // echo 'suskes yooooooooooo';
                         // die;
@@ -333,7 +338,7 @@ class PosController extends \yii\web\Controller
                         // return $this->redirect('index');
                     }
                 } catch (Exception $e) {
-                    $transaction->rollBack();
+                    // $transaction->rollBack();
 
                     echo "<pre>";
                     print_r($e);

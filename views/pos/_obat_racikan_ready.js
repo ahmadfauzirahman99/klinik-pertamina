@@ -6,6 +6,7 @@ $(document).ready(function () {
         const index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
 
 
+        console.log("sadasdas");
 
 
         $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
@@ -16,7 +17,7 @@ $(document).ready(function () {
 
         $(item).find("select[name*='[id_racikan_detail]']").on('select2:select', function (e) {
             let index = $(this).closest("tr").index()
-            // console.log('Indexnya ', index);
+            console.log('Indexnya ', index);
             let barangDipilih = e.params.data
 
             // cek item sudah dipilih atau belum
