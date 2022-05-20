@@ -1,6 +1,7 @@
 
 
 function ubahSelect2(anu){
+    // alert(12345)
     const index = $(".dynamicform_wrapper_obat .form-options-item-obat-racikan-detail").length - 1;
     const index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1;
 
@@ -17,10 +18,13 @@ function ubahSelect2(anu){
     //   alert(2134324234);
     console.log(anu);
     $(anu).on('select2:select', function (e) {
-            alert(8383)
+            // alert("dalam")
+            // console.log($(this)); // adalah <select id=...
+            let index_luar = $(this).closest(".form-options-item-racikan").index(); // $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1;
             let index = $(this).closest("tr").index()
             console.log('Indexnya ', index);
             let barangDipilih = e.params.data
+            console.log(barangDipilih);
 
             // cek item sudah dipilih atau belum
             let uda_dipilih = 0
@@ -47,7 +51,7 @@ function ubahSelect2(anu){
 
 
         })
-        $(`#racikandetail-${index_luar}-${index}-id_racikan_detail`).select2('open')
+        // $(`#racikandetail-${index_luar}-${index}-id_racikan_detail`).select2('open')
 
         $(".dynamicform_wrapper_obat .form-options-item-obat-racikan-detail").each(function (index) {
             $(this).find('.nomor-racikan-detail').html((index + 1))

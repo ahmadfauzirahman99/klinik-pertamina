@@ -215,7 +215,7 @@ use yii\web\View;
                     ])->widget(KyNumber::className(), ['displayOptions' => [
                         'class' => 'form-control form-control-md det_subtotal',
                         'readonly' => true,
-                        'onchange' => 'onChangeSubtotalRacikan()',
+                        'onchange' => 'onChangeSubtotalRacikan(this)',
                     ]])->label(false);
                     ?>
                 </td>

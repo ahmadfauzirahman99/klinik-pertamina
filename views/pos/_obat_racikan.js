@@ -4,9 +4,15 @@ let onFocusSelectRacikan = data => {
 
 
 let inputJumlahHargaJualRacikan = data => {
+    
+
     $(data).trigger('change')
     let index = $(data).closest("tr").index()
-    let index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
+    // let index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
+    let index_luar = $(data).closest(".form-options-item-racikan").index(); // $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1;
+    // console.log("index_luar, index");
+    // console.log(index_luar, index);
+    // console.log("index_luar, index");
 
     let jumlah = parseFloat($(`#racikandetail-${index_luar}-${index}-jumlah`).val())
     let harga_jual = parseFloat($(`#racikandetail-${index_luar}-${index}-harga_jual`).val())
@@ -15,9 +21,14 @@ let inputJumlahHargaJualRacikan = data => {
 }
 
 
-let onChangeSubtotalRacikan = _ => {
+let onChangeSubtotalRacikan = (inilah) => {
+    // alert('on ceng')
+    // console.log("inilah");
+    // console.log(inilah);
+    // console.log("inilah");
     let totalSubtotal = 0
-    $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
+    // $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
+    $(this).closest(".form-options-item-racikan").each(function (index) {
         totalSubtotal = parseFloat($(this).find("input[name*='[subtotal]']").val()) + totalSubtotal
     })
 }
