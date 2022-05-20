@@ -1,21 +1,23 @@
 
-$(document).ready(function () {
 
-    $(".dynamicform_wrapper_obat").on("afterInsert", function (e, item) {
-        const index = $(".dynamicform_wrapper_obat .form-options-item-obat-racikan-detail").length - 1
-        const index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
-
-
-        console.log("sadasdas");
+function ubahSelect2(anu){
+    const index = $(".dynamicform_wrapper_obat .form-options-item-obat-racikan-detail").length - 1;
+    const index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1;
 
 
-        $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
-            $(this).find('.nomor-racikan').html((index + 1))
-        })
-        // console.log(index);
-        $(item).find("select[name*='[id_racikan_detail]']").val(null).trigger('change')
+    console.log("sadasdas");
 
-        $(item).find("select[name*='[id_racikan_detail]']").on('select2:select', function (e) {
+
+    $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
+        $(this).find('.nomor-racikan').html((index + 1))
+    })
+    // console.log(index);
+    $(anu).find("select[name*='[id_racikan_detail]']").val(null).trigger('change')
+    
+    //   alert(2134324234);
+    console.log(anu);
+    $(anu).on('select2:select', function (e) {
+            alert(8383)
             let index = $(this).closest("tr").index()
             console.log('Indexnya ', index);
             let barangDipilih = e.params.data
@@ -50,7 +52,16 @@ $(document).ready(function () {
         $(".dynamicform_wrapper_obat .form-options-item-obat-racikan-detail").each(function (index) {
             $(this).find('.nomor-racikan-detail').html((index + 1))
         })
-    })
+}
+
+$(document).ready(function () {
+
+
+
+
+
+
+   
 
 });
 
