@@ -14,10 +14,11 @@ $this->params['breadcrumbs'][] = ['label' => $model->nama_lengkap, 'url' => ['vi
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <style>
-    #form .col-form-label {
+    /* #form .col-form-label {
         font-size: 9.5px;
     }
 
+     */
     #form .form-group {
         margin-bottom: 0.1rem;
     }
@@ -49,6 +50,15 @@ $this->params['breadcrumbs'][] = 'Update';
     'layout' => 'horizontal',
     'id' => 'form',
     'options' => ['enctype' => 'multipart/form-data', 'autocomplete' => 'off'],
+    'fieldConfig' => [
+        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+        'horizontalCssClasses' => [
+            'label' => 'col-sm-4 col-form-label-md',
+            'wrapper' => 'col-sm-8',
+            'error' => '',
+            'hint' => '',
+        ],
+    ],
 ]); ?>
 <?php Pjax::begin(['id' => 'pjax-pasien']) ?>
 

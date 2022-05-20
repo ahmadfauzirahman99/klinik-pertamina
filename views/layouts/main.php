@@ -8,7 +8,9 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\components\Menu;
 use app\widgets\Alert;
+use yii\bootstrap4\Modal;
 use yii\helpers\Url;
 
 AppAsset::register($this);
@@ -32,16 +34,29 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@300;500;700&family=Open+Sans:wght@300;500;700&family=Plus+Jakarta+Sans:wght@300;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         /* .select2-container .select2-selection--single .select2-selection__rendered {
             line-height: 18.5px !important;
             padding-left: 5px !important;
         } */
 
+        html,
+        body {
+            background-color: #fafafa !important;
+        }
+
+        .card-header {
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: #fff !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
         #sidebar-menu>ul>li>a {
             color: #435966;
             display: block;
-            padding: 8px 20px !important;
+            padding: 10px 20px !important;
             margin: 4px 0px;
             background-color: #ffffff;
             border-left: 3px solid transparent;
@@ -60,16 +75,61 @@ AppAsset::register($this);
             position: relative;
             text-decoration: none;
         }
+
+        .navbar-default {
+            background-color: #ffffff !important;
+            border-radius: 0px;
+            border: none;
+            border-top-color: currentcolor;
+            border-top-style: none;
+            border-top-width: medium;
+            border-top: 3px solid #71b6f9;
+            margin-bottom: 0px;
+            padding: 0px 10px;
+            box-shadow: 0px 0px 0.1px grey !important;
+        }
+
+        .topbar .topbar-left {
+            background: #ffffff;
+            border-top: 3px solid #71b6f9;
+            float: left;
+            text-align: center;
+            height: 73px;
+            position: relative;
+            width: 250px;
+            z-index: 1;
+            box-shadow: 0px 0.8px 0px #ccc !important;
+
+        }
+
+        .side-menu {
+            top: 70px;
+            width: 250px;
+            z-index: 10;
+            background: #fff;
+            bottom: 0;
+            margin-top: 0;
+            padding-bottom: 30px;
+            position: fixed;
+            -webkit-box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
+            box-shadow: 0px 5px 6px 6px #ccc !important;
+        }
+
+        .card {
+       
+            border-radius: 5px !important;
+            border: none;
+        }
     </style>
     <script>
-        const baseUrl = '<?= Yii::$app->request->baseUrl ?>';
+        const baseUrl = '<?= Yii::$app->homeUrl ?>/';
         let controller = '<?= Yii::$app->controller->id ?>';
         const moduleName = '<?= Yii::$app->controller->module->id ?>';
     </script>
     <?php $this->head() ?>
 </head>
 
-<body class="fixed-left">
+<body class="fixed-left" id="app">
     <?php $this->beginBody() ?>
 
     <!-- Begin page -->
@@ -80,7 +140,7 @@ AppAsset::register($this);
 
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="index.html" class="logo"><span>A<span>dmin</span></span><i class="mdi mdi-layers"></i></a>
+                <a href="<?= Url::to(['/']) ?>" class="logo"><span>Pak<span>ning</span></span><i class="mdi mdi-layers"></i></a>
             </div>
 
             <!-- Button mobile view to collapse sidebar menu -->
@@ -118,7 +178,7 @@ AppAsset::register($this);
                 <!-- User -->
                 <div class="user-box">
                     <div class="user-img">
-                        <img src="<?= Url::to('@web/theme/assets/images/users/avatar-1.jpg') ?>" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                        <img src="<?= Url::to('@web/img/s.png') ?>" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
                         <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
                     </div>
                     <h5><a href="#">Mat Helme</a> </h5>
@@ -140,7 +200,25 @@ AppAsset::register($this);
 
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
-                    <?= $this->render('sidebar') ?>
+                    <?php
+                    $menuItems =   [
+
+                        ['label' => 'Informasi', 'header' => true],
+                        ['label' => 'Dashboard', 'icon' => 'info', 'url' => ['/site/index']],
+                        ['label' => 'Data Pasien', 'icon' => 'user', 'url' => ['/pasien/index']],
+                        ['label' => 'Data Transaksi', 'header' => true],
+                        ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/tindakan']],
+                        ['label' => 'Master', 'header' => true],
+                        ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
+                        ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index']],
+                        ['label' => 'Data Satuan', 'icon' => 'list', 'url' => ['/satuan/index']],
+
+
+                    ];
+                    echo Menu::widget([
+                        'items' => $menuItems
+                    ]);
+                    ?>
                     <div class="clearfix"></div>
                 </div>
                 <!-- Sidebar -->
@@ -150,13 +228,10 @@ AppAsset::register($this);
 
         </div>
         <!-- Left Sidebar End -->
-
-
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="content-page">
+        <div class="content-page" style="margin-top:10px;margin-bottom: 20px !important ;">
             <!-- Start content -->
             <div class="content">
                 <div class="container-fluid">
@@ -182,13 +257,25 @@ AppAsset::register($this);
 
         <!-- Right Sidebar -->
         <div class="side-bar right-bar">
+            <a href="<?= Url::to(['pasien/cari-pasien-modal']) ?>" data-title="Cari Pasien" id="openModal" data-toggle="modal" data-target="#myModal"></a>
             <?= $this->render('right-menu') ?>
         </div>
         <!-- /Right-bar -->
 
     </div>
     <!-- END wrapper -->
+    <?php
 
+    Modal::begin([
+        'id' => 'myModal',
+        'size' => Modal::SIZE_DEFAULT,
+        'options' => [
+            'tabindex' => false,
+            'data-backdrop' => 'static',
+        ]
+    ]);
+    Modal::end();
+    ?>
     <?php $this->endBody() ?>
 </body>
 
@@ -216,6 +303,47 @@ AppAsset::register($this);
             }
         })
     };
+</script>
+<script>
+    hotkeys.filter = ({
+        target
+    }) => {
+        return true
+        // console.log(target.tagName);
+        // return target.tagName === 'INPUT' || target.tagName === 'DIV' || target.tagName === 'BODY';
+        // return !(target.tagName === 'INPUT' && target.type !== 'radio') ;
+    }
+
+
+    hotkeys('f1', function(event, handler) {
+        event.preventDefault();
+        switch (handler.key) {
+            case 'f1':
+                $('#openModal').click()
+                break;
+            default:
+                alert(event);
+        }
+    });
+</script>
+<script>
+    $('#myModal').on('show.bs.modal', function(event) {
+        // event.preventDefault();
+        let button = $(event.relatedTarget)
+        let modal = $(this)
+        let title = button.data('title')
+        let header = `${title}
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>`
+        let href = button.attr('href')
+        modal.find('.modal-header').html(header)
+        // modal.find('.modal-body').html(bodyLoad)
+        $.get(href)
+            .done(function(data) {
+                modal.find('.modal-body').html(data)
+            });
+    })
 </script>
 
 </html>

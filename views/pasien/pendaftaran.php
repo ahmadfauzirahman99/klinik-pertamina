@@ -33,6 +33,15 @@ $this->title = "Pendaftaran Pasien - " . $model->nama_lengkap
                             <?php $form = ActiveForm::begin([
                                 'id' => 'form',
                                 'layout' => 'horizontal',
+                                'fieldConfig' => [
+                                    'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+                                    'horizontalCssClasses' => [
+                                        'label' => 'col-sm-4 col-form-label-md',
+                                        'wrapper' => 'col-sm-8',
+                                        'error' => '',
+                                        'hint' => '',
+                                    ],
+                                ],
                                 // 'action' => 'simpan-pendaftaran'
                             ]); ?>
 
@@ -84,7 +93,7 @@ $this->title = "Pendaftaran Pasien - " . $model->nama_lengkap
 
                         </div>
                         <div class="col-md-6">
-                        <?php Pjax::begin(['id' => 'pjax-timeline']) ?>
+                            <?php Pjax::begin(['id' => 'pjax-timeline']) ?>
 
                             <div class="card border border-danger m-b-20">
                                 <h5 class="card-header"><span class="mdi mdi-information-outline"></span> Timeline Pendaftaran Pasien</h5>

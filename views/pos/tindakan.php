@@ -6,14 +6,14 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2021-09-24 17:38:03 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-25 16:50:23
+ * @Last Modified time: 2021-10-05 09:13:48
  */
 
-use app\components\DynamicFormWidget;
-use app\components\number\KyNumber;
 use app\models\Dokter;
 use app\models\Layanan;
 use app\models\Poli;
+use dickyermawan\base\KyDynamicForm;
+use dickyermawan\base\KyNumber;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use kartik\time\TimePicker;
@@ -30,9 +30,7 @@ $this->title = 'Point Of Service (POS)';
 ?>
 
 <style>
-    form .col-form-label-sm {
-        font-size: 10.5px;
-    }
+   
 
     form .col-form-label-sm,
     form .form-group {
@@ -65,7 +63,7 @@ $this->title = 'Point Of Service (POS)';
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card card-success">
                 <div class="card-header">
                     <ul class="nav nav-tabs align-items-end card-header-tabs">
                         <?= $this->render('form-wizard', ['model' => '']) ?>
@@ -152,11 +150,15 @@ $this->title = 'Point Of Service (POS)';
                                 'pluginEvents' => [
                                     "select2:select" => new JsExpression('function(e) { 
                                         let pasien = e.params.data
+                                        console.log(pasien)
+                                        window.open(baseUrl + "/pos/tindakan" + "?reg=" + pasien.no_daftar + "&rm=" + pasien.no_rm, \'_self\');
+                                    
+                                        // let pasien = e.params.data
                                         //let tglLahir = new Date(pasien.TGL_LAHIR)
 
-                                        $(`#layanan-registrasi_kode`).val(pasien.no_daftar).trigger("change")
-                                        $(`#layanan-nama_pasien`).val(pasien.nama).trigger("change")
-                                        $(`#layanan-unit_tujuan_kode`).val(pasien.id_poli).trigger("change")
+                                        // $(`#layanan-registrasi_kode`).val(pasien.no_daftar).trigger("change")
+                                        // $(`#layanan-nama_pasien`).val(pasien.nama).trigger("change")
+                                        // $(`#layanan-unit_tujuan_kode`).val(pasien.id_poli).trigger("change")
                                     }'),
                                 ]
                             ]);
@@ -202,7 +204,7 @@ $this->title = 'Point Of Service (POS)';
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-sm-12">
 
-                            <?php DynamicFormWidget::begin([
+                            <?php KyDynamicForm::begin([
                                 'widgetContainer' => 'dynamicform_wrapper',
                                 'widgetBody' => '.form-options-body',
                                 'widgetItem' => '.form-options-item',
@@ -446,7 +448,7 @@ $this->title = 'Point Of Service (POS)';
                                 </tfoot>
                             </table>
 
-                            <?php DynamicFormWidget::end(); ?>
+                            <?php KyDynamicForm::end(); ?>
 
 
                         </div>

@@ -25,6 +25,17 @@ $(document).ready(function () {
         return true;
     });
 
+    //event setelah tambah row racikan
+    $(".dynamicform_wrapper1").on("afterInsert", function (e, item) {
+        const index = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
+        $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
+            $(this).find('.nomor-racikan').html((index + 1))
+        })
+    })
+    // $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
+    //     $(this).find('.nomor-racikan').html((index + 1))
+    // })
+
     // event setelah tambah row
     $(".dynamicform_wrapper").on("afterInsert", function (e, item) {
         const index = $(".dynamicform_wrapper .form-options-item").length - 1
@@ -68,6 +79,7 @@ $(document).ready(function () {
             $(this).find('.nomor').html((index + 1))
             $(this).find('.det_satuan').attr('id', 'det_satuan_' + index)
         })
+
 
         $(item).find('.signa-typeahead').typeahead({
             hint: true,

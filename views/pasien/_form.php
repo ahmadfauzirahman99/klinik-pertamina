@@ -17,7 +17,8 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 <div class="pasien-form">
 
 
-<?= $form->field($model, 'no_identitas')->textInput(['maxlength' => true, 'placeholder' => 'No. KTP/SIM/PASPORT']) ?>
+    <?= $form->field($model, 'no_identitas')->textInput(['maxlength' => true, 'placeholder' => 'No. KTP/SIM/PASPORT']) ?>
+    <?= $form->field($model, 'no_kepesertaan')->textInput(['maxlength' => true, 'placeholder' => 'No Pensiunan'])->label('No. Pensiunan') ?>
 
     <?= $form->field($model, 'nama_lengkap')->textInput(['maxlength' => true, 'placeholder' => 'Nama Lengkap']) ?>
 
@@ -61,12 +62,12 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
     <?php $form->field($model, 'cara_pembayaran')->textInput() ?>
 
 
-    <?= $form->field($model, 'rt')->textInput(['maxlength' => true,'placeholder' => 'Masukan RT']) ?>
+    <?= $form->field($model, 'rt')->textInput(['maxlength' => true, 'placeholder' => 'Masukan RT']) ?>
 
-    <?= $form->field($model, 'rw')->textInput(['maxlength' => true,'placeholder' => 'Masukan RW']) ?>
+    <?= $form->field($model, 'rw')->textInput(['maxlength' => true, 'placeholder' => 'Masukan RW']) ?>
 
 
-    <?= $form->field($model, 'anak_keberapa')->textInput(['maxlength' => true,'placeholder'=>'Masukan Anak Keberapa Pasien']) ?>
+    <?= $form->field($model, 'anak_keberapa')->textInput(['maxlength' => true, 'placeholder' => 'Masukan Anak Keberapa Pasien']) ?>
 
 
     <?= $form->field($model, 'status_pasien')->textInput(['maxlength' => true]) ?>

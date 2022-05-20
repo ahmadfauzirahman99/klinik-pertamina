@@ -7,7 +7,7 @@
  * @Linkedin: linkedin.com/in/dickyermawan 
  * @Date: 2020-04-22 19:23:42 
  * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-09-28 11:27:54
+ * @Last Modified time: 2021-10-03 00:28:05
  */
 
 return [
@@ -71,17 +71,21 @@ return [
             'theme' => 'bootstrap',
             'size' => 'sm',
         ],
-        kartik\number\NumberControl::class => [
+        dickyermawan\base\KyNumber::class => [
             'maskedInputOptions' => [
                 // 'prefix' => 'Rp ',
+                // 'alias' => 'numeric',
+                'positionCaretOnClick' => 'none',
                 'groupSeparator' => '.',
                 'radixPoint' => ',',
-                'allowMinus' => false,
+                'allowMinus' => true,
+                'unmaskAsNumber' => true, // untuk ambil unmasked value sebagai number,
             ],
-            'displayOptions' => ['class' => 'form-control form-control-sm kv-monospace'],
+            'displayOptions' => ['class' => 'form-control form-control-sm', 'autocomplete' => 'off'],
             'options' => [
                 'type' => 'hidden',
-                'label' => '<label>Saved Value: </label>',
+                // 'label' => '<label>Saved Value: </label>',
+                'label' => null,
                 'class' => 'kv-saved',
                 'readonly' => true,
                 'tabindex' => 1000
@@ -109,6 +113,24 @@ return [
             ],
             'saveInputContainer' => ['class' => 'kv-saved-cont'],
         ],
+        // kartik\number\NumberControl::class => [
+        //     'maskedInputOptions' => [
+        //         // 'prefix' => 'Rp ',
+        //         'groupSeparator' => '.',
+        //         'radixPoint' => ',',
+        //         'allowMinus' => false,
+        //     ],
+        //     'displayOptions' => ['class' => 'form-control form-control-sm kv-monospace'],
+        //     'options' => [
+        //         'type' => 'hidden',
+        //         'label' => '<label>Saved Value: </label>',
+        //         'class' => 'kv-saved',
+        //         'readonly' => true,
+        //         'tabindex' => 1000
+        //     ],
+        //     'saveInputContainer' => ['class' => 'kv-saved-cont'],
+        // ],
+        
         // kartik\daterange\DateRangePicker::class => [
         //     'useWithAddon' => true,
         //     // 'attribute' => 'sale_date',
@@ -163,27 +185,7 @@ return [
         //     ],
         //     'saveInputContainer' => ['class' => 'kv-saved-cont'],
         // ],
-        // app\components\number\KyNumber::class => [
-        //     'maskedInputOptions' => [
-        //         // 'prefix' => 'Rp ',
-        //         // 'alias' => 'numeric',
-        //         'positionCaretOnClick' => 'none',
-        //         'groupSeparator' => '.',
-        //         'radixPoint' => ',',
-        //         'allowMinus' => true,
-        //         'unmaskAsNumber' => true, // untuk ambil unmasked value sebagai number,
-        //     ],
-        //     'displayOptions' => ['class' => 'form-control form-control-sm', 'autocomplete' => 'off'],
-        //     'options' => [
-        //         'type' => 'hidden',
-        //         // 'label' => '<label>Saved Value: </label>',
-        //         'label' => null,
-        //         'class' => 'kv-saved',
-        //         'readonly' => true,
-        //         'tabindex' => 1000
-        //     ],
-        //     'saveInputContainer' => ['class' => 'kv-saved-cont'],
-        // ],
+        
         // yii\bootstrap4\Modal::class => [
         //     'headerOptions' => [
         //         'class' => 'modal-header bg-pink',

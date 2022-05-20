@@ -13,16 +13,17 @@ use yii\helpers\Url;
 
 $logo = Url::to('@web/img/pertamina-square.png');
 $logo2 = Url::to('@web/img/akreditasi.jpg');
-$logo3 = Url::to('@web/img/pertamina.png');
+$logo3 = Url::to('@web/img/klinik.png');
 
 ?>
 
 <table width="100%" cellpadding="1" cellspacing="0">
     <tr>
-        <td style="width: 10%; text-align: left;">
-            <img src="<?= $logo3 ?>" alt="logo" style="height: 80px; width: auto;">
+        <td style=" text-align: right;">
+            <img src="<?= $logo3 ?>" alt="logo" style="height: 70px; width: auto;">
+            <br>
         </td>
-        <td></td>
+        <td><br></td>
         <!-- <td style="font-size:15px;text-align:center">
             <span style="font-weight: bold; line-height: 0 !important;">
                 <span style="font-size: 16px; line-height: 0 !important;">
@@ -44,12 +45,7 @@ $logo3 = Url::to('@web/img/pertamina.png');
                 </span>
             </div>
         </td> -->
-        <td width="60px">
-            <img src="<?= $logo ?>" alt="logo" style="height: 80px; width: auto; padding-bottom: 7px;">
-        </td>
-        <td width="60px">
-            <img src="<?= $logo2 ?>" alt="logo" style="height: 80px; width: auto;">
-        </td>
+        
     </tr>
     <tr>
         <td colspan="4">

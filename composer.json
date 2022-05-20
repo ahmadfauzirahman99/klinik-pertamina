@@ -27,7 +27,11 @@
         "kartik-v/yii2-widget-timepicker": "dev-master",
         "mpdf/mpdf": "^8.0",
         "hail812/yii2-adminlte3": "~1.1",
-        "kartik-v/yii2-widget-select2": "dev-master"
+        "kartik-v/yii2-widget-select2": "dev-master",
+        "dickyermawan/yii2-kynumber": "^1.0",
+        "dickyermawan/yii2-kydynamic-form": "^1.0",
+        "dickyermawan/yii2-terbilang-rupiah": "^1.6",
+        "tecnickcom/tc-lib-barcode": "1.15"
 
     },
     "require-dev": {

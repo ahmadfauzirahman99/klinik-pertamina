@@ -1,4 +1,14 @@
 <?php
+/*
+ * @Author: Dicky Ermawan S., S.T., MTA 
+ * @Email: wanasaja@gmail.com 
+ * @Web: dickyermawan.github.io 
+ * @Linkedin: linkedin.com/in/dickyermawan 
+ * @Date: 2021-10-02 19:02:18 
+ * @Last Modified by:   Dicky Ermawan S., S.T., MTA 
+ * @Last Modified time: 2021-10-02 19:02:18 
+ */
+
 
 namespace app\models;
 
@@ -56,8 +66,8 @@ class Pendaftaran extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_pendaftaran' => 'Id Pendaftaran',
-            'kode_pasien' => 'No RM',
+            'id_pendaftaran' => 'No. Daftar',
+            'kode_pasien' => 'No. RM',
             'tgl_masuk' => 'Tgl Masuk',
             'tgl_keluar' => 'Tgl Keluar',
             'id_kiriman' => 'Kiriman Dari',
@@ -71,6 +81,11 @@ class Pendaftaran extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getCaraBayar()
+    {
+        return $this->hasOne(DebiturDetail::className(), ['id_debitur_kode' => 'id_cara_bayar']);
+    }
+
     public function getPasien()
     {
         return $this->hasOne(Pasien::className(), ['no_rekam_medik' => 'kode_pasien']);
@@ -78,6 +93,30 @@ class Pendaftaran extends \yii\db\ActiveRecord
 
     public function getLayanan()
     {
-        return $this->hasMany(Layanan::className(), ['registrasi_kode' => 'id_pendaftaran']);
+        return $this->hasOne(Layanan::className(), ['registrasi_kode' => 'id_pendaftaran']);
+    }
+
+    public function getResep()
+    {
+        return $this->hasOne(Resep::className(), [
+            'no_daftar' => 'id_pendaftaran',
+            'no_rm' => 'kode_pasien',
+        ]);
+    }
+
+    public function getPenunjang()
+    {
+        return $this->hasOne(OrderLab::className(), [
+            'no_daftar' => 'id_pendaftaran',
+            'no_rekam_medik' => 'kode_pasien',
+        ]);
+    }
+
+    public function getPembayaran()
+    {
+        return $this->hasOne(Pembayaran::className(), [
+            'no_daftar' => 'id_pendaftaran',
+            'no_rm' => 'kode_pasien',
+        ]);
     }
 }
