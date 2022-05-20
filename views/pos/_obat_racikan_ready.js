@@ -38,16 +38,16 @@ function ubahSelect2(anu){
                 }
             })
 
-            if (uda_dipilih == 2) {
-                $(`#racikandetail-${index_luar}-${index}-id_racikan_detail`).val(null).trigger("change")
-                $(`#racikandetail-${index_luar}-${index}-id_racikan_detail`).select2("open")
-                toastr.error('Upps,, Item sudah dipilih Bund. Coba yang lain ya')
-            } else {
+            // if (uda_dipilih == 2) {
+            //     $(`#racikandetail-${index_luar}-${index}-id_racikan_detail`).val(null).trigger("change")
+            //     $(`#racikandetail-${index_luar}-${index}-id_racikan_detail`).select2("open")
+            //     toastr.error('Upps,, Item sudah dipilih Bund. Coba yang lain ya')
+            // } else {
                 $(`#racikandetail-${index_luar}-${index}-harga_jual-disp`).val(barangDipilih.harga_jual).trigger("change")
                 let subtotal = $(`#racikandetail-${index_luar}-${index}-jumlah`).val() * barangDipilih.harga_jual
                 $(`#racikandetail-${index_luar}-${index}-subtotal-disp`).val(subtotal).trigger("change")
                 $(`#racikandetail-${index_luar}-${index}-jumlah-disp`).focus()
-            }
+            // }
 
 
         })
