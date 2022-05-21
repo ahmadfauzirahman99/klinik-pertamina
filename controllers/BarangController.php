@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\components\SSP;
+use app\components\SSPF;
 use Yii;
 use app\models\Barang;
 use app\models\BarangSearch;
@@ -15,20 +17,21 @@ use yii\helpers\Url;
  */
 class BarangController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+    
+    // /**
+    //  * {@inheritdoc}
+    //  */
+    // public function behaviors()
+    // {
+    //     return [
+    //         'verbs' => [
+    //             'class' => VerbFilter::className(),
+    //             'actions' => [
+    //                 'delete' => ['POST'],
+    //             ],
+    //         ],
+    //     ];
+    // }
 
     /**
      * Lists all Barang models.
@@ -139,5 +142,36 @@ class BarangController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+    public function actionIndexObat()
+    {
+        return $this->render('index-obat');
+    }
+
+    public function beforeAction($action)
+    {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+
+    public function actionApiIndexObat()
+    {
+        // $this->enableCsrfValidation = false;
+        
+        $tbl = 'master_barang';
+        $columns = [
+            ['db' => 'id_barang', 'dt' => 0, 'field' => 'id_barang'],
+            ['db' => 'nama_barang', 'dt' => 1, 'field' => 'nama_barang']
+        ];
+
+        $primarykey = 'id_barang';
+
+        // $joinQuery = "FROM {$tbl}"
+        echo json_encode(
+            SSP::simple($_POST, Yii::$app->params['sql_details'], $tbl, $primarykey, $columns, null)
+        );
+        exit();
     }
 }

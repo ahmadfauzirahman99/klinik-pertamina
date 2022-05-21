@@ -210,7 +210,7 @@ AppAsset::register($this);
                         ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/tindakan']],
                         ['label' => 'Master', 'header' => true],
                         ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
-                        ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index']],
+                        ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index-obat']],
                         ['label' => 'Data Satuan', 'icon' => 'list', 'url' => ['/satuan/index']],
 
 

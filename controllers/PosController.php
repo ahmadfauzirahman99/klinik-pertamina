@@ -235,25 +235,41 @@ class PosController extends \yii\web\Controller
             Model::loadMultiple($modelDetail, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_resep_detail', 'id_resep_detail')));
 
+
+
+
+
+
             // if()
 
-            echo '<pre>';
-            print_r(Yii::$app->request->post());
-            exit;
+            // echo '<pre>';
+            // print_r(Yii::$app->request->post());
+            // exit;
 
             $model->tanggal = Yii::$app->formatter->asDate($model->tanggal, 'php:Y-m-d');
 
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelDetail) && $valid;
 
+
+            if (isset($_POST['Racikan'][0][0])) {
+
+                foreach ($_POST['Racikan'] as $indexRacikan => $rooms) {
+                    foreach ($rooms as $indexRacikanDetail => $room) {
+                        $data['Racikan'] = $room;
+                        $modelRacikanDetail = new RacikanDetail();
+                        $modelRacikanDetail->load($data);
+                        $modelsRoom[$indexRacikan][$indexRacikanDetail] = $modelRacikanDetail;
+                        $valid = $modelRacikanDetail->validate();
+                    }
+                }
+            }
+            // var_dump($valid);
+            // exit;
             if ($valid) {
                 // $transaction = \Yii::$app->db->beginTransaction();
 
                 try {
-
-
-                    // $model->setNoResepNoPenjualan();
-
                     if ($flag = $model->save(false)) {
                         // echo "<pre>";
                         // print_r($model);
@@ -264,15 +280,24 @@ class PosController extends \yii\web\Controller
                             ResepDetail::deleteAll(['id_resep_detail' => $deletedIDs]);
                         }
 
+
+                        foreach ($_POST['Racikan'] as $racikan) {
+
+                            
+                            $modelRacikan = new Racikan();
+                            $modelRacikan->keterangan = $racikan['keterangan'];
+                            $modelRacikan->tanggal = date('Y-m-d');
+                            $modelRacikan->save(false);
+                            // var_dump($racikan['keterangan']);
+                        }
+                        exit;
+
                         // untuk save detail ke tabel pengadaan_detail
                         foreach ($modelDetail as $modelDetail) {
 
 
                             $modelDetail->id_resep = $model->id_resep;
-                            // $modelDetail->stok_saat_minta = 0;
-                            // $modelDetail->pemakaian_sepekan = 0;
-                            // $modelDetail->stok_saat_minta = $modelDetail->barang->getBarangApotek($model->unit_peminta)->sum('jumlah_stok') ?? 0;
-                            // $modelDetail->pemakaian_sepekan = $modelDetail->barang->jumlahPakaiPekanIni($model->unit_peminta) ?? 0;
+
 
                             if (!($flag = $modelDetail->save(false))) {
                                 // $transaction->rollBack();
@@ -283,19 +308,6 @@ class PosController extends \yii\web\Controller
                                 die;
                                 break;
                             } else {
-
-                                // HelperStok::keluar([
-                                //     'nama_parent' => Penjualan::tableName(),
-                                //     'id_parent' => $model->id_penjualan,
-                                //     'nama_child' => PenjualanDetail::tableName(),
-                                //     'id_child' => $modelDetail->id_penjualan_detail,
-                                //     'id_barang' => $modelDetail->id_barang,
-                                //     'id_asal' => $modelDetail->penjualan->id_depo,
-                                //     'nama_asal' => $modelDetail->penjualan->depo->nama,
-                                //     'id_tujuan' => $modelDetail->penjualan->no_rm,
-                                //     'nama_tujuan' => $modelDetail->penjualan->nama_pasien,
-                                //     'jumlah_kirim' => $modelDetail->jumlah,
-                                // ]);
                             }
                         }
                     } else {
