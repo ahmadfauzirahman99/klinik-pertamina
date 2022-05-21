@@ -17,7 +17,7 @@ use yii\helpers\Url;
  */
 class BarangController extends Controller
 {
-    
+
     // /**
     //  * {@inheritdoc}
     //  */
@@ -159,18 +159,19 @@ class BarangController extends Controller
     public function actionApiIndexObat()
     {
         // $this->enableCsrfValidation = false;
-        
-        $tbl = 'master_barang';
+
+        $tbl = Barang::tableName();
         $columns = [
-            ['db' => 'id_barang', 'dt' => 0, 'field' => 'id_barang'],
-            ['db' => 'nama_barang', 'dt' => 1, 'field' => 'nama_barang']
+            ['db' => 'mb.id_barang', 'dt' => 0, 'field' => 'id_barang'],
+            ['db' => 'mb.nama_barang', 'dt' => 1, 'field' => 'nama_barang'],
+            ['db' => 'ms.nama_satuan', 'dt' => 2, 'field' => 'nama_satuan'],
         ];
 
         $primarykey = 'id_barang';
 
-        // $joinQuery = "FROM {$tbl}"
+        $joinQuery = "FROM {$tbl} AS mb LEFT JOIN master_satuan as ms ON mb.id_satuan = ms.id_satuan";
         echo json_encode(
-            SSP::simple($_POST, Yii::$app->params['sql_details'], $tbl, $primarykey, $columns, null)
+            SSPF::simple($_POST, Yii::$app->params['sql_details'], $tbl, $primarykey, $columns, $joinQuery)
         );
         exit();
     }

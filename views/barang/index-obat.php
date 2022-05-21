@@ -14,12 +14,11 @@ DatatableAsset::register($this);
             <div class="card-box">
                 <div class="table-responsive">
                     <table id="responsive-datatable" class="table table-bordered table-striped  dt-responsive nowrap" cellpadding="0" width="100%">
-
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Nama Obat</th>
-                                
+                                <th>Nama Satuan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,7 +27,7 @@ DatatableAsset::register($this);
                             <tr>
                                 <th>ID</th>
                                 <th>Nama Obat</th>
-
+                                <th>Nama Satuan</th>
                             </tr>
                         </tfoot>
                     </table>

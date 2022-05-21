@@ -12,7 +12,7 @@ $("#responsive-datatable").DataTable({
         },
         {
             "class": "text-center",
-            "targets": [0, 1]
+            "targets": [0, 1,2]
         }
     ],
 
