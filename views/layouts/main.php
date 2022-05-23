@@ -212,6 +212,10 @@ AppAsset::register($this);
                         ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
                         ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index-obat']],
                         ['label' => 'Data Satuan', 'icon' => 'list', 'url' => ['/satuan/index']],
+                        ['label' => 'Master Pembayaran', 'header' => true],
+                        ['label' => 'Cara Bayar', 'icon' => 'list', 'url' => ['/satuan/index']],
+
+
 
 
                     ];
