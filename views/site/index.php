@@ -7,7 +7,11 @@ use yii\web\View;
 $this->title = 'Dashboard';
 ?>
 
-
-<h1>Selamat Datang</h1>
-
-<p>Tekan F1 Untuk Cari Pasien</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Selamat Datang, Selamat Beraktifitas</h1>
+            <p>Halo!!</p>
+        </div>
+    </div>
+</div>
