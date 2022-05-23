@@ -46,6 +46,9 @@ use yii\web\View;
             <tr class="form-options-item-obat-racikan-detail">
 
                 <?php
+                // echo "<pre>";
+                // var_dump($modelRacikanDetail->isNewRecord);
+                // exit;
                 // necessary for update action.
                 if (!$modelRacikanDetail->isNewRecord) {
                     echo Html::activeHiddenInput($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_racikan_detail");
@@ -56,7 +59,7 @@ use yii\web\View;
                 <td>
                     <?php
                     $url = Url::to(['api-internal/cari-obat']);
-                    echo $form->field($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_racikan_detail", [
+                    echo $form->field($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_barang_racikan", [
                         // <span class="label-detail required">Barang</span>
                         'template' => '
                                             <div class="col-sm-12">

@@ -580,7 +580,7 @@ $this->title = 'Point Of Service (POS)';
                                             <?php
                                             // necessary for update action.
                                             if (!$modelRacikan->isNewRecord) {
-                                                echo Html::activeHiddenInput($modelRacikan, "[{$i}]id_racikan_detail");
+                                                echo Html::activeHiddenInput($modelRacikan, "[{$i}]id_racikan");
                                             }
                                             ?>
                                             <td style="text-align: center;">
