@@ -122,7 +122,7 @@ AppAsset::register($this);
         }
     </style>
     <script>
-        const baseUrl = '<?= Yii::$app->homeUrl ?>/';
+        const baseUrl = '<?= YII_ENV_DEV ? Url::base('http') : Yii::$app->homeUrl ?>/';
         let controller = '<?= Yii::$app->controller->id ?>';
         const moduleName = '<?= Yii::$app->controller->module->id ?>';
     </script>

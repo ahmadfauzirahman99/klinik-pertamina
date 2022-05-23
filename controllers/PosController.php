@@ -234,18 +234,6 @@ class PosController extends \yii\web\Controller
             $modelDetail = Model::createMultiple(ResepDetail::classname(), $modelDetail, 'id_resep_detail');
             Model::loadMultiple($modelDetail, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_resep_detail', 'id_resep_detail')));
-
-
-
-
-
-
-            // if()
-
-            // echo '<pre>';
-            // print_r(Yii::$app->request->post());
-            // exit;
-
             $model->tanggal = Yii::$app->formatter->asDate($model->tanggal, 'php:Y-m-d');
 
             $valid = $model->validate();
@@ -275,15 +263,12 @@ class PosController extends \yii\web\Controller
                         // print_r($model);
                         // echo "</pre>";
                         // die;
-
                         if (!empty($deletedIDs)) {
                             ResepDetail::deleteAll(['id_resep_detail' => $deletedIDs]);
                         }
-
-
                         foreach ($_POST['Racikan'] as $racikan) {
 
-                            
+
                             $modelRacikan = new Racikan();
                             $modelRacikan->keterangan = $racikan['keterangan'];
                             $modelRacikan->tanggal = date('Y-m-d');
