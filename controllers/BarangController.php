@@ -7,6 +7,7 @@ use app\components\SSPF;
 use Yii;
 use app\models\Barang;
 use app\models\BarangSearch;
+use app\models\Satuan;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -161,15 +162,19 @@ class BarangController extends Controller
         // $this->enableCsrfValidation = false;
 
         $tbl = Barang::tableName();
+        $joinTable = Satuan::tableName();
         $columns = [
             ['db' => 'mb.id_barang', 'dt' => 0, 'field' => 'id_barang'],
             ['db' => 'mb.nama_barang', 'dt' => 1, 'field' => 'nama_barang'],
             ['db' => 'ms.nama_satuan', 'dt' => 2, 'field' => 'nama_satuan'],
+            array("db" => "ms.id_satuan", "dt" => 3, 'field' => 'id_satuan', "formatter" => function ($d, $row) {
+                return '<a href="#" onClick="click(2)">Click Saya</a>';
+            })
         ];
 
         $primarykey = 'id_barang';
 
-        $joinQuery = "FROM {$tbl} AS mb LEFT JOIN master_satuan as ms ON mb.id_satuan = ms.id_satuan";
+        $joinQuery = "FROM {$tbl} AS mb LEFT JOIN {$joinTable} as ms ON mb.id_satuan = ms.id_satuan";
         echo json_encode(
             SSPF::simple($_POST, Yii::$app->params['sql_details'], $tbl, $primarykey, $columns, $joinQuery)
         );

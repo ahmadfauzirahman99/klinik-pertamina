@@ -19,6 +19,7 @@ DatatableAsset::register($this);
                                 <th>ID</th>
                                 <th>Nama Obat</th>
                                 <th>Nama Satuan</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,6 +29,7 @@ DatatableAsset::register($this);
                                 <th>ID</th>
                                 <th>Nama Obat</th>
                                 <th>Nama Satuan</th>
+                                <th>Aksi</th>
                             </tr>
                         </tfoot>
                     </table>

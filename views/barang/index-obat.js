@@ -7,12 +7,15 @@ $("#responsive-datatable").DataTable({
     },
     "columnDefs": [
         {
-            "width": "100px",
+            "width": "10px",
             "targets": 0
         },
         {
             "class": "text-center",
-            "targets": [0, 1,2]
+            "targets": [0, 1, 2, 3]
+        },
+        {
+            "render": "id_satuan"
         }
     ],
 
@@ -20,3 +23,8 @@ $("#responsive-datatable").DataTable({
         [0, "ASC"]
     ],
 });
+
+
+const click = data => {
+    alert(data)
+}
