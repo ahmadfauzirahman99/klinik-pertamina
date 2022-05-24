@@ -1,14 +1,4 @@
 <?php
-/*
- * @Author: Dicky Ermawan S., S.T., MTA 
- * @Email: wanasaja@gmail.com 
- * @Web: dickyermawan.github.io 
- * @Linkedin: linkedin.com/in/dickyermawan 
- * @Date: 2021-09-19 10:48:58 
- * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-05 09:21:14
- */
-
 
 namespace app\controllers;
 
@@ -27,6 +17,7 @@ use app\models\RacikanDetail;
 use Yii;
 use app\models\Resep;
 use app\models\ResepDetail;
+use app\models\Tuslah;
 use Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -217,14 +208,14 @@ class PosController extends \yii\web\Controller
 
 
             if (!$modelRacikan) { // racikan belum nemu
-                $modelRacikan[0] = new Racikan();
-                $modelRacikan[0]->no_rekam_medik = $pasien->no_rekam_medik;
-                $modelRacikan[0]->created_by = 1;
-                $modelRacikan[0]->update_by = 1;
-                $modelRacikan[0]->total_bayar = 0;
-                $modelRacikan[0]->total_harga = 0;
-                $modelRacikan[0]->diskon_persen = 0;
-                $modelRacikan[0]->diskon_total = 0;
+                $modelRacikan = new Racikan();
+                $modelRacikan->no_rekam_medik = $pasien->no_rekam_medik;
+                $modelRacikan->created_by = 1;
+                $modelRacikan->update_by = 1;
+                $modelRacikan->total_bayar = 0;
+                $modelRacikan->total_harga = 0;
+                $modelRacikan->diskon_persen = 0;
+                $modelRacikan->diskon_total = 0;
                 // $modelRacikan->created_at = date('Y-m-d H:i')
             }
             $modelRacikanDetail = $model->racikanDetail ?? [[new RacikanDetail()]]; //?????
@@ -250,14 +241,6 @@ class PosController extends \yii\web\Controller
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelDetail, 'id_resep_detail', 'id_resep_detail')));
             $model->tanggal = Yii::$app->formatter->asDate($model->tanggal, 'php:Y-m-d');
 
-
-
-
-
-            $valid = $model->validate();
-            $valid = Model::validateMultiple($modelDetail) && $valid;
-
-
             if (isset($_POST['Racikan'][0][0])) {
 
                 foreach ($_POST['Racikan'] as $indexRacikan => $rooms) {
@@ -270,8 +253,8 @@ class PosController extends \yii\web\Controller
                     }
                 }
             }
-            // var_dump($valid);
-            // exit;
+
+            $valid = true;
             if ($valid) {
                 // $transaction = \Yii::$app->db->beginTransaction();
 
@@ -281,15 +264,10 @@ class PosController extends \yii\web\Controller
                         // print_r($model);
                         // echo "</pre>";
                         // die;
-                        
-                        
 
                         if (!empty($deletedIDs)) {
                             ResepDetail::deleteAll(['id_resep_detail' => $deletedIDs]);
                         }
-
-
-
                         if ($flag = $model->save(false)) {
                             // echo "<pre>";
                             // print_r($model);
@@ -312,7 +290,6 @@ class PosController extends \yii\web\Controller
                                     die;
                                     break;
                                 } else {
-
                                 }
                             }
                         } else {
@@ -793,5 +770,152 @@ class PosController extends \yii\web\Controller
         ]));
         $mpdf->Output('Laporan.pdf', 'I');
         exit;
+    }
+
+    public function actionObatRacikan($reg = null, $rm = null)
+    {
+
+
+        $pasien = Pasien::findOne(['no_rekam_medik' => $rm]);
+
+        $modelTuslah = Tuslah::find()->where(['no_daftar' => $reg, 'no_rm' => $rm])->one();
+        if (is_null($modelTuslah)) {
+            $modelTuslah = new Tuslah();
+            $modelTuslah->no_rm = $pasien->no_rekam_medik;
+            $modelTuslah->no_daftar = $reg;
+            $modelTuslah->tanggal = date('Y-m-d');
+            $modelTuslah->jam = date('H:i:s');
+            $modelTuslah->nama_pasien = $pasien->nama_lengkap;
+        }
+        $modelRacikan = $modelTuslah->racikan;
+        $modelRacikanDetail = [];
+        $oldRacikanDetail = [];
+
+
+        // echo '<pre>';
+        // // var_dump(!empty($modelRacikan));
+        // print_r($modelRacikan);
+        // exit;
+
+
+        // if (!empty($modelRacikan)) {
+        //     foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
+        //         $racikanDetail = $modelRacikan->racikanDetail;
+        //         // var_dump($racikanDetail);
+        //         $modelRacikanDetail[$indexRacikan] = $racikanDetail;
+        //         // var_dump($modelRacikanDetail);
+        //         $oldRacikanDetail = ArrayHelper::merge(ArrayHelper::index($racikanDetail, 'id_racikan'), $oldRacikanDetail);
+        //     }
+        //     // exit;
+        // }
+
+        // var_dump(is_array($modelRacikan));
+        // exit;
+
+        if ($modelTuslah->load(Yii::$app->request->post())) {
+
+            $modelRacikanDetail = [];
+
+            $oldIDRacikan = ArrayHelper::map($modelRacikan, 'id_racikan', 'id_racikan');
+            $modelRacikan = Model::createMultiple(Racikan::className(), $modelRacikan);
+            Model::loadMultiple($modelRacikan, Yii::$app->request->post());
+            $deletedRacikanIDs = array_diff($oldIDRacikan, array_filter(ArrayHelper::map($modelRacikan, 'id_racikan', 'id_racikan')));
+
+
+            $valid = $modelTuslah->validate();
+            $valid = Model::validateMultiple($modelRacikan) && $valid;
+
+            $racikansDetailsIDS = [];
+            if (isset($_POST['RacikanDetail'][0][0])) {
+                foreach ($_POST['RacikanDetail'] as $indexRacikan => $racikanDetails) {
+                    $racikansDetails = ArrayHelper::merge($racikansDetailsIDS, array_filter(ArrayHelper::getColumn($racikanDetails, 'id_racikan_detail')));
+                    foreach ($racikanDetails as $indexRacikanDetail => $racikan) {
+                        $data['RacikanDetail'] = $racikan;
+                        $modelRacikanDetail = (isset($room['id_racikan_detail']) && isset($oldracikanDetails[$room['id_racikan_detail']])) ? $racikansDetailsIDS[$racikanDetails['id_racikan_detail']] : new RacikanDetail();
+                        $modelRacikanDetail->load($data);
+                        $modelsRoom[$indexRacikan][$indexRacikanDetail] = $modelRacikanDetail;
+                        $valid = $modelRacikanDetail->validate();
+                    }
+                }
+            }
+
+            // var_dump($valid);
+            // exit;
+            $oldRacikanDetailIDS = ArrayHelper::getColumn($oldRacikanDetail, 'id_racikan_detail');
+            $deletedRacikanDetailIDs = array_diff($oldRacikanDetailIDS, $racikansDetails);
+
+            if ($valid) {
+
+                if ($flag = $modelTuslah->save(false)) {
+
+                    if (!empty($deletedRacikanDetailIDs)) {
+                        RacikanDetail::deleteAll(['id_racikan_detail' => $deletedRacikanDetailIDs]);
+                    }
+
+                    if (!empty($deletedRacikanIDs)) {
+                        Racikan::deleteAll(['id_racikan' => $deletedRacikanIDs]);
+                    }
+
+                    foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
+
+
+                        if ($flag == false) {
+                            break;
+                        }
+
+                        $modelRacikan->tuslah = $modelTuslah->id_tuslah;
+                        $modelRacikan->no_daftar = $modelTuslah->no_daftar;
+                        $modelRacikan->no_rekam_medik = $modelTuslah->no_rm;
+                        $modelRacikan->total_harga = 0;
+                        $modelRacikan->total_bayar = 0;
+                        $modelRacikan->id_poli = 1;
+                        $modelRacikan->id_dokter = 1;
+                        // var_dump($flag);
+                        // exit;
+
+                        if (!($flag == $modelRacikan->save(false))) {
+                            break;
+                        }
+
+
+                        // echo '<pre>';
+                        // var_dump($modelRacikan);
+                        // // var_dump(isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan]));
+                        // exit;
+
+
+                        // if (isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan])) {
+                        //     echo '1';
+                        //     exit;
+                        // foreach ($modelRacikanDetail[$indexRacikan] as $indexRacikanDetail => $modelRacikanDetail) {
+                        //     $modelRacikanDetail->id_racikan = $modelRacikan->id_racikan;
+                        //     if (!$flag == $modelRacikanDetail->save(false)) {
+                        //         // break;
+                        //         var_dump($modelRacikanDetail->erros);
+                        //     }
+                        //     exit;
+                        // }
+                        // }
+                    }
+                }
+
+                if ($flag) {
+                    Yii::$app->session->setFlash('success', 'Berhasil menyimpan Obat Racikan');
+                    return $this->redirect([
+                        '/pos/obat-racikan',
+                        'reg' => $modelTuslah->no_daftar,
+                        'rm' => $modelTuslah->no_rm,
+                    ]);
+                } else {
+                }
+            }
+        }
+
+
+        return $this->render('form-obat-racikan', [
+            'model' => $modelTuslah,
+            'modelRacikan' => (empty($modelRacikan)) ? [new Racikan] : $modelRacikan,
+            'modelRacikanDetail' => (empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail
+        ]);
     }
 }

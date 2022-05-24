@@ -60,10 +60,10 @@ class Pasien extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_identitas', 'nama_lengkap', 'jenis_kelamin'], 'required'],
+            [['no_identitas', 'nama_lengkap', 'jenis_kelamin','tanggal_lahir'], 'required'],
             [['jenis_kelamin', 'alamat_lengkap', 'agama', 'status_perkawinan', 'kewenegaraan', 'foto', 'foto_ktp'], 'string'],
             [['kel', 'kec', 'kab', 'cara_pembayaran', 'crt_by'], 'integer'],
-            [['tanggal_lahir', 'crt', 'upd'], 'safe'],
+            [['crt', 'upd'], 'safe'],
             [['no_identitas'], 'string', 'max' => 20],
             [['no_rekam_medik', 'no_kepesertaan', 'nama_lengkap', 'no_tlp_pasien', 'pendidikan_terakhir', 'pekerjaan_terakhir', 'profesi', 'is_penanggung_jawab', 'hubungan_dengan_pasien', 'no_telp', 'anak_keberapa', 'nama_ayah', 'nama_ibu', 'tempat_lahir', 'status_pasien', 'status_pekerjaan'], 'string', 'max' => 100],
             [['nama_penanggung_jawab'], 'string', 'max' => 200],
