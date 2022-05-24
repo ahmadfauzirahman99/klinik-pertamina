@@ -852,8 +852,10 @@ class PosController extends \yii\web\Controller
             // echo "<pre>";
             // print_r($modelRacikan);
             // exit;
-            foreach($thePost['Racikan'] as $h => $asdfgh){
-                $modelRacikan[] = new Racikan;
+            
+            foreach($thePost['Racikan'] as $h => $Rac01){
+                $modelRacikan[$h] = new Racikan;
+                $modelRacikan[$h]->keterangan = $Rac01['keterangan'];
             }
             // echo "<pre>";
             // print_r($modelRacikan);
