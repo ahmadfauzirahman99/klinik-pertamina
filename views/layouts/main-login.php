@@ -15,15 +15,15 @@ use yii\bootstrap4\Modal;
 use yii\helpers\Url;
 
 LoginAsset::register($this);
-\hail812\adminlte3\assets\PluginAsset::register($this)->add([
-    'chart.js',
-    'icheck-bootstrap',
-    'pace',
-    'popper',
-    'overlayScrollbars',
-    'sweetalert2',
-    'toastr',
-]);
+// \hail812\adminlte3\assets\PluginAsset::register($this)->add([
+//     'chart.js',
+//     'icheck-bootstrap',
+//     'pace',
+//     'popper',
+//     'overlayScrollbars',
+//     'sweetalert2',
+//     'toastr',
+// ]);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
