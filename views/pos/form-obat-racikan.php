@@ -229,7 +229,7 @@ $this->title = 'Form Obat Racikan';
                             echo $form->field($model, 'total_tuslah', [])->widget(KyNumber::className(), ['displayOptions' => [
                                 'style' => 'font-weight: bold;',
                                 'readonly' => false,
-                                'placeholder'=>'Harga Racikan Obat'
+                                'placeholder' => 'Harga Racikan Obat'
                             ]]);
                             ?>
 
@@ -352,6 +352,28 @@ $this->title = 'Form Obat Racikan';
                         </div>
                         <hr>
                     </div>
+
+                    <div class="tabel-total" style="margin-top: 25px;">
+                        <table class="table">
+
+                            <tbody class="tbody-total">
+                                <tr>
+                                    <td><label>TOTAL BIAYA RACIKAN : </label></td>
+                                    <td style="width: 35%;">
+                                        <?php
+                                        echo $form->field($model, 'total_biaya_racikan', [])->widget(KyNumber::className(), ['displayOptions' => [
+                                            'style' => 'font-weight: bold;',
+                                            'readonly' => true,
+                                            'onchange' => 'onChangeTotalHarga()',
+                                        ]])->label(false);
+                                        ?>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="form-group float-right">
                         <?= Html::submitButton('[ ALT+S ] Simpan', ['class' => 'btn btn-success btn-simpan-form-obat']) ?>
                     </div>

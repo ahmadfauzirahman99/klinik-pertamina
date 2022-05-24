@@ -36,7 +36,7 @@ class Tuslah extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_rm', 'no_daftar', 'tanggal', 'jam', 'total_tuslah'], 'required'],
+            [['no_rm', 'no_daftar', 'tanggal', 'jam','total_tuslah','total_biaya_racikan'], 'required'],
             [['tanggal', 'jam', 'total_biaya_racikan'], 'safe'],
             [['id_poli', 'id_dokter', 'id_racikan'], 'integer'],
             [['no_rm', 'no_daftar'], 'string', 'max' => 100],
@@ -57,6 +57,7 @@ class Tuslah extends \yii\db\ActiveRecord
             'id_poli' => 'Id Poli',
             'id_dokter' => 'Id Dokter',
             'id_racikan' => 'Id Racikan',
+            'total_biaya_racikan' => 'total_biaya_racikan',
         ];
     }
 

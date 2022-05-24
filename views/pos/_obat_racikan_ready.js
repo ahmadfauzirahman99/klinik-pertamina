@@ -1,6 +1,33 @@
 
+// $(".dynamicform_wrapper_obat").on("afterInsert", function (e, item) {
+$(".dynamicform_wrapper1").find('.dynamicform_wrapper_obat').on(
+  "afterInsert",
+  function (e, item) {
+    //   alert();
+    $(item).find("select[id*='racikandetail-']").val(null).trigger("change");
+    // console.log($(item).find("select[id*='racikandetail-']"));
+  }
+);
+
+$(".dynamicform_wrapper1").on(
+  "afterInsert",
+  function (e, item) {
+    //   alert();
+    $(item).find("select[id*='racikandetail-']").val(null).trigger("change");
+    // console.log($(item).find("select[id*='racikandetail-']"));
+    $(item).find('.dynamicform_wrapper_obat').on(
+        "afterInsert",
+        function (e, item) {
+            //   alert();
+            $(item).find("select[id*='racikandetail-']").val(null).trigger("change");
+            // console.log($(item).find("select[id*='racikandetail-']"));
+        }
+        );
+  }
+);
 
 function ubahSelect2(anu){
+    
     // alert(12345)
     const index = $(".dynamicform_wrapper_obat .form-options-item-obat-racikan-detail").length - 1;
     const index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1;
@@ -56,6 +83,9 @@ function ubahSelect2(anu){
         $(".dynamicform_wrapper_obat .form-options-item-obat-racikan-detail").each(function (index) {
             $(this).find('.nomor-racikan-detail').html((index + 1))
         })
+        // alert()
+        // $(this).closest(".det_jumlah").val(1234567).change();
+        // generateTotalBiayaRacikan();
 }
 
 $(document).ready(function () {
