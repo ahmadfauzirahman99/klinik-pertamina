@@ -122,7 +122,7 @@ use app\components\HelperFormat;
             <tr>
                 <td colspan="7" style="border: unset !important; text-decoration: underline;">BIAYA OBAT</td>
             </tr>
-          
+
             <tr>
                 <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;">#</td>
                 <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Barang</td>
@@ -159,6 +159,63 @@ use app\components\HelperFormat;
         </tbody>
     </table>
 
+    <table class="tabel-rincian">
+        <thead>
+            <tr>
+                <td colspan="2" style="border: unset !important; text-decoration: underline;">BIAYA OBAT Racikan</td>
+            </tr>
+
+            <tr>
+                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;">#</td>
+                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Nama Racikan</td>
+                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Racikan</td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if ((isset($racikan->racikan))) { ?>
+                <?php foreach ($racikan->racikan as $keyRacikan => $valueRacikan) { ?>
+                    <tr>
+                        <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;"><?= $keyRacikan + 1 ?></td>
+                        <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 30%;"><?= $valueRacikan->keterangan ?></td>
+                        <td class="teks-kecil bg-info text-white" style="border-top: unset !important; width: 65%;">
+                            <table class="tabel-rincian">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Barang</th>
+                                        <th>Jumlah</th>
+                                        <th>Harga</th>
+                                        <th>Sub Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $jumlahPerTotalRacikan = 0; ?>
+                                    <?php foreach ($valueRacikan->racikanDetail as  $keyRacikanDetail => $valueRacikanDetail) { ?>
+                                        <tr>
+                                            <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;"><?= $keyRacikanDetail + 1 ?></td>
+                                            <td><?= $valueRacikanDetail->barang->nama_barang ?></td>
+                                            <td class="teks-kecil text-right" style="width: 13%; border-bottom: dashed 1px black;"><?= Yii::$app->formatter->asDecimal($valueRacikanDetail->jumlah) ?></td>
+                                            <td class="teks-kecil text-right" style="width: 13%; border-bottom: dashed 1px black;"><?= Yii::$app->formatter->asDecimal($valueRacikanDetail->harga_jual) ?></td>
+                                            <td class="teks-kecil text-right" style="width: 13%; border-bottom: dashed 1px black;"><?= Yii::$app->formatter->asDecimal($valueRacikanDetail->subtotal) ?></td>
+
+                                            <?= $jumlahPerTotalRacikan+=$valueRacikanDetail->subtotal ?>
+                                        </tr>
+                                    <?php } ?>
+                                    <tr>
+                                        <td colspan="4">Total</td>
+                                        <td class="teks-kecil text-right" style="width: 13%; border-bottom: dashed 1px black;"><?= Yii::$app->formatter->asDecimal($jumlahPerTotalRacikan) ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                <?php } ?>
+            <?php } else { ?>
+            <?php } ?>
+        </tbody>
+    </table>
+
+
 
 
     <div class="div-rekap" style="margin-top: 25px;">
@@ -171,6 +228,12 @@ use app\components\HelperFormat;
                     <td>BIAYA OBAT</td>
                     <td>Rp.</td>
                     <td class="text-right"><?= Yii::$app->formatter->asDecimal($resep->total_bayar ?? 0) ?></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>BIAYA OBAT RACIKAN</td>
+                    <td>Rp.</td>
+                    <td class="text-right"><?= Yii::$app->formatter->asDecimal($racikan->total_biaya_racikan ?? 0) ?></td>
                 </tr>
 
                 <tr>

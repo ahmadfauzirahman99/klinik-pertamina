@@ -16,6 +16,7 @@ use Yii;
  * @property int|null $id_dokter
  * @property int|null $id_racikan
  * @property int|null $total_tuslah
+ * @property int|null $total_biaya_racikan
  */
 class Tuslah extends \yii\db\ActiveRecord
 {
@@ -35,8 +36,8 @@ class Tuslah extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_rm', 'no_daftar', 'tanggal', 'jam','total_tuslah'], 'required'],
-            [['tanggal', 'jam'], 'safe'],
+            [['no_rm', 'no_daftar', 'tanggal', 'jam', 'total_tuslah'], 'required'],
+            [['tanggal', 'jam', 'total_biaya_racikan'], 'safe'],
             [['id_poli', 'id_dokter', 'id_racikan'], 'integer'],
             [['no_rm', 'no_daftar'], 'string', 'max' => 100],
         ];

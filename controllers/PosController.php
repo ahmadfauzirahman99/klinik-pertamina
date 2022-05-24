@@ -613,6 +613,9 @@ class PosController extends \yii\web\Controller
                 $pendaftaran->tgl_masuk = Yii::$app->formatter->asDate($pendaftaran->tgl_masuk);
                 $model->no_rm = $pendaftaran->kode_pasien;
 
+
+
+
                 $pasien = $pendaftaran->pasien;
                 $pasien->tanggal_lahir = Yii::$app->formatter->asDate($pasien->tanggal_lahir);
 
@@ -620,6 +623,7 @@ class PosController extends \yii\web\Controller
                 $tindakan->total_bayar = $tindakan->getLayananDetail()->sum('subtotal');
 
                 $resep = $pendaftaran->resep;
+                $racikan = $pendaftaran->tuslah;
                 $penunjang = $pendaftaran->penunjang;
 
                 $model->biaya_registrasi = $tindakan->biaya_registrasi ?? 0;
@@ -627,7 +631,10 @@ class PosController extends \yii\web\Controller
                 $model->biaya_obat = $resep->total_bayar ?? 0;
                 $model->biaya_penunjang = $penunjang->total_harga ?? 0;
 
-                $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang;
+
+                $model->biaya_obat_racikan = $racikan->total_biaya_racikan ?? 0;
+
+                $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang + $model->biaya_obat_racikan;
 
                 // var_dump($model->total_biaya);
                 // exit;
@@ -664,6 +671,7 @@ class PosController extends \yii\web\Controller
             'pasien' => $pasien,
             'tindakan' => $tindakan,
             'resep' => $resep,
+            'racikan' => $racikan,
             'penunjang' => $penunjang,
             // 'modelDetail' => (empty($modelDetail)) ? [new ResepDetail()] : $modelDetail,
         ]);
@@ -772,12 +780,15 @@ class PosController extends \yii\web\Controller
         $resep = $pendaftaran->resep;
         $penunjang = $pendaftaran->penunjang;
 
+        $racikan = $pendaftaran->tuslah;
+        $model->biaya_obat_racikan = $racikan->total_biaya_racikan ?? 0;
+
         $model->biaya_registrasi = $tindakan->biaya_registrasi ?? 0;
         $model->biaya_tindakan = $tindakan->total_bayar ?? 0;
         $model->biaya_obat = $resep->total_bayar ?? 0;
         $model->biaya_penunjang = $penunjang->total_harga ?? 0;
 
-        $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang;
+        $model->total_biaya = $model->biaya_registrasi + $model->biaya_tindakan + $model->biaya_obat + $model->biaya_penunjang + $model->biaya_obat_racikan;
         $model->sudah_dibayar = 0;
         $model->sisa_pembayaran = $model->total_biaya - $model->sudah_dibayar;
 
@@ -801,6 +812,8 @@ class PosController extends \yii\web\Controller
             'pasien' => $pasien,
             'tindakan' => $tindakan,
             'resep' => $resep,
+            'racikan' =>$racikan,
+            // 'listRacikan' => $racikan->racikan,
             'penunjang' => $penunjang,
         ]));
         $mpdf->Output('Laporan.pdf', 'I');
@@ -842,8 +855,8 @@ class PosController extends \yii\web\Controller
             // echo "<pre>";
             // print_r($modelRacikan);
             // exit;
-            
-            foreach($thePost['Racikan'] as $h => $Rac01){
+
+            foreach ($thePost['Racikan'] as $h => $Rac01) {
                 $modelRacikan[$h] = new Racikan;
                 $modelRacikan[$h]->keterangan = $Rac01['keterangan'];
             }
@@ -941,16 +954,16 @@ class PosController extends \yii\web\Controller
         $modelTuslah = $modelTuslah;
         $modelRacikan = (empty($modelRacikan)) ? [new Racikan] : $modelRacikan;
         $modelRacikanDetail = (empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail;
-        
+
         // echo "<pre>";
         // print_r($modelRacikan);
         // exit;
 
         //NGEPATCHING cek jika ada kosong
         {
-            foreach($modelRacikan as $o => $racmod){
-                if(!isset($modelRacikanDetail[$o][0])){
-                    Yii::$app->session->setFlash('warning', "Data Kosong pada Racikan Detail (" . $modelRacikan[0]->keterangan . "). Baris ke-" . ($o+1));
+            foreach ($modelRacikan as $o => $racmod) {
+                if (!isset($modelRacikanDetail[$o][0])) {
+                    Yii::$app->session->setFlash('warning', "Data Kosong pada Racikan Detail (" . $modelRacikan[0]->keterangan . "). Baris ke-" . ($o + 1));
                     $modelRacikanDetail[$o][0] = new RacikanDetail;
                 }
             }

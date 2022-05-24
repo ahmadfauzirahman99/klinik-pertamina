@@ -119,4 +119,12 @@ class Pendaftaran extends \yii\db\ActiveRecord
             'no_rm' => 'kode_pasien',
         ]);
     }
+
+    public function getTuslah()
+    {
+        return $this->hasOne(Tuslah::className(), [
+            'no_daftar' => 'id_pendaftaran',
+            'no_rm' => 'kode_pasien',
+        ]);
+    }
 }

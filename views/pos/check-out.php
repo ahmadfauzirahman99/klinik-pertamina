@@ -341,7 +341,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                 <th  style="text-align: center;">Obat Racikan</th>
                                                 <td colspan="2">
                                                     <?php
-                                                    echo $form->field($model, 'biaya_obat', [
+                                                    echo $form->field($model, 'biaya_obat_racikan', [
                                                         'template' => '<div class="col-sm-12">{input}</div>'
                                                     ])->widget(KyNumber::className(), ['displayOptions' => [
                                                         'class' => 'form-control form-control-sm text-right',
