@@ -904,11 +904,12 @@ class PosController extends \yii\web\Controller
 
                     // if (!empty($deletedRacikanIDs)) {
                         Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
-                        $ambilIdRacikan_ = Racikan::find()->where(['tuslah' => $modelTuslah->id_tuslah])->all();
-                        if($ambilIdRacikan_){
-                            $ambilIdRacikan = ArrayHelper::getColumn($ambilIdRacikan_, 'id_racikan');
-                            RacikanDetail::deleteAll(['in', 'id_racikan', $ambilIdRacikan]);
-                        }
+                        RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+                        // $ambilIdRacikan_ = Racikan::find()->where(['tuslah' => $modelTuslah->id_tuslah])->all();
+                        // if($ambilIdRacikan_){
+                        //     $ambilIdRacikan = ArrayHelper::getColumn($ambilIdRacikan_, 'id_racikan');
+                        //     RacikanDetail::deleteAll(['in', 'id_racikan', $ambilIdRacikan]);
+                        // }
                     // }
 
                     $i = 0;
@@ -942,6 +943,7 @@ class PosController extends \yii\web\Controller
                                 foreach ($TheRacikanDetail as $kunci => $TheRacikanDetail_child) {
                                     $NewRacikanDetail[$i][$kunci] = $TheRacikanDetail_child;
                                     $NewRacikanDetail[$i][$kunci]['id_racikan'] = @$modelRacikan->id_racikan;
+                                    $NewRacikanDetail[$i][$kunci]['tuslah'] = @$modelTuslah->id_tuslah;
                                 }
                                 // echo "<pre>";
                                 // var_dump($modelRacikan->id_racikan);
@@ -963,7 +965,7 @@ class PosController extends \yii\web\Controller
                             // print_r($NewRacikanDetail);
                             // exit;
 
-                            $judul = ['id_barang_racikan', 'keterangan', 'dosis', 'jumlah', 'harga_jual', 'subtotal', 'id_racikan'];
+                            $judul = ['id_barang_racikan', 'keterangan', 'dosis', 'jumlah', 'harga_jual', 'subtotal', 'id_racikan', 'tuslah'];
                             foreach ($NewRacikanDetail as $k => $NRD) {
                                 // echo "<pre>";
                                 // print_r($NRD);
