@@ -83,7 +83,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         [
                             'contentOptions' => ['style' => 'text-align:center'],
-                            'class' => 'hail812\adminlte3\yii\grid\ActionColumn'
+                            'class' => 'app\components\ActionColumn',
+                            'visibleButtons' => [
+                                'delete' => function ($model) {
+                                    return false;
+                                }
+                            ]
                         ],
                     ],
                     'summaryOptions' => ['class' => 'summary mb-2'],

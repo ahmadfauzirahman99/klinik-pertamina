@@ -87,7 +87,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         [
                             'contentOptions' => ['style' => 'text-align:center'],
-                            'class' => 'app\components\ActionColumn'
+                            'class' => 'app\components\ActionColumn',
+                            'visibleButtons' => [
+                                'delete'=> function($model){
+                                    return false;
+                                }
+                            ]
                         ],
                     ],
                     'summaryOptions' => ['class' => 'summary mb-2'],
