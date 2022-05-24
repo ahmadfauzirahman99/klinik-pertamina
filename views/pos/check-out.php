@@ -318,40 +318,13 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                         <tbody>
                                             <tr>
                                                 <th colspan="2" style="text-align: center; vertical-align: middle;">Rekapitulasi</th>
-                                                <th style="text-align: center;">Total Biaya</th>
+                                                <th style="text-align: right;">Total Biaya</th>
                                             </tr>
+                                            
+                                           
                                             <tr>
-                                                <th rowspan="4" style="text-align: center; vertical-align: middle; border-top:1.5px solid #363636;">Biaya</th>
-                                                <th style="text-align: center; border-top:1.5px solid #363636;">Registrasi</th>
-                                                <td style="border-top:1.5px solid #363636;">
-                                                    <?php
-                                                    echo $form->field($model, 'biaya_registrasi', [
-                                                        'template' => '<div class="col-sm-12">{input}</div>'
-                                                    ])->widget(KyNumber::className(), ['displayOptions' => [
-                                                        'class' => 'form-control form-control-sm text-right',
-                                                        'style' => 'font-size: 1rem; font-weight: 900; cursor: no-drop;',
-                                                        'readonly' => true,
-                                                    ]])->label(false);
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th style="text-align: center;">Tindakan</th>
-                                                <td>
-                                                    <?php
-                                                    echo $form->field($model, 'biaya_tindakan', [
-                                                        'template' => '<div class="col-sm-12">{input}</div>'
-                                                    ])->widget(KyNumber::className(), ['displayOptions' => [
-                                                        'class' => 'form-control form-control-sm text-right',
-                                                        'style' => 'font-size: 1rem; font-weight: 900; cursor: no-drop;',
-                                                        'readonly' => true,
-                                                    ]])->label(false);
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th style="text-align: center;">Obat</th>
-                                                <td>
+                                                <th  style="text-align: center;">Obat</th>
+                                                <td colspan="2">
                                                     <?php
                                                     echo $form->field($model, 'biaya_obat', [
                                                         'template' => '<div class="col-sm-12">{input}</div>'
@@ -363,11 +336,12 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                     ?>
                                                 </td>
                                             </tr>
+                                           
                                             <tr>
-                                                <th style="text-align: center;">Penunjang</th>
-                                                <td>
+                                                <th  style="text-align: center;">Obat Racikan</th>
+                                                <td colspan="2">
                                                     <?php
-                                                    echo $form->field($model, 'biaya_penunjang', [
+                                                    echo $form->field($model, 'biaya_obat', [
                                                         'template' => '<div class="col-sm-12">{input}</div>'
                                                     ])->widget(KyNumber::className(), ['displayOptions' => [
                                                         'class' => 'form-control form-control-sm text-right',
@@ -377,6 +351,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
                                                     ?>
                                                 </td>
                                             </tr>
+                                           
                                         </tbody>
                                         <tfoot>
                                             <tr>

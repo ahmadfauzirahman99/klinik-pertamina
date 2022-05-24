@@ -122,6 +122,7 @@ use app\components\HelperFormat;
             <tr>
                 <td colspan="7" style="border: unset !important; text-decoration: underline;">BIAYA OBAT</td>
             </tr>
+          
             <tr>
                 <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;">#</td>
                 <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Barang</td>
