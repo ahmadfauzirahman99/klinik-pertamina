@@ -210,7 +210,7 @@ use yii\web\View;
                     echo $form->field($modelRacikanDetail, "[{$indexRacikan}][{$z}]subtotal", [
                         // <span class="label-detail">Jlh. Diterima</span>
                         'template' => '
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-12 det_subtotal_parent">
                                                     {input}
                                                     {hint}{error}
                                                 </div>
