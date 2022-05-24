@@ -22,7 +22,7 @@ let inputJumlahHargaJualRacikan = (data) => {
     .val(subtotal)
     .trigger("change");
     
-    generateTotalBiayaRacikan();
+    // generateTotalBiayaRacikan();
 };
 
 let onChangeSubtotalRacikan = (inilah) => {
@@ -39,6 +39,7 @@ let onChangeSubtotalRacikan = (inilah) => {
         parseFloat($(this).find("input[name*='[subtotal]']").val()) +
         totalSubtotal;
     });
+    generateTotalBiayaRacikan();
 };
 
 let enterNewRowRacikan = (data, key) => {
