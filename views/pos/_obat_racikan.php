@@ -51,7 +51,7 @@ use yii\web\View;
                 // exit;
                 // necessary for update action.
                 if (!$modelRacikanDetail->isNewRecord) {
-                    echo Html::activeHiddenInput($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_racikan_detail");
+                    // echo Html::activeHiddenInput($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_racikan_detail");
                 }
                 ?>
 
