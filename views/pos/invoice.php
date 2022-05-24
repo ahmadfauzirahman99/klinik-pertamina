@@ -1,4 +1,5 @@
 <?php
+
 use app\components\Helper;
 use app\components\HelperFormat;
 
@@ -115,7 +116,7 @@ use app\components\HelperFormat;
         </tbody>
     </table>
 
-    
+
     <table class="tabel-rincian">
         <thead>
             <tr>
@@ -156,21 +157,21 @@ use app\components\HelperFormat;
             ?>
         </tbody>
     </table>
-    
+
 
 
     <div class="div-rekap" style="margin-top: 25px;">
         TOTAL / REKAPITULASI
         <table class="w-100 tabel-default">
             <tbody>
-              
+
                 <tr>
                     <td></td>
                     <td>BIAYA OBAT</td>
                     <td>Rp.</td>
                     <td class="text-right"><?= Yii::$app->formatter->asDecimal($resep->total_bayar ?? 0) ?></td>
                 </tr>
-             
+
                 <tr>
                     <td></td>
                     <td class="text-bold">TOTAL BIAYA</td>
@@ -196,7 +197,7 @@ use app\components\HelperFormat;
                         <br>
                         <img alt="DickMen" src="data:image/png;base64,'.<?= base64_encode(Helper::getQrCode('Pertamina RU II Pakning')) ?>.'" />
                         <br>
-                        
+
                     </td>
                 </tr>
             </tbody>
