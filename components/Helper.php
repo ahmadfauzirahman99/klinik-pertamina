@@ -142,4 +142,50 @@ class Helper
             ->execute();
         return $insertCount;
     }
+
+    public static function jsonPretty($json)
+    {
+        $json = json_decode($json, 1);
+        $json_pretty = json_encode($json, JSON_PRETTY_PRINT);
+        return $json_pretty;
+    }
+
+    public static function sendTrackTelegram($text_nya)
+    {   
+        // $text_nya = "<code>" . $text_nya . "</code>";
+        if (YII_ENV_DEV) {
+            $text_nya = "[DEV] \n" . $text_nya; 
+
+        }
+        // senDebugExternelTelegram
+        //
+        //TELEGRAM
+
+        $tokenapi = "bot5303733689:AAFUaiy_iN9HiBTfXh-6ueqc2GP6-tthxzw";
+        $chatidapi = "-1001662592936";
+        $urlnya = "https://api.telegram.org/$tokenapi/sendMessage?&parse_mode=HTML&chat_id=$chatidapi";
+        // $send = str_replace('<br>', PHP_EOL, $hasil);
+        $send = ("");
+        // @file_get_contents('https://api.telegram.org/'.$tokenapi.'/sendMessage?chat_id='.$chatidapi.'&text='.$send."&parse_mode=HTML");
+        // exit;
+
+        // set post fields
+        $post = [
+            'text' => $text_nya
+            // 'text' => json_encode($hasil)
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $urlnya);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000); //async tanpa nunggu hasil
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+        // execute!
+        $response = curl_exec($ch);
+        // close the connection, release resources used
+        curl_close($ch);
+        //
+
+    }
 }
