@@ -296,6 +296,7 @@ $this->title = 'Form Obat Racikan';
                                                 </td>
 
                                                 <td style="padding-top: 3.5px;">
+Nama Racikan :
                                                     <?php
                                                     echo $form->field($modelRacikan, "[{$i}]keterangan", [
                                                         // <span class="label-detail">Jlh. Diterima</span>
@@ -327,7 +328,8 @@ Total Bayar :
                                                         'class' => 'form-control form-control-md signa-typeahead det_signa total_bayar_nya',
                                                         'onkeypress' => 'enterNewRow(this, event.keyCode)',
                                                         'onfocus' => 'onFocusSelect(this)',
-                                                        'placeholder' => 'Tital bayar'
+                                                        'placeholder' => 'Tital bayar',
+                                                        'readonly' => true,
                                                     ])->label(false);
                                                     ?>
                                                 </td>

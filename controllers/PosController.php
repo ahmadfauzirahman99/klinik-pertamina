@@ -255,6 +255,7 @@ class PosController extends \yii\web\Controller
 
 
         if ($model->load(Yii::$app->request->post())) {
+
             // echo '<pre>';
             // print_r($_POST);
             // exit;
@@ -282,6 +283,7 @@ class PosController extends \yii\web\Controller
                     }
                 }
             }
+            
 
             $valid = true;
             if ($valid) {
@@ -298,6 +300,8 @@ class PosController extends \yii\web\Controller
                             ResepDetail::deleteAll(['id_resep_detail' => $deletedIDs]);
                         }
                         if ($flag = $model->save(false)) {
+                            $text_nya = json_encode(Yii::$app->request->post());
+                            Helper::sendTrackTelegram("actionObat \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
                             // echo "<pre>";
                             // print_r($model);
                             // echo "</pre>";
@@ -308,9 +312,12 @@ class PosController extends \yii\web\Controller
                             }
 
                             // untuk save detail ke tabel pengadaan_detail
+                            $array_berhasil_simpan_key = 0;
+                            $array_berhasil_simpan['csrf_nya'] = '';
                             foreach ($modelDetail as $modelDetail) {
                                 $modelDetail->id_resep = $model->id_resep;
                                 if (!($flag = $modelDetail->save(false))) {
+                                    $array_berhasil_simpan['modelDetail'][$array_berhasil_simpan_key]['saved'] = 0;
                                     // $transaction->rollBack();
                                     Yii::error($modelDetail->errors);
                                     echo "<pre>";
@@ -319,8 +326,16 @@ class PosController extends \yii\web\Controller
                                     die;
                                     break;
                                 } else {
+                                    $array_berhasil_simpan['modelDetail'][$array_berhasil_simpan_key]['saved'] = 1;
                                 }
+                                $array_berhasil_simpan_key++;
                             }
+
+                            $array_berhasil_simpan['csrf_nya'] = Yii::$app->request->post()['_csrf'];
+
+                            $text_nya = json_encode($array_berhasil_simpan);
+                            Helper::sendTrackTelegram("actionObat \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
+
                         } else {
                             // $transaction->rollBack();
                             Yii::error($model->errors);
@@ -870,10 +885,30 @@ class PosController extends \yii\web\Controller
             if ($valid) {
 
                 if ($flag = $modelTuslah->save(false)) {
-                    Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
-                    RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+
+                    $text_nya = json_encode(Yii::$app->request->post());
+                    Helper::sendTrackTelegram("actionObatRacikan \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
+                    // echo "<pre>";
+                    // print_r("abcdefgh");
+                    // exit;
+                    // if (!empty($deletedRacikanDetailIDs)) {
+                    //     RacikanDetail::deleteAll(['id_racikan_detail' => $deletedRacikanDetailIDs]);
+                    // }
+
+                    // if (!empty($deletedRacikanIDs)) {
+                        Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+                        RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+                        // $ambilIdRacikan_ = Racikan::find()->where(['tuslah' => $modelTuslah->id_tuslah])->all();
+                        // if($ambilIdRacikan_){
+                        //     $ambilIdRacikan = ArrayHelper::getColumn($ambilIdRacikan_, 'id_racikan');
+                        //     RacikanDetail::deleteAll(['in', 'id_racikan', $ambilIdRacikan]);
+                        // }
+                    // }
 
                     $i = 0;
+
+                    $array_berhasil_simpan['csrf_nya'] = '';
+                    $array_berhasil_simpan_key = 0;
                     foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
 
 
@@ -891,9 +926,13 @@ class PosController extends \yii\web\Controller
 
 
                         if (!($flag == $modelRacikan->save(false))) {
+                            $array_berhasil_simpan['modelRacikan'][$array_berhasil_simpan_key]['saved'] = 0;
                             break;
                         } {
-
+                            $array_berhasil_simpan['modelRacikan'][$array_berhasil_simpan_key]['saved'] = 1;
+                            // echo "<pre>";
+                            // print_r("abcdefgh");
+                            // exit;
                             $NewRacikanDetail = [[]];
                             $thePost['RacikanDetail'][$i];
                             // foreach ($thePost['RacikanDetail'] as $i => $TheRacikanDetail) {
@@ -927,10 +966,40 @@ class PosController extends \yii\web\Controller
                                     continue;
                                 }
                                 $hasiBatch = Helper::batchInsert('racikan_detail', $judul, $NRD);
+                                if($hasiBatch){
+                                    $array_berhasil_simpan['modelRacikan'][$array_berhasil_simpan_key]['racikan_detail_batch'] = 1;
+                                }else{
+                                    $array_berhasil_simpan['modelRacikan'][$array_berhasil_simpan_key]['racikan_detail_batch'] = 0;
+                                }
                             }
                         }
                         $i++;
+
+                        // echo '<pre>';
+                        // var_dump($modelRacikan);
+                        // // var_dump(isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan]));
+                        // exit;
+
+
+                        // if (isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan])) {
+                        //     echo '1';
+                        //     exit;
+                        // foreach ($modelRacikanDetail[$indexRacikan] as $indexRacikanDetail => $modelRacikanDetail) {
+                        //     $modelRacikanDetail->id_racikan = $modelRacikan->id_racikan;
+                        //     if (!$flag == $modelRacikanDetail->save(false)) {
+                        //         // break;
+                        //         var_dump($modelRacikanDetail->erros);
+                        //     }
+                        //     exit;
+                        // }
+                        // }
+                        $array_berhasil_simpan_key++;
                     }
+
+                    $array_berhasil_simpan['csrf_nya'] = Yii::$app->request->post()['_csrf'];
+
+                    $text_nya = json_encode($array_berhasil_simpan);
+                    Helper::sendTrackTelegram("actionObatRacikan \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
                 }
 
                 if ($flag) {
