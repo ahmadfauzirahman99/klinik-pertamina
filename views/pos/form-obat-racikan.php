@@ -327,7 +327,8 @@ Total Bayar :
                                                         'class' => 'form-control form-control-md signa-typeahead det_signa total_bayar_nya',
                                                         'onkeypress' => 'enterNewRow(this, event.keyCode)',
                                                         'onfocus' => 'onFocusSelect(this)',
-                                                        'placeholder' => 'Tital bayar'
+                                                        'placeholder' => 'Tital bayar',
+                                                        'readonly' => true,
                                                     ])->label(false);
                                                     ?>
                                                 </td>
