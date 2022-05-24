@@ -1,14 +1,4 @@
 <?php
-/*
- * @Author: Dicky Ermawan S., S.T., MTA 
- * @Email: wanasaja@gmail.com 
- * @Web: dickyermawan.github.io 
- * @Linkedin: linkedin.com/in/dickyermawan 
- * @Date: 2021-10-02 11:33:57 
- * @Last Modified by: Dicky Ermawan S., S.T., MTA
- * @Last Modified time: 2021-10-02 23:45:52
- */
-
 use app\components\Helper;
 use app\components\HelperFormat;
 
@@ -111,7 +101,7 @@ use app\components\HelperFormat;
             <tr>
                 <td style="width: 5%; border-bottom: dashed 1px black;"></td>
                 <td style="width: 20%; border-bottom: dashed 1px black;">No. Kartu</td>
-                <td style="border-bottom: dashed 1px black;">-</td>
+                <td style="border-bottom: dashed 1px black;"><?= $pasien->no_kepesertaan ?></td>
             </tr>
         </tbody>
     </table>
@@ -238,7 +228,7 @@ use app\components\HelperFormat;
             ?>
         </tbody>
     </table>
-    <table class="tabel-rincian">
+    <table style="display: none;" class="tabel-rincian">
         <thead>
             <tr>
                 <td colspan="7" style="border: unset !important; text-decoration: underline;">BIAYA PENUNJANG</td>
@@ -315,7 +305,7 @@ use app\components\HelperFormat;
 
         TERBILANG
         <div class="text-bold" style="text-transform: uppercase; border: solid 1px black; border-radius: 3px; padding: 5px;">
-            <?= HelperFormat::terbilang(round($model->sisa_pembayaran)) ?> RUPIAH
+            <?= Helper::terbilang(round($model->sisa_pembayaran)) ?> RUPIAH
         </div>
     </div>
 
@@ -327,9 +317,9 @@ use app\components\HelperFormat;
                     <td class="text-center" style="width: 30%; padding-left: 5%; padding-right: 5%;">
                         Petugas/Kasir
                         <br>
-                        <img alt="DickMen" src="data:image/png;base64,'.<?= base64_encode(Helper::getQrCode('DickMen')) ?>.'" />
+                        <img alt="DickMen" src="data:image/png;base64,'.<?= base64_encode(Helper::getQrCode('Pertamina RU II Pakning')) ?>.'" />
                         <br>
-                        DickMen
+                        
                     </td>
                 </tr>
             </tbody>

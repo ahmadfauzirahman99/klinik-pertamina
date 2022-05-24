@@ -10,6 +10,7 @@
  */
 
 use app\components\DynamicFormWidget;
+use app\components\Helper;
 use app\components\HelperFormat;
 use app\models\DebiturDetail;
 use app\models\Dokter;
@@ -425,7 +426,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 
                                     <div style="margin-top: 10px;">
                                         TERBILANG
-                                        <input value="<?= strtoupper(Rupiah::terbilang(round($model->sisa_pembayaran))) ?> RUPIAH" type="text" class="form-control" style="font-size: 0.8rem; font-weight: 900; cursor: no-drop;" readonly>
+                                        <input value="<?= strtoupper(Helper::terbilang(round($model->sisa_pembayaran))) ?> RUPIAH" type="text" class="form-control" style="font-size: 0.8rem; font-weight: 900; cursor: no-drop;" readonly>
                                     </div>
                                     <div class="row" style="margin-top: 10px;">
                                         <div class="col-sm-7" style="vertical-align: middle;">

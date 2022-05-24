@@ -72,7 +72,6 @@ class DokterController extends Controller
         // }
         if ($model->load(Yii::$app->request->post())) {
             $model->setKodeDokter();
-
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '<span style="color:#fff">Berhasil menyimpan data Dokter. <b>' . $model->id_dokter . ' : '. $model->gelar_depan .' '. $model->nama_dokter .' '.$model->gelar_belakang. '</b> </span>&nbsp; <a style="color:#fff"class="btn bg-gradient-secondary" href="' . Url::to(['/dokter/update', 'id' => $model->id_dokter]) . '">Ubah <i class="fas fa-edit fa-md"></i></a>');
             } else {

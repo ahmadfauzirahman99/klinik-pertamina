@@ -25,6 +25,9 @@ $rm = $_GET['rm'] ?? null;
     <a class="nav-link <?= $this->context->action->id == "obat" ? 'active' : null ?>" href="<?= Url::to(['/pos/obat', 'reg' => $reg, 'rm' => $rm,]) ?>"><i class="fas fa-pills mr-2"></i>Obat</a>
 </li>
 <li class="nav-item">
+    <a class="nav-link <?= $this->context->action->id == "obat-racikan" ? 'active' : null ?>" href="<?= Url::to(['/pos/obat-racikan', 'reg' => $reg, 'rm' => $rm,]) ?>"><i class="fas fa-pills mr-2"></i>Obat Racikan</a>
+</li>
+<li class="nav-item">
     <a class="nav-link <?= $this->context->action->id == "penunjang" ? 'active' : null ?>" href="<?= Url::to(['/pos/penunjang', 'reg' => $reg, 'rm' => $rm,]) ?>"><i class="fas fa-life-ring mr-2"></i>Penunjang</a>
 </li>
 <li class="nav-item ml-auto">

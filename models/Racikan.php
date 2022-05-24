@@ -42,8 +42,8 @@ class Racikan extends \yii\db\ActiveRecord
         return [
             [['no_daftar', 'no_rekam_medik', 'total_harga', 'total_bayar', 'id_poli', 'id_dokter'], 'required'],
             [['created_at', 'updated_at', 'tanggal'], 'safe'],
-            [['created_by', 'id_poli', 'id_dokter'], 'integer'],
-            [['total_harga', 'total_bayar', 'diskon_persen', 'diskon_total', 'tuslah'], 'number'],
+            [['created_by', 'id_poli', 'id_dokter','tuslah'], 'integer'],
+            [['total_harga', 'total_bayar', 'diskon_persen', 'diskon_total'], 'number'],
             [['no_daftar', 'no_rekam_medik'], 'string', 'max' => 20],
             [['update_by', 'keterangan'], 'string', 'max' => 100],
         ];
@@ -74,7 +74,7 @@ class Racikan extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getRecekanDetail()
+    public function getRacikanDetail()
     {
         return $this->hasMany(RacikanDetail::className(), ['id_racikan' => 'id_racikan']);
     }
