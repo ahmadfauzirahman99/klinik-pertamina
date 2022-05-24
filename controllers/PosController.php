@@ -1025,13 +1025,14 @@ class PosController extends \yii\web\Controller
         $modelRacikanDetail = (empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail;
         
         // echo "<pre>";
-        // print_r($modelRacikanDetail);
+        // print_r($modelRacikan);
         // exit;
-        
+
         //NGEPATCHING cek jika ada kosong
         {
             foreach($modelRacikan as $o => $racmod){
                 if(!isset($modelRacikanDetail[$o][0])){
+                    Yii::$app->session->setFlash('warning', "Data Kosong pada Racikan Detail (" . $modelRacikan[0]->keterangan . "). Baris ke-" . ($o+1));
                     $modelRacikanDetail[$o][0] = new RacikanDetail;
                 }
             }
