@@ -807,6 +807,7 @@ class PosController extends \yii\web\Controller
         exit;
     }
 
+
     public function actionObatRacikan($reg = null, $rm = null)
     {
 
@@ -824,15 +825,15 @@ class PosController extends \yii\web\Controller
         }
         $modelRacikan = $modelTuslah->racikan;
         $modelRacikanDetail = [];
-                    // echo "<pre>";
-                    // print_r($modelRacikan);
-                    // exit;
-                    foreach($modelRacikan as $b => $mrac){
-                        $modelSubRacikan = Racikan::find()->where(['id_racikan'=> $mrac->id_racikan])->one();
-                        $modelRacikanDetail[$b] = $modelSubRacikan->racikanDetail;
-                        // $modelRacikanDetail[$mrac->id_racikan] = '';
-                    }
-                    // $modelRacikanDetail = $modelTuslah->racikan->RacikanDetail;
+        // echo "<pre>";
+        // print_r($modelRacikan);
+        // exit;
+        foreach ($modelRacikan as $b => $mrac) {
+            $modelSubRacikan = Racikan::find()->where(['id_racikan' => $mrac->id_racikan])->one();
+            $modelRacikanDetail[$b] = $modelSubRacikan->racikanDetail;
+            // $modelRacikanDetail[$mrac->id_racikan] = '';
+        }
+        // $modelRacikanDetail = $modelTuslah->racikan->RacikanDetail;
         $oldRacikanDetail = [];
 
 
@@ -842,19 +843,18 @@ class PosController extends \yii\web\Controller
         // exit;
 
 
-        if (!empty($modelRacikan)) {
-            foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
-                $racikanDetail = $modelRacikan->racikanDetail;
-                // var_dump($racikanDetail);
-                $modelRacikanDetail[$indexRacikan] = $racikanDetail;
-                // var_dump($modelRacikanDetail);
-                $oldRacikanDetail = ArrayHelper::merge(ArrayHelper::index($racikanDetail, 'id_racikan'), $oldRacikanDetail);
-            }
-            // exit;
-        }
+        // if (!empty($modelRacikan)) {
+        //     foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
+        //         $racikanDetail = $modelRacikan->racikanDetail;
+        //         // var_dump($racikanDetail);
+        //         $modelRacikanDetail[$indexRacikan] = $racikanDetail;
+        //         // var_dump($modelRacikanDetail);
+        //         $oldRacikanDetail = ArrayHelper::merge(ArrayHelper::index($racikanDetail, 'id_racikan'), $oldRacikanDetail);
+        //     }
+        //     // exit;
+        // }
 
-        // echo '<pre>';
-        // var_dump($modelRacikan);
+        // var_dump(is_array($modelRacikan));
         // exit;
 
         if ($modelTuslah->load(Yii::$app->request->post())) {
@@ -887,13 +887,13 @@ class PosController extends \yii\web\Controller
             // echo "<pre>";
             // print_r($modelRacikan);
             // exit;
-            foreach($thePost['Racikan'] as $h => $asdfgh){
+            foreach ($thePost['Racikan'] as $h => $asdfgh) {
                 $modelRacikan[] = new Racikan;
             }
             // echo "<pre>";
             // print_r($modelRacikan);
             // exit;
-            if(!$modelRacikan){
+            if (!$modelRacikan) {
                 $modelRacikan = Model::createMultiple(Racikan::className(), $modelRacikan);
             }
             // echo "<pre>";
@@ -938,17 +938,19 @@ class PosController extends \yii\web\Controller
                     // }
 
                     // if (!empty($deletedRacikanIDs)) {
-                        Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
-                        RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
-                        // $ambilIdRacikan_ = Racikan::find()->where(['tuslah' => $modelTuslah->id_tuslah])->all();
-                        // if($ambilIdRacikan_){
-                        //     $ambilIdRacikan = ArrayHelper::getColumn($ambilIdRacikan_, 'id_racikan');
-                        //     RacikanDetail::deleteAll(['in', 'id_racikan', $ambilIdRacikan]);
-                        // }
+                    Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+                    RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+                    // $ambilIdRacikan_ = Racikan::find()->where(['tuslah' => $modelTuslah->id_tuslah])->all();
+                    // if($ambilIdRacikan_){
+                    //     $ambilIdRacikan = ArrayHelper::getColumn($ambilIdRacikan_, 'id_racikan');
+                    //     RacikanDetail::deleteAll(['in', 'id_racikan', $ambilIdRacikan]);
+                    // }
                     // }
 
                     $i = 0;
                     foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
+
+
                         if ($flag == false) {
                             break;
                         }
@@ -1003,7 +1005,7 @@ class PosController extends \yii\web\Controller
                                 // echo "<pre>";
                                 // print_r($NRD);
                                 // exit;
-                                if(!isset($NRD[0]['id_barang_racikan'])){
+                                if (!isset($NRD[0]['id_barang_racikan'])) {
                                     continue;
                                 }
                                 $hasiBatch = Helper::batchInsert('racikan_detail', $judul, $NRD);
@@ -1011,9 +1013,6 @@ class PosController extends \yii\web\Controller
                         }
                         $i++;
 
-                        // echo '<pre>';
-                        // var_dump($modelRacikanDetail);
-                        // exit;
                         // echo '<pre>';
                         // var_dump($modelRacikan);
                         // // var_dump(isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan]));
