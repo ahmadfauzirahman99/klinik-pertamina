@@ -1019,10 +1019,27 @@ class PosController extends \yii\web\Controller
         // echo "<pre>";
         // print_r((empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail);
         // exit;
+
+        $modelTuslah = $modelTuslah;
+        $modelRacikan = (empty($modelRacikan)) ? [new Racikan] : $modelRacikan;
+        $modelRacikanDetail = (empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail;
+        
+        // echo "<pre>";
+        // print_r($modelRacikanDetail);
+        // exit;
+        
+        //NGEPATCHING cek jika ada kosong
+        {
+            foreach($modelRacikan as $o => $racmod){
+                if(!isset($modelRacikanDetail[$o][0])){
+                    $modelRacikanDetail[$o][0] = new RacikanDetail;
+                }
+            }
+        }
         return $this->render('form-obat-racikan', [
             'model' => $modelTuslah,
-            'modelRacikan' => (empty($modelRacikan)) ? [new Racikan] : $modelRacikan,
-            'modelRacikanDetail' => (empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail
+            'modelRacikan' => $modelRacikan,
+            'modelRacikanDetail' => $modelRacikanDetail
         ]);
     }
 }
