@@ -853,12 +853,13 @@ class PosController extends \yii\web\Controller
             $oldIDRacikan = ArrayHelper::map($modelRacikan, 'id_racikan', 'id_racikan');
             $modelRacikan = [];
             // echo "<pre>";
-            // print_r($modelRacikan);
+            // print_r($thePost['Racikan']);
             // exit;
 
             foreach ($thePost['Racikan'] as $h => $Rac01) {
                 $modelRacikan[$h] = new Racikan;
                 $modelRacikan[$h]->keterangan = $Rac01['keterangan'];
+                $modelRacikan[$h]->total_bayar = @$Rac01['total_bayar'];
             }
             if (!$modelRacikan) {
                 $modelRacikan = Model::createMultiple(Racikan::className(), $modelRacikan);
@@ -884,7 +885,7 @@ class PosController extends \yii\web\Controller
                         $modelRacikan->no_daftar = $modelTuslah->no_daftar;
                         $modelRacikan->no_rekam_medik = $modelTuslah->no_rm;
                         $modelRacikan->total_harga = 0;
-                        $modelRacikan->total_bayar = 0;
+                        // $modelRacikan->total_bayar = 0;
                         $modelRacikan->id_poli = 1;
                         $modelRacikan->id_dokter = 1;
 

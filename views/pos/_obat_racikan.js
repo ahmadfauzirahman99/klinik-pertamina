@@ -99,14 +99,30 @@ hotkeys("alt+u,alt+y", function (event, handler) {
 
 function generateTotalBiayaRacikan() {
   all_total = 0;
+  the_total_bayar = 0;
+  id_racikan = '';
   $('.det_subtotal_parent > input[type="hidden"]').each(function (
     index,
     currentElement
   ) {
-    // console.log($(currentElement).val())
-    all_total += parseInt($(currentElement).val());
+        // console.log($(currentElement).val())
+        all_total += parseInt($(currentElement).val());
   });
   console.log(all_total);
   $("#tuslah-total_biaya_racikan-disp").val(all_total);
   $("#tuslah-total_biaya_racikan").val(all_total);
+
+  generateTotalBayar();
+}
+
+function generateTotalBayar() {
+  total_bayar_nya = 0;
+  $(".total_bayar_nya").each(function (index, currentElement) {
+    bodyObat = ($(currentElement).closest('.form-options-item-racikan').find('.form-options-body-obat-racikan-detail'));
+    total_bayar_nya = 0;
+    bodyObat.find('.form-options-item-obat-racikan-detail').each(function (index2, currentElement2) {
+        total_bayar_nya += parseInt($(currentElement2).find('.det_subtotal').parent().children('input[type="hidden"]').val());
+    });
+    $(this).val(total_bayar_nya);
+  });
 }

@@ -312,6 +312,24 @@ $this->title = 'Form Obat Racikan';
                                                         'placeholder' => 'Nama Racikan'
                                                     ])->label(false);
                                                     ?>
+Total Bayar :
+
+                                                    <?php
+                                                    echo $form->field($modelRacikan, "[{$i}]total_bayar", [
+                                                        // <span class="label-detail">Jlh. Diterima</span>
+                                                        'template' => '
+                                                <div class="col-sm-12">
+                                                    {input}
+                                                    {hint}{error}
+                                                </div>
+                                            ',
+                                                    ])->textInput([
+                                                        'class' => 'form-control form-control-md signa-typeahead det_signa total_bayar_nya',
+                                                        'onkeypress' => 'enterNewRow(this, event.keyCode)',
+                                                        'onfocus' => 'onFocusSelect(this)',
+                                                        'placeholder' => 'Tital bayar'
+                                                    ])->label(false);
+                                                    ?>
                                                 </td>
                                                 <td>
                                                     <?= $this->render('_obat_racikan', [
