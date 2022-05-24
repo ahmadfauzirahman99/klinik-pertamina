@@ -805,18 +805,18 @@ class PosController extends \yii\web\Controller
         // $mpdf->SetWatermarkImage(Url::to('@web/img/syafira.png'), -1, [170, 100]);
         $mpdf->showWatermarkImage = true;
 
-        $mpdf->SetTitle('Laporan');
+        $mpdf->SetTitle('Invoice Pertamina RUU II PAKNING - ' . $pendaftaran->id_pendaftaran . ' - ' . $pasien->nama_lengkap);
         $mpdf->WriteHTML($this->renderPartial('invoice', [
             'model' => $model,
             'pendaftaran' => $pendaftaran,
             'pasien' => $pasien,
             'tindakan' => $tindakan,
             'resep' => $resep,
-            'racikan' =>$racikan,
+            'racikan' => $racikan,
             // 'listRacikan' => $racikan->racikan,
             'penunjang' => $penunjang,
         ]));
-        $mpdf->Output('Laporan.pdf', 'I');
+        $mpdf->Output('Invoice Pertamina RUU II PAKNING - ' . $pendaftaran->id_pendaftaran . ' - ' . $pasien->nama_lengkap . '.pdf', 'I');
         exit;
     }
 

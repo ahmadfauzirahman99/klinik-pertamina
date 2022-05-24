@@ -14,9 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <style>
     .logo,h4 {
-        font-family: 'Roboto' !important;
+        /* font-family: 'Roboto' !important; */
         font-weight: 500 !important;
+        font-size: 50px !important;
     }
+    
 </style>
 <br><br>
 <div class="site-login">
@@ -26,9 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <h5 class="text-muted m-t-0 font-600">Rumah Sakit Syafira</h5>
         </div>
         <div class="m-t-40 card-box">
-            <div class="text-center">
-                <h4 class="text-uppercase font-bold m-b-0">Halo Selamat Datang</h4>
-            </div>
+          
             <div class="p-20">
 
                 <?php $form = ActiveForm::begin([

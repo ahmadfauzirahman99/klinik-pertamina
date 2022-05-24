@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\Menu;
+use app\modules\rbac\components\Helper;
 use app\widgets\Alert;
 use yii\bootstrap4\Modal;
 use yii\helpers\Url;
@@ -208,7 +209,7 @@ AppAsset::register($this);
                         ['label' => 'Dashboard', 'icon' => 'desktop', 'url' => ['/site/index']],
                         ['label' => 'Data Pasien', 'icon' => 'user', 'url' => ['/pasien/index']],
                         ['label' => 'Data Transaksi', 'header' => true],
-                        ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/tindakan']],
+                        ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/obat']],
                         ['label' => 'Master', 'header' => true],
                         ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
                         ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index']],
@@ -216,9 +217,16 @@ AppAsset::register($this);
                         ['label' => 'Master Pembayaran', 'header' => true],
                         ['label' => 'Cara Bayar', 'icon' => 'list', 'url' => ['/satuan/index']],
                         ['label' => 'Session', 'header' => true],
+                        ['label' => 'Route', 'icon' => 'list', 'url' => ['/admin/route']],
+                        ['label' => 'Permission', 'icon' => 'list', 'url' => ['/admin/permission']],
+                        ['label' => 'Role', 'icon' => 'list', 'url' => ['/admin/role']],
+                        ['label' => 'Assignment', 'icon' => 'list', 'url' => ['/admin/assignment']],
+                        ['label' => 'Session', 'header' => true],
                         ['label' => 'Logout', 'icon' => 'home', 'url' => ['/site/logout']],
 
                     ];
+                                $menuItems = Helper::filter($menuItems);
+
                     echo Menu::widget([
                         'items' => $menuItems
                     ]);
