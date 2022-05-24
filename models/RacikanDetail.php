@@ -39,7 +39,7 @@ class RacikanDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['harga_jual', 'jumlah', 'subtotal'], 'number'],
+            [['harga_jual', 'jumlah', 'subtotal'], 'safe'],
             [['tanggal'], 'safe'],
             [['no_rekam_medik', 'no_daftar', 'created_by', 'created_at', 'updated_by', 'updated_at', 'id_barang_racikan', 'keterangan', 'id_racikan', 'dosis'], 'string', 'max' => 100],
         ];

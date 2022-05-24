@@ -19,11 +19,38 @@ use app\models\Resep;
 use app\models\ResepDetail;
 use app\models\Tuslah;
 use Exception;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 class PosController extends \yii\web\Controller
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post', 'get'],
+                ],
+            ],
+        ];
+    }
     public function actionIndex()
     {
         return $this->render('index');
@@ -193,6 +220,7 @@ class PosController extends \yii\web\Controller
                 $model = new Resep();
                 $model->nama_pasien = $pasien->nama_lengkap;
                 $model->no_rm = $pasien->no_rekam_medik;
+                $model->no_daftar = $reg;
                 $model->tanggal = date('d-m-Y');
                 $model->total_harga = 0;
                 $model->diskon_persen = 0;
@@ -578,6 +606,8 @@ class PosController extends \yii\web\Controller
                 ])
                 ->one();
 
+            // $pendaftaran->statu
+
             if ($pendaftaran) {
                 $pendaftaran->tgl_masuk = Yii::$app->formatter->asDate($pendaftaran->tgl_masuk);
                 $model->no_rm = $pendaftaran->kode_pasien;
@@ -617,6 +647,7 @@ class PosController extends \yii\web\Controller
                 // // print_r($tindakan->getLayananDetail()->count());
                 // echo "</pre>";
                 // die;
+
             }
         }
 
@@ -676,6 +707,9 @@ class PosController extends \yii\web\Controller
                 ['kode_pasien' => $data['no_rm'],],
             ])
             ->one();
+
+        $layanan = Layanan::findOne(['registrasi_kode' => $data['no_daftar']]);
+        $layanan->status_layanan = 'SELESAI';
 
         // echo '<pre>';
         // print_r($pendaftaran);
@@ -798,18 +832,19 @@ class PosController extends \yii\web\Controller
         // exit;
 
 
-        // if (!empty($modelRacikan)) {
-        //     foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
-        //         $racikanDetail = $modelRacikan->racikanDetail;
-        //         // var_dump($racikanDetail);
-        //         $modelRacikanDetail[$indexRacikan] = $racikanDetail;
-        //         // var_dump($modelRacikanDetail);
-        //         $oldRacikanDetail = ArrayHelper::merge(ArrayHelper::index($racikanDetail, 'id_racikan'), $oldRacikanDetail);
-        //     }
-        //     // exit;
-        // }
+        if (!empty($modelRacikan)) {
+            foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
+                $racikanDetail = $modelRacikan->racikanDetail;
+                // var_dump($racikanDetail);
+                $modelRacikanDetail[$indexRacikan] = $racikanDetail;
+                // var_dump($modelRacikanDetail);
+                $oldRacikanDetail = ArrayHelper::merge(ArrayHelper::index($racikanDetail, 'id_racikan'), $oldRacikanDetail);
+            }
+            // exit;
+        }
 
-        // var_dump(is_array($modelRacikan));
+        // echo '<pre>';
+        // var_dump($modelRacikan);
         // exit;
 
         if ($modelTuslah->load(Yii::$app->request->post())) {
@@ -857,8 +892,6 @@ class PosController extends \yii\web\Controller
                     }
 
                     foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
-
-
                         if ($flag == false) {
                             break;
                         }
@@ -878,6 +911,9 @@ class PosController extends \yii\web\Controller
                         }
 
 
+                        // echo '<pre>';
+                        // var_dump($modelRacikanDetail);
+                        // exit;
                         // echo '<pre>';
                         // var_dump($modelRacikan);
                         // // var_dump(isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan]));

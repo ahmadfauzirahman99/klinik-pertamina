@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\pasien\Pasien;
 use Yii;
 use yii\base\Model;
 
@@ -32,6 +33,7 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+
         ];
     }
 
@@ -48,7 +50,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Salah Email Atau Password.');
             }
         }
     }
@@ -60,7 +62,10 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+
+            // var_dump(Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0));
+            // exit;
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         return false;
     }
@@ -75,6 +80,10 @@ class LoginForm extends Model
         if ($this->_user === false) {
             $this->_user = User::findByUsername($this->username);
         }
+
+        // echo '<pre>';
+        // var_dump($this->_user);
+        // exit;
 
         return $this->_user;
     }

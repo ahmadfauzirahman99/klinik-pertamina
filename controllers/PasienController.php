@@ -197,50 +197,51 @@ class PasienController extends Controller
                 $pendaftaran->created_at = date('Y-m-d H:i:s');
                 $pendaftaran->type =  Pendaftaran::WEB;
 
-                $transaction = \Yii::$app->db->beginTransaction();
+                // $transaction = \Yii::$app->db->beginTransaction();
 
-                try {
-                    if ($pendaftaran->save(false)) {
-                        $pendaftaran->refresh();
+                // try {
+                if ($pendaftaran->save(false)) {
+                    // $pendaftaran->refresh();
 
-                        $layanan->load(Yii::$app->request->post());
-                        $layanan->registrasi_kode = $pendaftaran->id_pendaftaran;
-                        $layanan->tgl_masuk = $pendaftaran->tgl_masuk;
-                        $layanan->tgl_keluar = null;
-                        $layanan->unit_tujuan_kode = $_POST['Layanan']['jenis_layanan'];
-                        $layanan->unit_kode = null;
-                        $layanan->keterangan = "-";
-                        $layanan->status_layanan = Layanan::DAFTAR;
-                        if ($layanan->save(false)) {
-                            $transaction->commit();
+                    $layanan->load(Yii::$app->request->post());
+                    $layanan->registrasi_kode = $pendaftaran->id_pendaftaran;
+                    $layanan->tgl_masuk = $pendaftaran->tgl_masuk;
+                    $layanan->tgl_keluar = null;
+                    $layanan->id_dokter = 0;
+                    $layanan->unit_tujuan_kode = $_POST['Layanan']['jenis_layanan'];
+                    $layanan->unit_kode = null;
+                    $layanan->keterangan = "-";
+                    $layanan->status_layanan = Layanan::DAFTAR;
+                    if ($layanan->save(false)) {
+                        // $transaction->commit();
 
-                            return [
-                                's' => true,
-                                'e' => 'Berhasil Mendaftarkan Pasien Ke Poli',
-                                'id' => $pendaftaran->kode_pasien
-                            ];
-                        } else {
-                            return [
-                                's' => false,
-                                'e' => $layanan->errors
-                            ];
-                        }
-                        // disini tempat kirim data pasien ke simrs
-
+                        return [
+                            's' => true,
+                            'e' => 'Berhasil Mendaftarkan Pasien Ke Poli',
+                            'id' => $pendaftaran->kode_pasien
+                        ];
                     } else {
                         return [
                             's' => false,
-                            'e' => $pendaftaran->errors
+                            'e' => $layanan->errors
                         ];
                     }
-                } catch (Exception $e) {
-                    $transaction->rollBack();
+                    // disini tempat kirim data pasien ke simrs
 
-                    echo "<pre>";
-                    print_r($e);
-                    echo "</pre>";
-                    die;
+                } else {
+                    return [
+                        's' => false,
+                        'e' => $pendaftaran->errors
+                    ];
                 }
+                // } catch (Exception $e) {
+                //     // $transaction->rollBack();
+
+                //     echo "<pre>";
+                //     print_r($e);
+                //     echo "</pre>";
+                //     die;
+                // }
 
                 // return $this->redirect(['view', 'id' => $model->id_patient]);
             }

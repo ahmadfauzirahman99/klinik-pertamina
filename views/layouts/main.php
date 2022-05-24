@@ -116,7 +116,7 @@ AppAsset::register($this);
         }
 
         .card {
-       
+
             border-radius: 5px !important;
             border: none;
         }
@@ -181,7 +181,7 @@ AppAsset::register($this);
                         <img src="<?= Url::to('@web/img/s.png') ?>" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
                         <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
                     </div>
-                    <h5><a href="#">Mat Helme</a> </h5>
+                    <h5><a href="#"><?= Yii::$app->user->identity->nama_lengkap ?></a> </h5>
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <a href="#">
@@ -203,20 +203,20 @@ AppAsset::register($this);
                     <?php
                     $menuItems =   [
 
+
                         ['label' => 'Informasi', 'header' => true],
-                        ['label' => 'Dashboard', 'icon' => 'info', 'url' => ['/site/index']],
+                        ['label' => 'Dashboard', 'icon' => 'desktop', 'url' => ['/site/index']],
                         ['label' => 'Data Pasien', 'icon' => 'user', 'url' => ['/pasien/index']],
                         ['label' => 'Data Transaksi', 'header' => true],
                         ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/tindakan']],
                         ['label' => 'Master', 'header' => true],
                         ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
-                        ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index-obat']],
+                        ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index']],
                         ['label' => 'Data Satuan', 'icon' => 'list', 'url' => ['/satuan/index']],
                         ['label' => 'Master Pembayaran', 'header' => true],
                         ['label' => 'Cara Bayar', 'icon' => 'list', 'url' => ['/satuan/index']],
-
-
-
+                        ['label' => 'Session', 'header' => true],
+                        ['label' => 'Logout', 'icon' => 'home', 'url' => ['/site/logout']],
 
                     ];
                     echo Menu::widget([
@@ -319,11 +319,15 @@ AppAsset::register($this);
     }
 
 
-    hotkeys('f1', function(event, handler) {
+    hotkeys('f1,f2', function(event, handler) {
         event.preventDefault();
         switch (handler.key) {
             case 'f1':
                 $('#openModal').click()
+                break;
+            case 'f2':
+                window.location.href =  baseUrl +  'pasien/create';
+                // $('#openModal').click()
                 break;
             default:
                 alert(event);

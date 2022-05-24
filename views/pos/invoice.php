@@ -115,79 +115,7 @@ use app\components\HelperFormat;
         </tbody>
     </table>
 
-    <table class="tabel-rincian">
-        <thead>
-            <tr>
-                <td colspan="7" style="border: unset !important; text-decoration: underline;">BIAYA REGISTRASI</td>
-            </tr>
-            <tr>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;">#</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;" colspan="2">Nama</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Keterangan</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Jumlah</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Harga</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Subtotal</td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            echo '
-                <tr>
-                    <td class="teks-kecil text-center"> 1 </td>
-                    <td class="teks-kecil" colspan="2"> Biaya Registrasi </td>
-                    <td class="teks-kecil"> - </td>
-                    <td class="teks-kecil text-center" style="width: 13%;"> 1 </td>
-                    <td class="teks-kecil text-right" style="width: 13%;">' . Yii::$app->formatter->asDecimal($tindakan->biaya_registrasi) . '</td>
-                    <td class="teks-kecil text-right" style="width: 13%;">' . Yii::$app->formatter->asDecimal($tindakan->biaya_registrasi * 1) . '</td>
-                    </tr>
-                <tr>
-                    <td colspan="6" class="text-italic text-center" style="border-bottom: dashed 1px black;">Total</td>
-                    <td class="teks-kecil text-right" style="width: 13%; border-bottom: dashed 1px black;">' . Yii::$app->formatter->asDecimal($tindakan->biaya_registrasi * 1) . '</td>
-                </tr>
-            ';
-            ?>
-        </tbody>
-    </table>
-    <table class="tabel-rincian">
-        <thead>
-            <tr>
-                <td colspan="7" style="border: unset !important; text-decoration: underline;">BIAYA TINDAKAN</td>
-            </tr>
-            <tr>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;">#</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Tindakan</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Jenis</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Keterangan</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Jumlah</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Harga</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Subtotal</td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ((isset($tindakan->layananDetail))) {
-                foreach ($tindakan->layananDetail as $key => $value) {
-                    echo '
-                        <tr>
-                            <td class="teks-kecil text-center">' . ($key + 1) . '</td>
-                            <td class="teks-kecil">' . $value->tindakan->nama_tindakan . '</td>
-                            <td class="teks-kecil">' . $value->status . '</td>
-                            <td class="teks-kecil">' . $value->keterangan . '</td>
-                            <td class="teks-kecil text-center" style="width: 13%;">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
-                            <td class="teks-kecil text-right" style="width: 13%;">' . Yii::$app->formatter->asDecimal($value->harga_jual) . '</td>
-                            <td class="teks-kecil text-right" style="width: 13%;">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
-                        </tr>
-                        ';
-                }
-                echo ' 
-                    <tr>
-                        <td colspan="6" class="text-italic text-center" style="border-bottom: dashed 1px black;">Total</td>
-                        <td class="teks-kecil text-right" style="width: 13%; border-bottom: dashed 1px black;">' . Yii::$app->formatter->asDecimal($tindakan->getLayananDetail()->sum('subtotal')) . '</td>
-                    </tr>';
-            }
-            ?>
-        </tbody>
-    </table>
+    
     <table class="tabel-rincian">
         <thead>
             <tr>
@@ -228,72 +156,21 @@ use app\components\HelperFormat;
             ?>
         </tbody>
     </table>
-    <table style="display: none;" class="tabel-rincian">
-        <thead>
-            <tr>
-                <td colspan="7" style="border: unset !important; text-decoration: underline;">BIAYA PENUNJANG</td>
-            </tr>
-            <tr>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important; width: 5%;">#</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;" colspan="3">Tindakan</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Jumlah</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Harga</td>
-                <td class="teks-kecil text-center bg-info text-white" style="border-top: unset !important;">Subtotal</td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ((isset($penunjang->labDetail))) {
-                foreach ($penunjang->labDetail as $key => $value) {
-                    echo '
-                        <tr>
-                            <td class="teks-kecil text-center">' . ($key + 1) . '</td>
-                            <td class="teks-kecil" colspan="3">' . $value->item->nama_item . '</td>
-                            <td class="teks-kecil text-center" style="width: 13%;">' . Yii::$app->formatter->asDecimal($value->jumlah) . '</td>
-                            <td class="teks-kecil text-right" style="width: 13%;">' . Yii::$app->formatter->asDecimal($value->harga_tindakan) . '</td>
-                            <td class="teks-kecil text-right" style="width: 13%;">' . Yii::$app->formatter->asDecimal($value->subtotal) . '</td>
-                        </tr>
-                    ';
-                }
-                echo ' 
-                    <tr>
-                        <td colspan="6" class="text-italic text-center" style="border-bottom: dashed 1px black;">Total</td>
-                        <td class="teks-kecil text-right" style="width: 13%; border-bottom: dashed 1px black;">' . Yii::$app->formatter->asDecimal($penunjang->total_harga) . '</td>
-                    </tr>';
-            }
-            ?>
-        </tbody>
-    </table>
+    
 
 
     <div class="div-rekap" style="margin-top: 25px;">
         TOTAL / REKAPITULASI
         <table class="w-100 tabel-default">
             <tbody>
-                <tr>
-                    <td style="width: 33%;"></td>
-                    <td style="width: 43%;">BIAYA REGISTRASI</td>
-                    <td style="width: 3%;">Rp.</td>
-                    <td style="width: 20%;" class="text-right"><?= Yii::$app->formatter->asDecimal($tindakan->biaya_registrasi) ?></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>BIAYA TINDAKAN</td>
-                    <td>Rp.</td>
-                    <td class="text-right"><?= Yii::$app->formatter->asDecimal($tindakan->getLayananDetail()->sum('subtotal')) ?></td>
-                </tr>
+              
                 <tr>
                     <td></td>
                     <td>BIAYA OBAT</td>
                     <td>Rp.</td>
                     <td class="text-right"><?= Yii::$app->formatter->asDecimal($resep->total_bayar ?? 0) ?></td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td>BIAYA PENUNJANG</td>
-                    <td>Rp.</td>
-                    <td class="text-right"><?= Yii::$app->formatter->asDecimal($penunjang->total_harga ?? 0) ?></td>
-                </tr>
+             
                 <tr>
                     <td></td>
                     <td class="text-bold">TOTAL BIAYA</td>
