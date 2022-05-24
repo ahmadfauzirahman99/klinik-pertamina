@@ -839,8 +839,13 @@ class PosController extends \yii\web\Controller
 
             $oldIDRacikan = ArrayHelper::map($modelRacikan, 'id_racikan', 'id_racikan');
             $modelRacikan = [];
-            foreach ($thePost['Racikan'] as $h => $asdfgh) {
-                $modelRacikan[] = new Racikan;
+            // echo "<pre>";
+            // print_r($modelRacikan);
+            // exit;
+            
+            foreach($thePost['Racikan'] as $h => $Rac01){
+                $modelRacikan[$h] = new Racikan;
+                $modelRacikan[$h]->keterangan = $Rac01['keterangan'];
             }
             if (!$modelRacikan) {
                 $modelRacikan = Model::createMultiple(Racikan::className(), $modelRacikan);
@@ -925,10 +930,35 @@ class PosController extends \yii\web\Controller
                 }
             }
         }
+
+        // echo "<pre>";
+        // print_r([[new RacikanDetail], [new RacikanDetail]]);
+        // exit;
+        // echo "<pre>";
+        // print_r((empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail);
+        // exit;
+
+        $modelTuslah = $modelTuslah;
+        $modelRacikan = (empty($modelRacikan)) ? [new Racikan] : $modelRacikan;
+        $modelRacikanDetail = (empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail;
+        
+        // echo "<pre>";
+        // print_r($modelRacikan);
+        // exit;
+
+        //NGEPATCHING cek jika ada kosong
+        {
+            foreach($modelRacikan as $o => $racmod){
+                if(!isset($modelRacikanDetail[$o][0])){
+                    Yii::$app->session->setFlash('warning', "Data Kosong pada Racikan Detail (" . $modelRacikan[0]->keterangan . "). Baris ke-" . ($o+1));
+                    $modelRacikanDetail[$o][0] = new RacikanDetail;
+                }
+            }
+        }
         return $this->render('form-obat-racikan', [
             'model' => $modelTuslah,
-            'modelRacikan' => (empty($modelRacikan)) ? [new Racikan] : $modelRacikan,
-            'modelRacikanDetail' => (empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail
+            'modelRacikan' => $modelRacikan,
+            'modelRacikanDetail' => $modelRacikanDetail
         ]);
     }
 }
