@@ -39,9 +39,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => false, 'class' => 'form-control  form-control-md',])->label(false) ?>
+                <?= $form->field($model, 'username')->textInput(['autofocus' => false, 'class' => 'form-control  form-control-md','placeholder'=>'Username'])->label(false) ?>
 
-                <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-md'])->label(false) ?>
+                <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-md','placeholder'=>'Password'])->label(false) ?>
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 
 
