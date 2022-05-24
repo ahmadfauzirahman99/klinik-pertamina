@@ -1,6 +1,19 @@
 
 // $(".dynamicform_wrapper_obat").on("afterInsert", function (e, item) {
 $(".dynamicform_wrapper1").find('.dynamicform_wrapper_obat').on(
+  "afterDelete",
+  function (e, item) {
+    generateTotalBiayaRacikan();
+  }
+);
+$(".dynamicform_wrapper1").on(
+  "afterDelete",
+  function (e, item) {
+    generateTotalBiayaRacikan();
+  }
+);
+
+$(".dynamicform_wrapper1").find('.dynamicform_wrapper_obat').on(
   "afterInsert",
   function (e, item) {
     //   alert();
