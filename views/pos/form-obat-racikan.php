@@ -296,6 +296,7 @@ $this->title = 'Form Obat Racikan';
                                                 </td>
 
                                                 <td style="padding-top: 3.5px;">
+Nama Racikan :
                                                     <?php
                                                     echo $form->field($modelRacikan, "[{$i}]keterangan", [
                                                         // <span class="label-detail">Jlh. Diterima</span>
