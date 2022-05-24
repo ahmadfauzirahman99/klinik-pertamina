@@ -133,4 +133,13 @@ class Helper
 		}     		
 		return $hasil;
 	}
+
+    public static function batchInsert($tableName, $columnNameArray, $bulkInsertArray)
+    {
+        // \Yii::$app->db->createCommand()->truncateTable($tableName)->execute();
+        $insertCount = Yii::$app->db->createCommand()
+            ->batchInsert($tableName, $columnNameArray, $bulkInsertArray)
+            ->execute();
+        return $insertCount;
+    }
 }
