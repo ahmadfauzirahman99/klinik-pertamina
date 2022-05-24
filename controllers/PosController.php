@@ -845,7 +845,7 @@ class PosController extends \yii\web\Controller
             if (!$modelRacikan) {
                 $modelRacikan = Model::createMultiple(Racikan::className(), $modelRacikan);
             }
-       
+
 
             $valid = $modelTuslah->validate();
             if ($valid) {
@@ -853,7 +853,7 @@ class PosController extends \yii\web\Controller
                 if ($flag = $modelTuslah->save(false)) {
                     Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
                     RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
-                  
+
                     $i = 0;
                     foreach ($modelRacikan as $indexRacikan => $modelRacikan) {
 
@@ -869,15 +869,12 @@ class PosController extends \yii\web\Controller
                         $modelRacikan->total_bayar = 0;
                         $modelRacikan->id_poli = 1;
                         $modelRacikan->id_dokter = 1;
-                        // var_dump($flag);
-                        // exit;
+
 
                         if (!($flag == $modelRacikan->save(false))) {
                             break;
                         } {
-                            // echo "<pre>";
-                            // print_r("abcdefgh");
-                            // exit;
+
                             $NewRacikanDetail = [[]];
                             $thePost['RacikanDetail'][$i];
                             // foreach ($thePost['RacikanDetail'] as $i => $TheRacikanDetail) {
@@ -887,9 +884,7 @@ class PosController extends \yii\web\Controller
                                     $NewRacikanDetail[$i][$kunci]['id_racikan'] = @$modelRacikan->id_racikan;
                                     $NewRacikanDetail[$i][$kunci]['tuslah'] = @$modelTuslah->id_tuslah;
                                 }
-                                // echo "<pre>";
-                                // var_dump($modelRacikan->id_racikan);
-                                // exit;
+
 
                                 if (isset($modelRacikan->id_racikan)) {
                                     $currentRacikanDetail = RacikanDetail::find()->where(['id_racikan' => $modelRacikan->id_racikan])->asArray()->count();
@@ -903,9 +898,6 @@ class PosController extends \yii\web\Controller
                                     }
                                 }
                             }
-                            // echo "<pre>";
-                            // print_r($NewRacikanDetail);
-                            // exit;
 
                             $judul = ['id_barang_racikan', 'keterangan', 'dosis', 'jumlah', 'harga_jual', 'subtotal', 'id_racikan', 'tuslah'];
                             foreach ($NewRacikanDetail as $k => $NRD) {
