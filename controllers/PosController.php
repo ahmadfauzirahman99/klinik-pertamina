@@ -827,9 +827,6 @@ class PosController extends \yii\web\Controller
         }
         $modelRacikan = $modelTuslah->racikan;
         $modelRacikanDetail = [];
-        // echo "<pre>";
-        // print_r($modelRacikan);
-        // exit;
         foreach ($modelRacikan as $b => $mrac) {
             $modelSubRacikan = Racikan::find()->where(['id_racikan' => $mrac->id_racikan])->one();
             $modelRacikanDetail[$b] = $modelSubRacikan->racikanDetail;
@@ -841,26 +838,14 @@ class PosController extends \yii\web\Controller
             $thePost = Yii::$app->request->post();
 
             $oldIDRacikan = ArrayHelper::map($modelRacikan, 'id_racikan', 'id_racikan');
-            // $modelRacikan = [new Racikan, new Racikan];
             $modelRacikan = [];
-            // echo "<pre>";
-            // print_r($modelRacikan);
-            // exit;
             foreach ($thePost['Racikan'] as $h => $asdfgh) {
                 $modelRacikan[] = new Racikan;
             }
-            // echo "<pre>";
-            // print_r($modelRacikan);
-            // exit;
             if (!$modelRacikan) {
                 $modelRacikan = Model::createMultiple(Racikan::className(), $modelRacikan);
             }
-            // echo "<pre>";
-            // print_r($modelRacikan);
-            // exit;
-            // Model::loadMultiple($modelRacikan, Yii::$app->request->post());
-            // $deletedRacikanIDs = array_diff($oldIDRacikan, array_filter(ArrayHelper::map($modelRacikan, 'id_racikan', 'id_racikan')));
-
+       
 
             $valid = $modelTuslah->validate();
             if ($valid) {
@@ -934,25 +919,6 @@ class PosController extends \yii\web\Controller
                             }
                         }
                         $i++;
-
-                        // echo '<pre>';
-                        // var_dump($modelRacikan);
-                        // // var_dump(isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan]));
-                        // exit;
-
-
-                        // if (isset($modelRacikanDetail[$indexRacikan]) && is_array($modelRacikan[$indexRacikan])) {
-                        //     echo '1';
-                        //     exit;
-                        // foreach ($modelRacikanDetail[$indexRacikan] as $indexRacikanDetail => $modelRacikanDetail) {
-                        //     $modelRacikanDetail->id_racikan = $modelRacikan->id_racikan;
-                        //     if (!$flag == $modelRacikanDetail->save(false)) {
-                        //         // break;
-                        //         var_dump($modelRacikanDetail->erros);
-                        //     }
-                        //     exit;
-                        // }
-                        // }
                     }
                 }
 
@@ -967,13 +933,6 @@ class PosController extends \yii\web\Controller
                 }
             }
         }
-
-        // echo "<pre>";
-        // print_r([[new RacikanDetail], [new RacikanDetail]]);
-        // exit;
-        // echo "<pre>";
-        // print_r((empty($modelRacikanDetail)) ? [[new RacikanDetail]] : $modelRacikanDetail);
-        // exit;
         return $this->render('form-obat-racikan', [
             'model' => $modelTuslah,
             'modelRacikan' => (empty($modelRacikan)) ? [new Racikan] : $modelRacikan,
