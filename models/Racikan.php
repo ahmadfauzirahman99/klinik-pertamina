@@ -40,7 +40,7 @@ class Racikan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_daftar', 'no_rekam_medik', 'total_harga', 'total_bayar', 'id_poli', 'id_dokter'], 'required'],
+            [['no_daftar', 'no_rekam_medik', 'total_harga', 'total_bayar', 'id_poli', 'id_dokter', 'keterangan'], 'required'],
             [['created_at', 'updated_at', 'tanggal'], 'safe'],
             [['created_by', 'id_poli', 'id_dokter','tuslah'], 'integer'],
             [['total_harga', 'total_bayar', 'diskon_persen', 'diskon_total'], 'number'],
