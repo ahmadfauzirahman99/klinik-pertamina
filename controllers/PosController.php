@@ -301,7 +301,7 @@ class PosController extends \yii\web\Controller
                         }
                         if ($flag = $model->save(false)) {
                             $text_nya = json_encode(Yii::$app->request->post());
-                            Helper::sendTrackTelegram("actionObat \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
+                            Helper::sendTrackTelegram("actionObat \n " . Helper::jsonPretty($text_nya) . "");
                             // echo "<pre>";
                             // print_r($model);
                             // echo "</pre>";
@@ -334,7 +334,7 @@ class PosController extends \yii\web\Controller
                             $array_berhasil_simpan['csrf_nya'] = Yii::$app->request->post()['_csrf'];
 
                             $text_nya = json_encode($array_berhasil_simpan);
-                            Helper::sendTrackTelegram("actionObat \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
+                            Helper::sendTrackTelegram("actionObat \n " . Helper::jsonPretty($text_nya) . "");
 
                         } else {
                             // $transaction->rollBack();
@@ -887,7 +887,8 @@ class PosController extends \yii\web\Controller
                 if ($flag = $modelTuslah->save(false)) {
 
                     $text_nya = json_encode(Yii::$app->request->post());
-                    Helper::sendTrackTelegram("actionObatRacikan \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
+                    Helper::sendTrackTelegram("actionObatRacikan \n " . Helper::jsonPretty($text_nya) . "");
+                    // Helper::sendFileTelegram("actionObatRacikan \n " . Helper::jsonPretty($text_nya) . "");
                     // echo "<pre>";
                     // print_r("abcdefgh");
                     // exit;
@@ -999,7 +1000,7 @@ class PosController extends \yii\web\Controller
                     $array_berhasil_simpan['csrf_nya'] = Yii::$app->request->post()['_csrf'];
 
                     $text_nya = json_encode($array_berhasil_simpan);
-                    Helper::sendTrackTelegram("actionObatRacikan \n <code>" . Helper::jsonPretty($text_nya) . "</code>");
+                    Helper::sendTrackTelegram("actionObatRacikan \n " . Helper::jsonPretty($text_nya) . "");
                 }
 
                 if ($flag) {
