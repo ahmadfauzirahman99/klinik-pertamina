@@ -37,11 +37,11 @@ LoginAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@300;500;700&family=Open+Sans:wght@300;500;700&family=Plus+Jakarta+Sans:wght@300;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    <style>
+    <style> 
         .wrapper-page {
             margin: 5% auto;
             position: relative;
-            width: 520px !important;
+            width: 320px !important;
             height: 520px !important;
         }
     </style>
