@@ -225,7 +225,7 @@ AppAsset::register($this);
                         ['label' => 'Logout', 'icon' => 'home', 'url' => ['/site/logout']],
 
                     ];
-                                // $menuItems = Helper::filter($menuItems);
+                    // $menuItems = Helper::filter($menuItems);
 
                     echo Menu::widget([
                         'items' => $menuItems
@@ -334,7 +334,7 @@ AppAsset::register($this);
                 $('#openModal').click()
                 break;
             case 'f2':
-                window.location.href =  baseUrl +  'pasien/create';
+                window.location.href = baseUrl + 'pasien/create';
                 // $('#openModal').click()
                 break;
             default:

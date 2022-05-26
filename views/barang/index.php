@@ -75,6 +75,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         // 'harga_tertinggi',
                         [
                             'attribute' => 'harga_jual',
+                            'contentOptions' => ['style' => 'text-align:right'],
+                            'headerOptions' => ['style' => 'text-align:right'],
                             'value' => function ($model) {
                                 return Yii::$app->formatter->asCurrency($model->harga_jual);
                             }

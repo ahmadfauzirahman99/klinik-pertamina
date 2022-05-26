@@ -839,6 +839,10 @@ class PosController extends \yii\web\Controller
     public function actionObatRacikan($reg = null, $rm = null)
     {
 
+        if(is_null($rm)){
+            
+            return $this->redirect(['pasien/index']);
+        }
 
         $pasien = Pasien::findOne(['no_rekam_medik' => $rm]);
 
