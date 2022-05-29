@@ -39,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'padding-left:10px'],
                             'contentOptions' => ['style' => 'padding-left:10px'],
                         ],
-                        'no_identitas',
-                        'no_kepesertaan',
+                        // 'no_identitas',
+                        // 'no_kepesertaan',
                         [
                             'attribute' => 'nama_lengkap',
                             'headerOptions' => ['style' => 'padding-left:10px;'],
@@ -54,15 +54,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'no_tlp_pasien',
                         //'agama',
                         //'status_perkawinan',
-                        'pendidikan_terakhir',
-                        [
-                            'attribute' => 'pekerjaan_terakhir',
-                            'value' => function ($model) {
-                                return empty($model->pekerjaan) ? '' : $model->pekerjaan->nama_pekerjaan ;
-                            },
-                            'headerOptions' => ['style' => 'padding-left:10px;'],
-                            'contentOptions' => ['style' => 'padding-left:10px;'],
-                        ],
+                        // 'pendidikan_terakhir',
+                        // [
+                        //     'attribute' => 'pekerjaan_terakhir',
+                        //     'value' => function ($model) {
+                        //         return empty($model->pekerjaan) ? '' : $model->pekerjaan->nama_pekerjaan ;
+                        //     },
+                        //     'headerOptions' => ['style' => 'padding-left:10px;'],
+                        //     'contentOptions' => ['style' => 'padding-left:10px;'],
+                        // ],
                         //'profesi',
                         //'kewenegaraan',
                         // 'cara_pembayaran',

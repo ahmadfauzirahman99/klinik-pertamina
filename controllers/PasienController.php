@@ -80,7 +80,10 @@ class PasienController extends Controller
                 $no_pasien = (int)$no_pasien + 1;
                 $no_pasien = 'K' . str_pad($no_pasien, 6, '0', STR_PAD_LEFT);
                 $model->no_rekam_medik = $no_pasien;
-                $model->save();
+                $model->agama = 'Islam';
+                $model->status_perkawinan = 'Kawin';
+                $model->kewenegaraan = 'WNI';
+                $model->save(false);
                 return [
                     's' => true,
                     'e' => 'Berhasil Menginput Pasien',
@@ -111,10 +114,6 @@ class PasienController extends Controller
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
             if ($model->load(Yii::$app->request->post())) {
-                // $no_pasien = substr(Helper::createNomorRekamMedik(), -1);
-                // $no_pasien = (int)$no_pasien + 1;
-                // $no_pasien = 'K' . str_pad($no_pasien, 6, '0', STR_PAD_LEFT);
-                // $model->no_rekam_medik = $no_pasien;
                 $model->save();
                 return [
                     's' => true,

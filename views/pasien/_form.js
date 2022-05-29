@@ -14,12 +14,12 @@ $(`#form`)
                 if (result.s) {
                     successMsg(result.e);
                     resetBtnLoading(btn, html);
-                    $.pjax.reload({
-                        container: "#pjax-pasien",
-                        async: false,
-                    });
+                    // $.pjax.reload({
+                    //     container: "#pjax-pasien",
+                    //     async: false,
+                    // });
 
-                    //   location.replace(baseUrl + "pasien/update?id=" + result.id);
+                      location.replace(baseUrl + "pasien/update?id=" + result.id);
                     // $('.btn-next').show('slow');
                     // $('.progress-daftar').removeClass('inactive progress-bar-warning').addClass('progress-bar-success active').find('.status-icon').html('<i class=\'fa fa-check-circle\'></i>');
                 } else {
