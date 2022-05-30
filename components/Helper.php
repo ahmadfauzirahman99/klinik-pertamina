@@ -164,9 +164,9 @@ class Helper
         // echo "<pre>";
         // print_r($arr);
         // exit;
-        foreach($arr as $key => $a){
+        foreach ($arr as $key => $a) {
             $texz = $a;
-            if($key>0){
+            if ($key > 0) {
                 sleep(2);
                 $texz = "..." . $a;
             }
@@ -251,5 +251,17 @@ class Helper
         // close the connection, release resources used
         curl_close($ch);
         //
+    }
+
+    static function Intial($nama)
+    {
+        $arr = explode(' ', $nama);
+        $singkatan = '';
+
+        foreach ($arr as $kata) {
+            $singkatan .= substr($kata, 0, 1);
+        }
+
+        return $singkatan;
     }
 }

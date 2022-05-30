@@ -60,7 +60,7 @@ class Pasien extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nama_lengkap', 'jenis_kelamin','tanggal_lahir'], 'required'],
+            [['nama_lengkap', 'jenis_kelamin', 'tanggal_lahir', 'no_kepesertaan'], 'required'],
             [['jenis_kelamin', 'alamat_lengkap', 'agama', 'status_perkawinan', 'kewenegaraan', 'foto', 'foto_ktp'], 'string'],
             [['kel', 'kec', 'kab', 'cara_pembayaran', 'crt_by'], 'integer'],
             [['crt', 'upd'], 'safe'],

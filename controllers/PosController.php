@@ -18,6 +18,7 @@ use app\models\RacikanDetail;
 use Yii;
 use app\models\Resep;
 use app\models\ResepDetail;
+use app\models\ResumeRawatJalan;
 use app\models\Tuslah;
 use Exception;
 use yii\filters\AccessControl;
@@ -283,7 +284,7 @@ class PosController extends \yii\web\Controller
                     }
                 }
             }
-            
+
 
             $valid = true;
             if ($valid) {
@@ -335,7 +336,6 @@ class PosController extends \yii\web\Controller
 
                             $text_nya = json_encode($array_berhasil_simpan);
                             Helper::sendTrackTelegram("actionObat \n " . Helper::jsonPretty($text_nya) . "");
-
                         } else {
                             // $transaction->rollBack();
                             Yii::error($model->errors);
@@ -839,8 +839,8 @@ class PosController extends \yii\web\Controller
     public function actionObatRacikan($reg = null, $rm = null)
     {
 
-        if(is_null($rm)){
-            
+        if (is_null($rm)) {
+
             return $this->redirect(['pasien/index']);
         }
 
@@ -901,13 +901,13 @@ class PosController extends \yii\web\Controller
                     // }
 
                     // if (!empty($deletedRacikanIDs)) {
-                        Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
-                        RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
-                        // $ambilIdRacikan_ = Racikan::find()->where(['tuslah' => $modelTuslah->id_tuslah])->all();
-                        // if($ambilIdRacikan_){
-                        //     $ambilIdRacikan = ArrayHelper::getColumn($ambilIdRacikan_, 'id_racikan');
-                        //     RacikanDetail::deleteAll(['in', 'id_racikan', $ambilIdRacikan]);
-                        // }
+                    Racikan::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+                    RacikanDetail::deleteAll(['tuslah' => $modelTuslah->id_tuslah]);
+                    // $ambilIdRacikan_ = Racikan::find()->where(['tuslah' => $modelTuslah->id_tuslah])->all();
+                    // if($ambilIdRacikan_){
+                    //     $ambilIdRacikan = ArrayHelper::getColumn($ambilIdRacikan_, 'id_racikan');
+                    //     RacikanDetail::deleteAll(['in', 'id_racikan', $ambilIdRacikan]);
+                    // }
                     // }
 
                     $i = 0;
@@ -971,9 +971,9 @@ class PosController extends \yii\web\Controller
                                     continue;
                                 }
                                 $hasiBatch = Helper::batchInsert('racikan_detail', $judul, $NRD);
-                                if($hasiBatch){
+                                if ($hasiBatch) {
                                     $array_berhasil_simpan['modelRacikan'][$array_berhasil_simpan_key]['racikan_detail_batch'] = 1;
-                                }else{
+                                } else {
                                     $array_berhasil_simpan['modelRacikan'][$array_berhasil_simpan_key]['racikan_detail_batch'] = 0;
                                 }
                             }
@@ -1047,6 +1047,54 @@ class PosController extends \yii\web\Controller
             'model' => $modelTuslah,
             'modelRacikan' => $modelRacikan,
             'modelRacikanDetail' => $modelRacikanDetail
+        ]);
+    }
+
+    public function actionResume($reg = null, $rm = null)
+    {
+
+        if (is_null($rm)) {
+
+            return $this->redirect(['pasien/index']);
+        }
+
+        $pasien = Pasien::findOne(['no_rekam_medik' => $rm]);
+        $model = ResumeRawatJalan::find()
+            ->where(['no_rekam_medik' => $rm, 'no_daftar' => $reg])
+            ->one();
+
+        if (is_null($model)) {
+            $model = new ResumeRawatJalan();
+            $model->no_rekam_medik = $rm;
+            $model->no_daftar = (int)$reg;
+            $model->created_by = Yii::$app->user->identity->u_id;
+        }
+
+
+
+        if (Yii::$app->request->isPost) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            if ($model->load(Yii::$app->request->post())) {
+                $model->updated_by = (string)Yii::$app->user->identity->u_id;
+                if ($model->save()) {
+                    return [
+                        's' => true,
+                        'e' => 'Berhasil Membuat Resume Medis'
+                    ];
+                } else {
+                    return [
+                        's' => false,
+                        'e' => 'Tidak Berhasil Membuat Resume Medis',
+                        'error' => $model->errors
+                    ];
+                }
+            }
+        }
+        return $this->render('resume', [
+            'pasien' => $pasien,
+            'model' => $model,
+            'reg' => $reg
         ]);
     }
 }

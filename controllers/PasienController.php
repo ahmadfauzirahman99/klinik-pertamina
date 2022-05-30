@@ -78,8 +78,9 @@ class PasienController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 $no_pasien = substr(Helper::createNomorRekamMedik(), -1);
                 $no_pasien = (int)$no_pasien + 1;
-                $no_pasien = 'K' . str_pad($no_pasien, 6, '0', STR_PAD_LEFT);
+                $no_pasien = 'K' . str_pad($no_pasien, 6, '0',   STR_PAD_LEFT);
                 $model->no_rekam_medik = $no_pasien;
+                $model->nama_lengkap = strtoupper($_POST['Pasien']['nama_lengkap']);
                 $model->agama = 'Islam';
                 $model->status_perkawinan = 'Kawin';
                 $model->kewenegaraan = 'WNI';

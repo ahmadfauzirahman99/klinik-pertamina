@@ -3,24 +3,19 @@
 /* @var $this yii\web\View */
 /* @var $model app\models\Dokter */
 
-$this->title = 'Update Dokter: ' . $model->id_dokter;
-$this->params['breadcrumbs'][] = ['label' => 'Dokters', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_dokter, 'url' => ['view', 'id' => $model->id_dokter]];
+$this->title = 'Update Dokter: ' . $model->nama_dokter;
+$this->params['breadcrumbs'][] = ['label' => 'Dokter', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nama_dokter, 'url' => ['view', 'id' => $model->id_dokter]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <?=$this->render('_form', [
-                        'model' => $model
-                    ]) ?>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <?= $this->render('_form', [
+                'model' => $model
+            ]) ?>
         </div>
-        <!--.card-body-->
     </div>
     <!--.card-->
 </div>

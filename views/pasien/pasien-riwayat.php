@@ -62,7 +62,7 @@ use yii\widgets\Pjax;
                 'contentOptions' => ['style' => 'width:130px;'],
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return '<a data-pjax="0"  href="' . Url::to(['/pos/tindakan', 'reg' => $model->registrasi_kode, 'rm' => $model->pendaftaran->kode_pasien]) . '" target="_blank">' . $model->registrasi_kode . '</a>';
+                    return '<a data-pjax="0"  href="' . Url::to(['/pos/resume', 'reg' => $model->registrasi_kode, 'rm' => $model->pendaftaran->kode_pasien]) . '" target="_blank">' . $model->registrasi_kode . '</a>';
                 }
             ],
             [

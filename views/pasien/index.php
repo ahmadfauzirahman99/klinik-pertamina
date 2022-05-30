@@ -31,13 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'table table-sm table-bordered table-hover table-list-item'
                     ],
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        [
+                            'class' => 'yii\grid\SerialColumn',
+                            'headerOptions' => ['style' => 'text-align:center'],
+                            'contentOptions' => ['style' => 'text-align:center'],
+                        ],
 
                         // 'id_patient',
                         [
                             'attribute' => 'no_rekam_medik',
-                            'headerOptions' => ['style' => 'padding-left:10px'],
-                            'contentOptions' => ['style' => 'padding-left:10px'],
+                            'headerOptions' => ['style' => 'text-align:center'],
+                            'contentOptions' => ['style' => 'text-align:center'],
                         ],
                         // 'no_identitas',
                         // 'no_kepesertaan',
@@ -46,7 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'headerOptions' => ['style' => 'padding-left:10px;'],
                             'contentOptions' => ['style' => 'padding-left:10px;width:200px'],
                         ],
-                        'jenis_kelamin',
+                        [
+                            'attribute' => 'jenis_kelamin',
+                            'headerOptions' => ['style' => 'text-align:center'],
+                            'contentOptions' => ['style' => 'text-align:center'],
+                        ],
+                        // 'jenis_kelamin',
                         // 'alamat_lengkap:ntext',
                         //'kel',
                         //'kec',
@@ -89,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'contentOptions' => ['style' => 'text-align:center'],
                             'class' => 'app\components\ActionColumn',
                             'visibleButtons' => [
-                                'delete'=> function($model){
+                                'delete' => function ($model) {
                                     return false;
                                 }
                             ]

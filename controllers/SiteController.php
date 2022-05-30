@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\Helper;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,6 +62,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
+        $i = Helper::Intial('AHMAD FAUZI RAHMAN');
+
+        print_r($i);
+        exit;
         return $this->render('index');
     }
 

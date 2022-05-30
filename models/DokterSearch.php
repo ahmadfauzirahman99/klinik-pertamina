@@ -40,7 +40,8 @@ class DokterSearch extends Dokter
      */
     public function search($params)
     {
-        $query = Dokter::find();
+        $query = Dokter::find()
+        ->orderBy('id_dokter DESC');
 
         // add conditions that should always apply here
 

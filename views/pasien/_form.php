@@ -23,9 +23,6 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
     <?= $form->field($model, 'nama_lengkap')->textInput(['maxlength' => true, 'placeholder' => 'Nama Lengkap']) ?>
 
     <?= $form->field($model, 'jenis_kelamin')->dropDownList(['Laki-Laki' => 'Laki-Laki', 'Perempuan' => 'Perempuan',], ['prompt' => 'Pilih Jenis Kelamin']) ?>
-
-    <?= $form->field($model, 'alamat_lengkap')->textarea(['rows' => 2, 'placeholder' => 'Alamat Lengkap']) ?>
-    <?= $form->field($model, 'tempat_lahir')->textInput(['maxlength' => true, 'placeholder' => 'Tempat Lahir']) ?>
     <?= $form->field($model, 'tanggal_lahir')->widget(DatePicker::classname(), [
         'options' => [
             'placeholder' => 'Tanggal Lahir',
@@ -39,6 +36,9 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
             'format' => 'yyyy-mm-dd'
         ]
     ]); ?>
+    <?= $form->field($model, 'alamat_lengkap')->textarea(['rows' => 2, 'placeholder' => 'Alamat Lengkap']) ?>
+    <?= $form->field($model, 'tempat_lahir')->textInput(['maxlength' => true, 'placeholder' => 'Tempat Lahir']) ?>
+
     <?php $form->field($model, 'kel')->textInput() ?>
     <?php $form->field($model, 'kec')->textInput() ?>
     <?php $form->field($model, 'kab')->textInput() ?>
@@ -53,7 +53,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
     <?= $form->field($model, 'rt')->textInput(['maxlength' => true, 'placeholder' => 'Masukan RT']) ?>
     <?= $form->field($model, 'rw')->textInput(['maxlength' => true, 'placeholder' => 'Masukan RW']) ?>
     <?= $form->field($model, 'anak_keberapa')->textInput(['maxlength' => true, 'placeholder' => 'Masukan Anak Keberapa Pasien']) ?>
-    <?= $form->field($model, 'status_pasien')->dropDownList(['0' => 'Aktif','1'=>'Tidak Aktif'],['prompt'=>'Pilih Status Pasien']) ?>
+    <?= $form->field($model, 'status_pasien')->dropDownList(['0' => 'Aktif', '1' => 'Tidak Aktif'], ['prompt' => 'Pilih Status Pasien']) ?>
     <?php $form->field($model, 'crt')->textInput() ?>
     <?php $form->field($model, 'is_penanggung_jawab')->textInput(['maxlength' => true]) ?>
     <?php $form->field($model, 'upd')->textInput() ?>

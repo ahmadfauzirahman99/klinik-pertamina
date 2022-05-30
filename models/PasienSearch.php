@@ -40,7 +40,9 @@ class PasienSearch extends Pasien
      */
     public function search($params)
     {
-        $query = Pasien::find();
+        $query = Pasien::find()
+            ->where(['not in', 'no_rekam_medik', ['K000006', 'K000005', 'K000004', 'K000001']])
+            ->orderBy(['id_patient' => SORT_DESC]);
 
         // add conditions that should always apply here
 
