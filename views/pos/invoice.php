@@ -77,13 +77,12 @@ use app\components\HelperFormat;
                 <td>Nama Pasien</td>
                 <td><?= $pasien->nama_lengkap ?></td>
                 <td>Tgl. Daftar</td>
-                <td><?= $pendaftaran->tgl_masuk ?></td>
+                <td><?= Yii::$app->formatter->asDate($resep->tanggal) ?></td>
             </tr>
             <tr>
                 <td>Tgl. Lahir</td>
                 <td><?= $pasien->tanggal_lahir ?></td>
-                <td>Tgl. Keluar</td>
-                <td><?= $pendaftaran->tgl_keluar ?></td>
+                
             </tr>
             <tr>
                 <td>Alamat</td>

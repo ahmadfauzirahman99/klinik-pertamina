@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\Helper;
 use app\models\Layanan;
 use app\models\LayananSearch;
+use app\models\NoTable;
 use Yii;
 use app\models\Pasien;
 use app\models\PasienSearch;
@@ -76,25 +77,56 @@ class PasienController extends Controller
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
             if ($model->load(Yii::$app->request->post())) {
-                $no_pasien = substr(Helper::createNomorRekamMedik(), -1);
-                $no_pasien = (int)$no_pasien + 1;
-                $no_pasien = 'K' . str_pad($no_pasien, 6, '0',   STR_PAD_LEFT);
-                $model->no_rekam_medik = $no_pasien;
+                // print_r($no_pasien);
+                // exit;
+
+                $pasien = Pasien::find()
+                    ->where(
+                        [
+                            'no_kepesertaan' => $_POST['Pasien']['no_kepesertaan']
+                        ]
+                    )
+                    ->one();
+
+                if (!is_null($pasien)) {
+                    return [
+                        's' => false,
+                        'e' => 'Pasien Sudah Ada',
+                        'id' => $model->id_patient
+                    ];
+                }
+                // if ($no_pasien)
                 $model->nama_lengkap = strtoupper($_POST['Pasien']['nama_lengkap']);
                 $model->agama = 'Islam';
                 $model->status_perkawinan = 'Kawin';
                 $model->kewenegaraan = 'WNI';
-                $model->save(false);
-                return [
-                    's' => true,
-                    'e' => 'Berhasil Menginput Pasien',
-                    'id' => $model->id_patient
-                ];
+                // $model->save();
+                if($model->save()){
+                    return [
+                        's' => true,
+                        'e' => 'Berhasil Menginput Pasien',
+                        'id' => $model->id_patient
+                    ];
+                }else{
+                    return [
+                        's' => false,
+                        'e' => 'Tidak Berhasil Menginput Pasien',
+                        'id' => $model->errors
+                    ];
+                }
+           
                 // return $this->redirect(['view', 'id' => $model->id_patient]);
             } else {
             }
         }
 
+
+        $no_pasien = Helper::createNomorRekamMedik();
+
+
+        $model->no_rekam_medik = $no_pasien;
+        // var_dump($model);
+        // exit
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -201,8 +233,6 @@ class PasienController extends Controller
 
                 // try {
                 if ($pendaftaran->save(false)) {
-                    // $pendaftaran->refresh();
-
                     $layanan->load(Yii::$app->request->post());
                     $layanan->registrasi_kode = $pendaftaran->id_pendaftaran;
                     $layanan->tgl_masuk = $pendaftaran->tgl_masuk;

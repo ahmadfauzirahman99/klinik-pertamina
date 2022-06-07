@@ -19,6 +19,7 @@ $pekerjaan = ArrayHelper::map(Pekerjaan::find()->orderBy('nama_pekerjaan ASC')->
 
     <?= $form->field($model, 'no_identitas')->textInput(['maxlength' => true, 'placeholder' => 'No. KTP/SIM/PASPORT']) ?>
     <?= $form->field($model, 'no_kepesertaan')->textInput(['maxlength' => true, 'placeholder' => 'No Pensiunan'])->label('No. Pensiunan') ?>
+    <?= $form->field($model, 'no_rekam_medik')->textInput(['maxlength' => true, 'placeholder' => 'No Rekam Medik', 'readonly' =>  true]) ?>
 
     <?= $form->field($model, 'nama_lengkap')->textInput(['maxlength' => true, 'placeholder' => 'Nama Lengkap']) ?>
 

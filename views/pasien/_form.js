@@ -18,16 +18,16 @@ $(`#form`)
           //     container: "#pjax-pasien",
           //     async: false,
           // });
-
           setTimeout(() => {
-            location.replace(baseUrl + "pasien/update?id=" + result.id);
+            location.replace("http://pakning.rs-syafira.com/pasien/update?id=" + result.id);
           }, 1500);
           // $('.btn-next').show('slow');
           // $('.progress-daftar').removeClass('inactive progress-bar-warning').addClass('progress-bar-success active').find('.status-icon').html('<i class=\'fa fa-check-circle\'></i>');
         } else {
-          $.each(result.e, function (i, v) {
-            errorMsg(v);
-          });
+          // $.each(result.e, function (i, v) {
+          //   errorMsg(v);
+          // });
+          errorMsg(result.e)
           resetBtnLoading(btn, html);
         }
       },

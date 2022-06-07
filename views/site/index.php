@@ -25,7 +25,6 @@ $this->title = 'Dashboard';
                     <h5 class="mt-0 m-b-5"><?= strtoupper(Yii::$app->user->identity->username) ?></h5>
                     <p class="text-muted m-b-5 font-13"><?= Yii::$app->user->identity->nama_lengkap ?></p>
                     <small class="text-warning"><b><?= Yii::$app->formatter->asDatetime(Yii::$app->user->identity->tgl_pendaftaran) ?></b></small>
-
                 </div>
             </div>
         </div>

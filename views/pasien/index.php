@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'tableOptions' => [
-                        'class' => 'table table-sm table-bordered table-hover table-list-item'
+                        'class' => 'table table-sm table-bordered table-striped table-hover table-list-item'
                     ],
                     'columns' => [
                         [
@@ -44,9 +44,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             'contentOptions' => ['style' => 'text-align:center'],
                         ],
                         // 'no_identitas',
-                        // 'no_kepesertaan',
+                        // '',
+                        [
+                            'attribute' => 'no_kepesertaan',
+                            'headerOptions' => ['style' => 'padding-left:10px;'],
+                            'contentOptions' => ['style' => 'padding-left:10px;width:200px'],
+                        ],
                         [
                             'attribute' => 'nama_lengkap',
+                            'headerOptions' => ['style' => 'padding-left:10px;'],
+                            'contentOptions' => ['style' => 'padding-left:10px;width:200px'],
+                        ],
+                        // 'tanggal_lahir',
+                        [
+                            'attribute' => 'tanggal_lahir',
                             'headerOptions' => ['style' => 'padding-left:10px;'],
                             'contentOptions' => ['style' => 'padding-left:10px;width:200px'],
                         ],
@@ -86,7 +97,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'nama_ayah',
                         //'nama_ibu',
                         //'tempat_lahir',
-                        //'tanggal_lahir',
                         //'status_pasien',
                         //'foto:ntext',
                         //'foto_ktp:ntext',

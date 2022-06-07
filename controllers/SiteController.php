@@ -63,10 +63,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        $i = Helper::Intial('AHMAD FAUZI RAHMAN');
+        // $i = Helper::Intial('AHMAD FAUZI RAHMAN');
 
-        print_r($i);
-        exit;
+        // print_r($i);
+        // exit;
         return $this->render('index');
     }
 
