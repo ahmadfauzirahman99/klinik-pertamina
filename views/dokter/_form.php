@@ -9,7 +9,7 @@ use yii\bootstrap4\ActiveForm;
 ?>
 <style>
     .form-group {
-      margin-bottom: 0rem;
+        margin-bottom: 0rem;
     }
 </style>
 <div class="dokter-form">
@@ -30,10 +30,10 @@ use yii\bootstrap4\ActiveForm;
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-    
+
 
                     <?= $form->field($model, 'id_dokter')->hiddenInput(['maxlength' => true])->label(false) ?>
-                    <?= $form->field($model, 'nama_dokter')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'nama_dokter')->textInput(['maxlength' => true, 'placeholder' => 'Nama Dokter']) ?>
                     <?= $form->field($model, 'gelar_depan')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'gelar_belakang')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'alamat')->textInput(['maxlength' => true]) ?>
@@ -41,7 +41,7 @@ use yii\bootstrap4\ActiveForm;
                 <div class="col-md-6">
                     <?= $form->field($model, 'telepon')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'handphone')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'jenis_kelamin')->dropDownList([ 'laki-laki' => 'Laki-laki', 'perempuan' => 'Perempuan', ], ['prompt' => '']) ?>
+                    <?= $form->field($model, 'jenis_kelamin')->dropDownList(['laki-laki' => 'Laki-laki', 'perempuan' => 'Perempuan',], ['prompt' => '']) ?>
                 </div>
             </div>
         </div>

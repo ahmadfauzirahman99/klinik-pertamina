@@ -4,8 +4,10 @@
 
 namespace app\components;
 
+use app\models\NoTable;
 use app\models\Pasien;
 use app\models\Pendaftaran;
+use Codeception\Step\Retry;
 use DateTime;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -16,14 +18,17 @@ class Helper
 {
     static function createNomorRekamMedik()
     {
-        $query =  Pasien::find()
-            ->select(['id_patient'])
-            ->orderBy('id_patient DESC')
-            ->limit(1)
-            ->asArray()
-            ->one();
 
-        return !empty($query) ? $query['id_patient'] : false;
+        $rm = NoTable::find()->where(['nm' => 'rm'])->one();
+
+        $rm->next_number = $rm->next_number + 1;
+        $rm->save();
+        $no_pasien = 'K' . str_pad($rm->next_number, 6, '0',   STR_PAD_LEFT);
+        
+        return $no_pasien;
+
+
+        // return !empty($query) ? $query['id_patient'] : false;
     }
 
     public static function GenerateId()
@@ -164,9 +169,9 @@ class Helper
         // echo "<pre>";
         // print_r($arr);
         // exit;
-        foreach($arr as $key => $a){
+        foreach ($arr as $key => $a) {
             $texz = $a;
-            if($key>0){
+            if ($key > 0) {
                 sleep(2);
                 $texz = "..." . $a;
             }
@@ -251,5 +256,17 @@ class Helper
         // close the connection, release resources used
         curl_close($ch);
         //
+    }
+
+    static function Intial($nama)
+    {
+        $arr = explode(' ', $nama);
+        $singkatan = '';
+
+        foreach ($arr as $kata) {
+            $singkatan .= substr($kata, 0, 1);
+        }
+
+        return $singkatan;
     }
 }

@@ -89,7 +89,13 @@ class Dokter extends \app\models\BaseModel
     public function setKodeDokter()
     {
         $last_id_dokter = Self::find()->select('id_dokter')->orderBy(['id_dokter' => SORT_DESC])->one();
-        $int_id_dokter = intval(substr($last_id_dokter->id_dokter, 1));
+
+        if (is_null($last_id_dokter)) {
+            $last_id_dokter = 1;
+            $int_id_dokter = intval(substr($last_id_dokter, 1));
+        } else {
+            $int_id_dokter = intval(substr($last_id_dokter->id_dokter, 1));
+        }
         $this->id_dokter = 'D' . sprintf('%03s', $int_id_dokter + 1);
     }
 }

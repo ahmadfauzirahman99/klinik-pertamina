@@ -203,8 +203,6 @@ AppAsset::register($this);
                 <div id="sidebar-menu">
                     <?php
                     $menuItems =   [
-
-
                         ['label' => 'Informasi', 'header' => true],
                         ['label' => 'Dashboard', 'icon' => 'desktop', 'url' => ['/site/index']],
                         ['label' => 'Data Pasien', 'icon' => 'user', 'url' => ['/pasien/index']],
@@ -214,6 +212,7 @@ AppAsset::register($this);
                         ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
                         ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index']],
                         ['label' => 'Data Satuan', 'icon' => 'list', 'url' => ['/satuan/index']],
+                        ['label' => 'Data Pengguna', 'icon' => 'users', 'url' => ['/pengguna/index']],
                         ['label' => 'Master Pembayaran', 'header' => true],
                         ['label' => 'Cara Bayar', 'icon' => 'list', 'url' => ['/satuan/index']],
                         ['label' => 'Session', 'header' => true],
@@ -223,9 +222,8 @@ AppAsset::register($this);
                         ['label' => 'Assignment', 'icon' => 'list', 'url' => ['/admin/assignment']],
                         ['label' => 'Session', 'header' => true],
                         ['label' => 'Logout', 'icon' => 'home', 'url' => ['/site/logout']],
-
                     ];
-                                // $menuItems = Helper::filter($menuItems);
+                    // $menuItems = Helper::filter($menuItems);
 
                     echo Menu::widget([
                         'items' => $menuItems
@@ -334,7 +332,7 @@ AppAsset::register($this);
                 $('#openModal').click()
                 break;
             case 'f2':
-                window.location.href =  baseUrl +  'pasien/create';
+                window.location.href = baseUrl + 'pasien/create';
                 // $('#openModal').click()
                 break;
             default:

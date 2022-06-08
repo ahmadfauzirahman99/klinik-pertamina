@@ -2,6 +2,8 @@ $(`#form`)
     .on("beforeSubmit", function (e) {
         e.preventDefault();
         var btn = $(".btn-submit");
+        $(".btn-submit").attr("disabled", true);
+
         var html = btn.html();
         setBtnLoading(btn, "Menyimpan");
         var formURL = $("#form").attr("action");
@@ -22,6 +24,8 @@ $(`#form`)
                         container: "#pjax-timeline",
                         async: false,
                     });
+
+                    $(".btn-submit").attr("disabled", false);
 
                     //   location.replace(baseUrl + "pasien/update?id=" + result.id);
                     // $('.btn-next').show('slow');

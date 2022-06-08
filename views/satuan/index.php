@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         // 'id_satuan',
                         // 'is_active',
                         // 'created_by',
-                        'created_at',
+                        // 'created_at',
                         // 'updated_by',
                         //'updated_at',
                         //'is_deleted',
@@ -53,9 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         // 'keterangan:ntext',
 
                         [
-                            'class' => 'hail812\adminlte3\yii\grid\ActionColumn',
                             'contentOptions' => ['style' => 'text-align:center'],
-
+                            'class' => 'app\components\ActionColumn',
+                            'visibleButtons' => [
+                                'delete' => function ($model) {
+                                    return false;
+                                }
+                            ]
                         ],
                     ],
                     'summaryOptions' => ['class' => 'summary mb-2'],
