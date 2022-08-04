@@ -46,9 +46,12 @@ use yii\web\View;
             <tr class="form-options-item-obat-racikan-detail">
 
                 <?php
+                // echo "<pre>";
+                // var_dump($modelRacikanDetail->isNewRecord);
+                // exit;
                 // necessary for update action.
                 if (!$modelRacikanDetail->isNewRecord) {
-                    echo Html::activeHiddenInput($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_racikan_detail");
+                    // echo Html::activeHiddenInput($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_racikan_detail");
                 }
                 ?>
 
@@ -56,7 +59,7 @@ use yii\web\View;
                 <td>
                     <?php
                     $url = Url::to(['api-internal/cari-obat']);
-                    echo $form->field($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_racikan_detail", [
+                    echo $form->field($modelRacikanDetail, "[{$indexRacikan}][{$z}]id_barang_racikan", [
                         // <span class="label-detail required">Barang</span>
                         'template' => '
                                             <div class="col-sm-12">
@@ -70,6 +73,7 @@ use yii\web\View;
                             // 'id' => '',
                             'class' => 'dynamic-select2',
                             'placeholder' => 'Ketik Nama Barang...',
+                            'onchange' => 'ubahSelect2(this)'
                         ],
                         'initValueText' => $modelRacikanDetail->barang->nama_barang ?? null,
                         'pluginOptions' => [
@@ -116,36 +120,7 @@ use yii\web\View;
                         ],
                         'pluginEvents' => [
                             "select2:select" => new JsExpression('function(e) { 
-                            let index = $(this).closest("tr").index()
-                            let barangDipilih = e.params.data
-                            let index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
-                            
-
-                            // cek item sudah dipilih atau belum
-                            let uda_dipilih = 0
-                            $(\'.dynamicform_wrapper1 .form-options-item-racikan\').each(function (e) {
-                                let id_racikan_detail_sudah_dipilih = $(this).find("select[name*=\'[id_racikan_detail]\']").val()
-                                if (id_racikan_detail_sudah_dipilih == barangDipilih.id) {
-                                    uda_dipilih++
-                                    if (uda_dipilih == 2) {
-                                        return false
-                                    }
-                                }
-                            })
-
-                            if (uda_dipilih == 2) {
-                                $(`#racikandetail-${index}-id_racikan_detail`).val(null).trigger("change")
-                                $(`#racikandetail-${index}-id_racikan_detail`).select2("open")
-                                toastr.error(\'Upps,, Item sudah dipilih Bund. Coba yang lain ya\')
-                            } else {
-                                $(`#racikandetail-${index_luar}-${index}-harga_jual-disp`).val(barangDipilih.harga_jual).trigger("change");
-                                let subtotal = $(`#racikandetail-${index_luar}-${index}-jumlah`).val() * barangDipilih.harga_jual;
-                                
-                                $(`#racikandetail-${index_luar}-${index}-subtotal-disp`).val(subtotal).trigger("change");
-
-                                
-                                $(`#racikandetail-${index_luar}-${index}-jumlah-disp`).focus();
-                            }
+                              
                         }'),
                             // "select2:unselect" => new JsExpression('function() { 
                             // }'),
@@ -235,7 +210,7 @@ use yii\web\View;
                     echo $form->field($modelRacikanDetail, "[{$indexRacikan}][{$z}]subtotal", [
                         // <span class="label-detail">Jlh. Diterima</span>
                         'template' => '
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-12 det_subtotal_parent">
                                                     {input}
                                                     {hint}{error}
                                                 </div>
@@ -243,7 +218,7 @@ use yii\web\View;
                     ])->widget(KyNumber::className(), ['displayOptions' => [
                         'class' => 'form-control form-control-md det_subtotal',
                         'readonly' => true,
-                        'onchange' => 'onChangeSubtotalRacikan()',
+                        'onchange' => 'onChangeSubtotalRacikan(this)',
                     ]])->label(false);
                     ?>
                 </td>
@@ -274,5 +249,5 @@ use yii\web\View;
 <?php KyDynamicForm::end(); ?>
 
 
-<?php $this->registerJs($this->render('_obat_racikan_ready.js')) ?>
+<?php $this->registerJs($this->render('_obat_racikan_ready.js'), View::POS_END) ?>
 <?php $this->registerJs($this->render('_obat_racikan.js'), View::POS_END) ?>

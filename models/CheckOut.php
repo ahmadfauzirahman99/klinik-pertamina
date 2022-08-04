@@ -22,6 +22,7 @@ class CheckOut extends Model
     public $biaya_registrasi;
     public $biaya_tindakan;
     public $biaya_obat;
+    public $biaya_obat_racikan;
     public $biaya_penunjang;
 
     public $total_biaya;
@@ -44,6 +45,7 @@ class CheckOut extends Model
                     'biaya_tindakan',
                     'biaya_obat',
                     'biaya_penunjang',
+                    'biaya_obat_racikan',
                 ], 'safe'
             ],
             [
@@ -51,6 +53,7 @@ class CheckOut extends Model
                     'biaya_registrasi',
                     'biaya_tindakan',
                     'biaya_obat',
+                    'biaya_obat_racikan',
                     'biaya_penunjang',
                 ], 'default', 'value' => 0,
             ],

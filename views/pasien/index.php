@@ -28,25 +28,45 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'tableOptions' => [
-                        'class' => 'table table-sm table-bordered table-hover table-list-item'
+                        'class' => 'table table-sm table-bordered table-striped table-hover table-list-item'
                     ],
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        [
+                            'class' => 'yii\grid\SerialColumn',
+                            'headerOptions' => ['style' => 'text-align:center'],
+                            'contentOptions' => ['style' => 'text-align:center'],
+                        ],
 
                         // 'id_patient',
                         [
                             'attribute' => 'no_rekam_medik',
-                            'headerOptions' => ['style' => 'padding-left:10px'],
-                            'contentOptions' => ['style' => 'padding-left:10px'],
+                            'headerOptions' => ['style' => 'text-align:center'],
+                            'contentOptions' => ['style' => 'text-align:center'],
                         ],
-                        'no_identitas',
-                        'no_kepesertaan',
+                        // 'no_identitas',
+                        // '',
+                        [
+                            'attribute' => 'no_kepesertaan',
+                            'headerOptions' => ['style' => 'padding-left:10px;'],
+                            'contentOptions' => ['style' => 'padding-left:10px;width:200px'],
+                        ],
                         [
                             'attribute' => 'nama_lengkap',
                             'headerOptions' => ['style' => 'padding-left:10px;'],
                             'contentOptions' => ['style' => 'padding-left:10px;width:200px'],
                         ],
-                        'jenis_kelamin',
+                        // 'tanggal_lahir',
+                        [
+                            'attribute' => 'tanggal_lahir',
+                            'headerOptions' => ['style' => 'padding-left:10px;'],
+                            'contentOptions' => ['style' => 'padding-left:10px;width:200px'],
+                        ],
+                        [
+                            'attribute' => 'jenis_kelamin',
+                            'headerOptions' => ['style' => 'text-align:center'],
+                            'contentOptions' => ['style' => 'text-align:center'],
+                        ],
+                        // 'jenis_kelamin',
                         // 'alamat_lengkap:ntext',
                         //'kel',
                         //'kec',
@@ -54,15 +74,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'no_tlp_pasien',
                         //'agama',
                         //'status_perkawinan',
-                        'pendidikan_terakhir',
-                        [
-                            'attribute' => 'pekerjaan_terakhir',
-                            'value' => function ($model) {
-                                return empty($model->pekerjaan) ? '' : $model->pekerjaan->nama_pekerjaan ;
-                            },
-                            'headerOptions' => ['style' => 'padding-left:10px;'],
-                            'contentOptions' => ['style' => 'padding-left:10px;'],
-                        ],
+                        // 'pendidikan_terakhir',
+                        // [
+                        //     'attribute' => 'pekerjaan_terakhir',
+                        //     'value' => function ($model) {
+                        //         return empty($model->pekerjaan) ? '' : $model->pekerjaan->nama_pekerjaan ;
+                        //     },
+                        //     'headerOptions' => ['style' => 'padding-left:10px;'],
+                        //     'contentOptions' => ['style' => 'padding-left:10px;'],
+                        // ],
                         //'profesi',
                         //'kewenegaraan',
                         // 'cara_pembayaran',
@@ -77,7 +97,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'nama_ayah',
                         //'nama_ibu',
                         //'tempat_lahir',
-                        //'tanggal_lahir',
                         //'status_pasien',
                         //'foto:ntext',
                         //'foto_ktp:ntext',
@@ -87,7 +106,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         [
                             'contentOptions' => ['style' => 'text-align:center'],
-                            'class' => 'app\components\ActionColumn'
+                            'class' => 'app\components\ActionColumn',
+                            'visibleButtons' => [
+                                'delete' => function ($model) {
+                                    return false;
+                                }
+                            ]
                         ],
                     ],
                     'summaryOptions' => ['class' => 'summary mb-2'],

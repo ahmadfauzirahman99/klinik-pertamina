@@ -15,7 +15,30 @@ $config = [
     ],
     'container' => $default_config,
     'timeZone' => 'Asia/Jakarta',
+    'as access' => [
+        'class' => 'app\modules\rbac\components\AccessControl',
+        'allowActions' => [
+            '*',  // uncomment ini untuk non aktifkan AccessControl dari RBAC
+            'site/logout',
+            'site/login',
+            'site/index',
+            'site/about',
+            // 'user/change-profile',
+            // 'api/site/change-profile',
+            // 'admin/*',
+            'debug/*',
+
+            // The actions listed here will be allowed to everyone including guests.
+            // So, 'admin/*' should not appear here in the production, of course.
+            // But in the earlier stages of your development, you may probably want to
+            // add a lot of actions here until you finally completed setting up rbac,
+            // otherwise you may not even take a first step.
+        ]
+    ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'klinik-pertamina',
@@ -91,9 +114,13 @@ $config = [
         ],
     ],
     'params' => $params,
+ 
     'modules' => [
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
+        ],
+        'admin' => [
+            'class' => 'app\modules\rbac\Module',
         ],
     ],
 ];

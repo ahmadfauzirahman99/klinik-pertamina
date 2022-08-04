@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\Helper;
 use app\models\Layanan;
 use app\models\LayananSearch;
+use app\models\NoTable;
 use Yii;
 use app\models\Pasien;
 use app\models\PasienSearch;
@@ -76,21 +77,56 @@ class PasienController extends Controller
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
             if ($model->load(Yii::$app->request->post())) {
-                $no_pasien = substr(Helper::createNomorRekamMedik(), -1);
-                $no_pasien = (int)$no_pasien + 1;
-                $no_pasien = 'K' . str_pad($no_pasien, 6, '0', STR_PAD_LEFT);
-                $model->no_rekam_medik = $no_pasien;
-                $model->save();
-                return [
-                    's' => true,
-                    'e' => 'Berhasil Menginput Pasien',
-                    'id' => $model->id_patient
-                ];
+                // print_r($no_pasien);
+                // exit;
+
+                $pasien = Pasien::find()
+                    ->where(
+                        [
+                            'no_kepesertaan' => $_POST['Pasien']['no_kepesertaan']
+                        ]
+                    )
+                    ->one();
+
+                if (!is_null($pasien)) {
+                    return [
+                        's' => false,
+                        'e' => 'Pasien Sudah Ada',
+                        'id' => $model->id_patient
+                    ];
+                }
+                // if ($no_pasien)
+                $model->nama_lengkap = strtoupper($_POST['Pasien']['nama_lengkap']);
+                $model->agama = 'Islam';
+                $model->status_perkawinan = 'Kawin';
+                $model->kewenegaraan = 'WNI';
+                // $model->save();
+                if($model->save()){
+                    return [
+                        's' => true,
+                        'e' => 'Berhasil Menginput Pasien',
+                        'id' => $model->id_patient
+                    ];
+                }else{
+                    return [
+                        's' => false,
+                        'e' => 'Tidak Berhasil Menginput Pasien',
+                        'id' => $model->errors
+                    ];
+                }
+           
                 // return $this->redirect(['view', 'id' => $model->id_patient]);
             } else {
             }
         }
 
+
+        $no_pasien = Helper::createNomorRekamMedik();
+
+
+        $model->no_rekam_medik = $no_pasien;
+        // var_dump($model);
+        // exit
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -111,10 +147,6 @@ class PasienController extends Controller
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
             if ($model->load(Yii::$app->request->post())) {
-                // $no_pasien = substr(Helper::createNomorRekamMedik(), -1);
-                // $no_pasien = (int)$no_pasien + 1;
-                // $no_pasien = 'K' . str_pad($no_pasien, 6, '0', STR_PAD_LEFT);
-                // $model->no_rekam_medik = $no_pasien;
                 $model->save();
                 return [
                     's' => true,
@@ -197,50 +229,49 @@ class PasienController extends Controller
                 $pendaftaran->created_at = date('Y-m-d H:i:s');
                 $pendaftaran->type =  Pendaftaran::WEB;
 
-                $transaction = \Yii::$app->db->beginTransaction();
+                // $transaction = \Yii::$app->db->beginTransaction();
 
-                try {
-                    if ($pendaftaran->save(false)) {
-                        $pendaftaran->refresh();
+                // try {
+                if ($pendaftaran->save(false)) {
+                    $layanan->load(Yii::$app->request->post());
+                    $layanan->registrasi_kode = $pendaftaran->id_pendaftaran;
+                    $layanan->tgl_masuk = $pendaftaran->tgl_masuk;
+                    $layanan->tgl_keluar = null;
+                    $layanan->id_dokter = 0;
+                    $layanan->unit_tujuan_kode = $_POST['Layanan']['jenis_layanan'];
+                    $layanan->unit_kode = null;
+                    $layanan->keterangan = "-";
+                    $layanan->status_layanan = Layanan::DAFTAR;
+                    if ($layanan->save(false)) {
+                        // $transaction->commit();
 
-                        $layanan->load(Yii::$app->request->post());
-                        $layanan->registrasi_kode = $pendaftaran->id_pendaftaran;
-                        $layanan->tgl_masuk = $pendaftaran->tgl_masuk;
-                        $layanan->tgl_keluar = null;
-                        $layanan->unit_tujuan_kode = $_POST['Layanan']['jenis_layanan'];
-                        $layanan->unit_kode = null;
-                        $layanan->keterangan = "-";
-                        $layanan->status_layanan = Layanan::DAFTAR;
-                        if ($layanan->save(false)) {
-                            $transaction->commit();
-
-                            return [
-                                's' => true,
-                                'e' => 'Berhasil Mendaftarkan Pasien Ke Poli',
-                                'id' => $pendaftaran->kode_pasien
-                            ];
-                        } else {
-                            return [
-                                's' => false,
-                                'e' => $layanan->errors
-                            ];
-                        }
-                        // disini tempat kirim data pasien ke simrs
-
+                        return [
+                            's' => true,
+                            'e' => 'Berhasil Mendaftarkan Pasien Ke Poli',
+                            'id' => $pendaftaran->kode_pasien
+                        ];
                     } else {
                         return [
                             's' => false,
-                            'e' => $pendaftaran->errors
+                            'e' => $layanan->errors
                         ];
                     }
-                } catch (Exception $e) {
-                    $transaction->rollBack();
+                    // disini tempat kirim data pasien ke simrs
 
-                    echo "<pre>";
-                    print_r($e);
-                    echo "</pre>";
-                    die;
+                } else {
+                    return [
+                        's' => false,
+                        'e' => $pendaftaran->errors
+                    ];
                 }
+                // } catch (Exception $e) {
+                //     // $transaction->rollBack();
+
+                //     echo "<pre>";
+                //     print_r($e);
+                //     echo "</pre>";
+                //     die;
+                // }
 
                 // return $this->redirect(['view', 'id' => $model->id_patient]);
             }

@@ -7,6 +7,7 @@ use yii\base\Theme;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 
+$pendaftaran->id_cara_bayar = 1;
 ?>
 
 

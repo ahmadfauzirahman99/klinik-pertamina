@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\Menu;
+use app\modules\rbac\components\Helper;
 use app\widgets\Alert;
 use yii\bootstrap4\Modal;
 use yii\helpers\Url;
@@ -116,13 +117,13 @@ AppAsset::register($this);
         }
 
         .card {
-       
+
             border-radius: 5px !important;
             border: none;
         }
     </style>
     <script>
-        const baseUrl = '<?= Yii::$app->homeUrl ?>/';
+        const baseUrl = '<?= YII_ENV_DEV ? Url::base('http') : Yii::$app->homeUrl ?>/';
         let controller = '<?= Yii::$app->controller->id ?>';
         const moduleName = '<?= Yii::$app->controller->module->id ?>';
     </script>
@@ -181,7 +182,7 @@ AppAsset::register($this);
                         <img src="<?= Url::to('@web/img/s.png') ?>" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
                         <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
                     </div>
-                    <h5><a href="#">Mat Helme</a> </h5>
+                    <h5><a href="#"><?= Yii::$app->user->identity->nama_lengkap ?></a> </h5>
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <a href="#">
@@ -202,19 +203,28 @@ AppAsset::register($this);
                 <div id="sidebar-menu">
                     <?php
                     $menuItems =   [
-
                         ['label' => 'Informasi', 'header' => true],
-                        ['label' => 'Dashboard', 'icon' => 'info', 'url' => ['/site/index']],
+                        ['label' => 'Dashboard', 'icon' => 'desktop', 'url' => ['/site/index']],
                         ['label' => 'Data Pasien', 'icon' => 'user', 'url' => ['/pasien/index']],
                         ['label' => 'Data Transaksi', 'header' => true],
-                        ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/tindakan']],
+                        ['label' => 'Transaksi', 'icon' => 'poll-h', 'url' => ['/pos/obat']],
                         ['label' => 'Master', 'header' => true],
                         ['label' => 'Data Dokter', 'icon' => 'users', 'url' => ['/dokter/index']],
                         ['label' => 'Data Obat', 'icon' => 'list', 'url' => ['/barang/index']],
                         ['label' => 'Data Satuan', 'icon' => 'list', 'url' => ['/satuan/index']],
-
-
+                        ['label' => 'Data Pengguna', 'icon' => 'users', 'url' => ['/pengguna/index']],
+                        ['label' => 'Master Pembayaran', 'header' => true],
+                        ['label' => 'Cara Bayar', 'icon' => 'list', 'url' => ['/satuan/index']],
+                        ['label' => 'Session', 'header' => true],
+                        ['label' => 'Route', 'icon' => 'list', 'url' => ['/admin/route']],
+                        ['label' => 'Permission', 'icon' => 'list', 'url' => ['/admin/permission']],
+                        ['label' => 'Role', 'icon' => 'list', 'url' => ['/admin/role']],
+                        ['label' => 'Assignment', 'icon' => 'list', 'url' => ['/admin/assignment']],
+                        ['label' => 'Session', 'header' => true],
+                        ['label' => 'Logout', 'icon' => 'home', 'url' => ['/site/logout']],
                     ];
+                    // $menuItems = Helper::filter($menuItems);
+
                     echo Menu::widget([
                         'items' => $menuItems
                     ]);
@@ -315,11 +325,15 @@ AppAsset::register($this);
     }
 
 
-    hotkeys('f1', function(event, handler) {
+    hotkeys('f1,f2', function(event, handler) {
         event.preventDefault();
         switch (handler.key) {
             case 'f1':
                 $('#openModal').click()
+                break;
+            case 'f2':
+                window.location.href = baseUrl + 'pasien/create';
+                // $('#openModal').click()
                 break;
             default:
                 alert(event);

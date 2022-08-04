@@ -1,77 +1,128 @@
-let onFocusSelectRacikan = data => {
-    $(data).select()
-}
+let onFocusSelectRacikan = (data) => {
+  $(data).select();
+};
 
+let inputJumlahHargaJualRacikan = (data) => {
+  $(data).trigger("change");
+  let index = $(data).closest("tr").index();
+  // let index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
+  let index_luar = $(data).closest(".form-options-item-racikan").index(); // $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1;
+  // console.log("index_luar, index");
+  // console.log(index_luar, index);
+  // console.log("index_luar, index");
 
-let inputJumlahHargaJualRacikan = data => {
-    $(data).trigger('change')
-    let index = $(data).closest("tr").index()
-    let index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
+  let jumlah = parseFloat(
+    $(`#racikandetail-${index_luar}-${index}-jumlah`).val()
+  );
+  let harga_jual = parseFloat(
+    $(`#racikandetail-${index_luar}-${index}-harga_jual`).val()
+  );
+  let subtotal = jumlah * harga_jual;
+  $(`#racikandetail-${index_luar}-${index}-subtotal-disp`)
+    .val(subtotal)
+    .trigger("change");
+    
+    // generateTotalBiayaRacikan();
+};
 
-    let jumlah = parseFloat($(`#racikandetail-${index_luar}-${index}-jumlah`).val())
-    let harga_jual = parseFloat($(`#racikandetail-${index_luar}-${index}-harga_jual`).val())
-    let subtotal = jumlah * harga_jual
-    $(`#racikandetail-${index_luar}-${index}-subtotal-disp`).val(subtotal).trigger('change')
-}
-
-
-let onChangeSubtotalRacikan = _ => {
-    let totalSubtotal = 0
-    $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
-        totalSubtotal = parseFloat($(this).find("input[name*='[subtotal]']").val()) + totalSubtotal
-    })
-}
-
+let onChangeSubtotalRacikan = (inilah) => {
+  // alert('on ceng')
+  // console.log("inilah");
+  // console.log(inilah);
+  // console.log("inilah");
+  let totalSubtotal = 0;
+  // $(".dynamicform_wrapper1 .form-options-item-racikan").each(function (index) {
+  $(this)
+    .closest(".form-options-item-racikan")
+    .each(function (index) {
+      totalSubtotal =
+        parseFloat($(this).find("input[name*='[subtotal]']").val()) +
+        totalSubtotal;
+    });
+    generateTotalBiayaRacikan();
+};
 
 let enterNewRowRacikan = (data, key) => {
-    let index = $(data).closest("tr").index()
-    let index_luar = $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1
+  let index = $(data).closest("tr").index();
+  let index_luar =
+    $(".dynamicform_wrapper1 .form-options-item-racikan").length - 1;
 
-    if (key === 13) {
-        const banyakBaris = $(".dynamicform_wrapper1 .form-options-item-racikanform-options-item").length
-        if (banyakBaris === index + 1) {
-            $('.add-item').click()
-            $(data).trigger('change')
-        } else {
-            $(`#racikandetail-${index_luar}-${index + 1}-id_racikan_detail`).select2('open')
-            $(data).trigger('change')
-        }
+  if (key === 13) {
+    const banyakBaris = $(
+      ".dynamicform_wrapper1 .form-options-item-racikanform-options-item"
+    ).length;
+    if (banyakBaris === index + 1) {
+      $(".add-item").click();
+      $(data).trigger("change");
+    } else {
+      $(`#racikandetail-${index_luar}-${index + 1}-id_racikan_detail`).select2(
+        "open"
+      );
+      $(data).trigger("change");
     }
-}
+  }
+};
 
+hotkeys.filter = ({ target }) => {
+  return true;
+  // console.log(target.tagName);
+  // return target.tagName === 'INPUT' || target.tagName === 'DIV' || target.tagName === 'BODY';
+  // return !(target.tagName === 'INPUT' && target.type !== 'radio') ;
+};
 
-hotkeys.filter = ({
-    target
-}) => {
-    return true
-    // console.log(target.tagName);
-    // return target.tagName === 'INPUT' || target.tagName === 'DIV' || target.tagName === 'BODY';
-    // return !(target.tagName === 'INPUT' && target.type !== 'radio') ;
-}
-
-hotkeys('alt+u,alt+y', function (event, handler) {
-    event.preventDefault();
-    switch (handler.key) {
-        case 'alt+r':
-            $(`#resep-no_rm`).select2('open')
-            break;
-        case 'alt+y':
-            $('.add-item-racikan').click()
-            return false;
-            break;
-        case 'alt+u':
-            $('.add-item-obat-racikan-detail').click()
-            return false;
-            break;
-        case 'alt+d':
-            $('#resep-diskon_persen-disp').focus()
-            return false;
-            break;
-        case 'alt+s':
-            $('.btn-simpan-form-obat').click()
-            return false;
-            break;
-        default:
-            alert(event);
-    }
+hotkeys("alt+u,alt+y", function (event, handler) {
+  event.preventDefault();
+  switch (handler.key) {
+    case "alt+r":
+      $(`#resep-no_rm`).select2("open");
+      break;
+    case "alt+y":
+      $(".add-item-racikan").click();
+      return false;
+      break;
+    case "alt+u":
+      $(".add-item-obat-racikan-detail").click();
+      return false;
+      break;
+    case "alt+d":
+      $("#resep-diskon_persen-disp").focus();
+      return false;
+      break;
+    case "alt+s":
+      $(".btn-simpan-form-obat").click();
+      return false;
+      break;
+    default:
+      alert(event);
+  }
 });
+
+function generateTotalBiayaRacikan() {
+  all_total = 0;
+  the_total_bayar = 0;
+  id_racikan = '';
+  $('.det_subtotal_parent > input[type="hidden"]').each(function (
+    index,
+    currentElement
+  ) {
+        // console.log($(currentElement).val())
+        all_total += parseInt($(currentElement).val());
+  });
+  console.log(all_total);
+  $("#tuslah-total_biaya_racikan-disp").val(all_total);
+  $("#tuslah-total_biaya_racikan").val(all_total);
+
+  generateTotalBayar();
+}
+
+function generateTotalBayar() {
+  total_bayar_nya = 0;
+  $(".total_bayar_nya").each(function (index, currentElement) {
+    bodyObat = ($(currentElement).closest('.form-options-item-racikan').find('.form-options-body-obat-racikan-detail'));
+    total_bayar_nya = 0;
+    bodyObat.find('.form-options-item-obat-racikan-detail').each(function (index2, currentElement2) {
+        total_bayar_nya += parseInt($(currentElement2).find('.det_subtotal').parent().children('input[type="hidden"]').val());
+    });
+    $(this).val(total_bayar_nya);
+  });
+}

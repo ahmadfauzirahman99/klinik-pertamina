@@ -12,9 +12,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Pasiens', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
-    #form .col-form-label {
-        font-size: 9.5px;
-    }
+    /* #form .col-form-label {
+        font-size: 10.5px;
+    } */
 
     #form .form-group {
         margin-bottom: 0.1rem;
@@ -43,7 +43,17 @@ $this->params['breadcrumbs'][] = $this->title;
         z-index: 100;
     }
 </style>
-<?php $form = ActiveForm::begin(['layout' => 'horizontal', 'id' => 'form']); ?>
+<?php $form = ActiveForm::begin([
+          'fieldConfig' => [
+            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+            'horizontalCssClasses' => [
+                'label' => 'col-sm-4 col-form-label-sm',
+                'wrapper' => 'col-sm-8',
+                'error' => '',
+                'hint' => '',
+            ],
+        ],
+    'layout' => 'horizontal', 'id' => 'form']); ?>
 
 <div class="container-fluid">
     <div class="row">

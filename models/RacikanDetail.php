@@ -40,6 +40,7 @@ class RacikanDetail extends \yii\db\ActiveRecord
     {
         return [
             [['harga_jual', 'jumlah', 'subtotal'], 'number'],
+            [['jumlah', 'id_barang_racikan'], 'required'],
             [['tanggal'], 'safe'],
             [['no_rekam_medik', 'no_daftar', 'created_by', 'created_at', 'updated_by', 'updated_at', 'id_barang_racikan', 'keterangan', 'id_racikan', 'dosis'], 'string', 'max' => 100],
         ];

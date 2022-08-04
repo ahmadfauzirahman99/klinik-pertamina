@@ -5,43 +5,48 @@
 /* @var $model app\models\LoginForm */
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+    .logo,h4 {
+        /* font-family: 'Roboto' !important; */
+        font-weight: 500 !important;
+        font-size: 50px !important;
+    }
+    
+</style>
+<br><br>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="wrapper-page">
+        <div class="text-center">
+            <a href="<?= Url::to(['site/login']) ?>" class="logo"><span>Point Of<span> Sale</span></span></a>
+            <h5 class="text-muted m-t-0 font-600">Rumah Sakit Syafira</h5>
+        </div>
+        <div class="m-t-40 card-box">
+          
+            <div class="p-20">
 
-    <p>Please fill out the following fields to login:</p>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'login-form',
+                    // 'layout' => 'horizontal',
+                    'options' => [
+                        'class' => 'form-horizontal m-t-20'
+                    ],
+                ]); ?>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-    ]); ?>
+                <?= $form->field($model, 'username')->textInput(['autofocus' => false, 'class' => 'form-control  form-control-md','placeholder'=>'Username'])->label(false) ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-        <?= $form->field($model, 'password')->passwordInput() ?>
-
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
-
-        <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
+                <?= $form->field($model, 'password')->passwordInput(['class' => 'form-control form-control-md','placeholder'=>'Password'])->label(false) ?>
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+
+
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
-
-    <?php ActiveForm::end(); ?>
-
-    <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
     </div>
 </div>

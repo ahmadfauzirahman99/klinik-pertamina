@@ -10,9 +10,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
 
-/**
- * PekerjaanController implements the CRUD actions for Pekerjaan model.
- */
 class PekerjaanController extends Controller
 {
     /**
