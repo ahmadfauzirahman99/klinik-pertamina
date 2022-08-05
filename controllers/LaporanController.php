@@ -2,22 +2,71 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\web\Controller;
-use Exception;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use yii\helpers\ArrayHelper;
+use app\models\Resep;
 use app\models\Pendaftaran;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Yii;
+use yii\helpers\ArrayHelper;
+use Exception;
 
-
-class LaporanController extends Controller
+set_time_limit(0);
+ini_set("pcre.backtrack_limit", "5000000");
+class LaporanController extends \yii\web\Controller
 {
-    public function actionResume()
+    public function actionIndex()
     {
-        // return $this->render()
+
+        $hari_ini = "2021-01-01";
+        $tgl_pertama = date('Y-m-01', strtotime($hari_ini));
+        $tgl_terakhir = date('Y-m-t', strtotime($hari_ini));
+
+
+        $model = Resep::find()->where(['>=', 'tanggal', $tgl_pertama])
+            ->andWhere(['<=', 'tanggal', $tgl_terakhir])->all();
+        return $this->render('index', ['model' => $model]);
     }
 
-    public function actionKlinikRaw($view = null)
+    public function actionCetakResepSemua($bulan)
+    {
+        // var_dump($bulan);
+        // exit;
+        ini_set("memory_limit", "8056M");
+        ini_set('max_execution_time', 0);
+        $hari_ini = "2022-{$bulan}-01";
+        $tgl_pertama = date('Y-m-01', strtotime($hari_ini));
+        $tgl_terakhir = date('Y-m-t', strtotime($hari_ini));
+
+
+        $model = Resep::find()
+
+            ->where(['>=', 'tanggal', $tgl_pertama])
+
+            ->andWhere(['<=', 'tanggal', $tgl_terakhir])->all();
+
+        // print_r($model->pasien);
+        // exit;
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'legal',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 5,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10
+        ]);
+        // $mpdf->SetWatermarkImage(Url::to('@web/img/syafira.png'), -1, [170, 100]);
+        $mpdf->showWatermarkImage = true;
+
+        $mpdf->SetTitle('Invoice Pertamina RUU II PAKNING');
+        $mpdf->WriteHTML($this->renderPartial('cetak-resep-semua', [
+            'model' => $model,
+
+        ]));
+        $mpdf->Output('Invoice RU II PAKNING' . '.pdf', 'I');
+        exit;
+    }
+    public function actionKlinikRaw($view = null,$id=null)
     {
         $filename = 'excel_template/' . 'klinik_raw_data_template.xlsx';
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filename);
@@ -58,12 +107,13 @@ class LaporanController extends Controller
 
             }
             $bulanangka= sprintf('%02d', $bulan);
-            $tglmulai = "2022-$bulanangka-01 00:00:00";
-            $tglselesai = "2022-$bulanangka-31 23:59:59";
+            $tahun= $id;
+            $tglmulai = "$tahun-$bulanangka-01 00:00:00";
+            $tglselesai = "$tahun-$bulanangka-31 23:59:59";
 
             $isian_ = Pendaftaran::find()
             ->joinWith('pasien')->joinWith('resep')
-            ->andFilterWhere(['between', 'tgl_masuk', $tglmulai, $tglselesai])
+            ->andFilterWhere(['between', 'resep.tanggal', $tglmulai, $tglselesai])
             ->asArray()
             ->all();
 
@@ -88,7 +138,7 @@ class LaporanController extends Controller
             foreach($isian_ as $key_isi =>$val_isian){
                 $isian[$key_isi][0] = $number; 
                 $isian[$key_isi][1] = $val_isian['pasien']['nama_lengkap']??'-'; 
-                $isian[$key_isi][2] = $val_isian['tgl_masuk']??''; 
+                $isian[$key_isi][2] = $val_isian['resep']['tanggal']??''; 
                 $isian[$key_isi][3] = $val_isian['resep']['total_bayar']??'0'; 
             $number++;
             }
