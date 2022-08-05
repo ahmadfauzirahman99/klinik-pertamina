@@ -31,7 +31,8 @@
         "dickyermawan/yii2-kynumber": "^1.0",
         "dickyermawan/yii2-kydynamic-form": "^1.0",
         "dickyermawan/yii2-terbilang-rupiah": "^1.6",
-        "tecnickcom/tc-lib-barcode": "1.15"
+        "tecnickcom/tc-lib-barcode": "1.15",
+        "phpoffice/phpspreadsheet": "^1.18"
 
     },
     "require-dev": {
